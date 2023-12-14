@@ -1,0 +1,6 @@
+{
+  "name": "db-mysql-hml1-raw-trusted",
+  "dependencies": {
+    "@dataform/core": "2.4.2"
+  }
+}
