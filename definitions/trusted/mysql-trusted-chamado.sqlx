@@ -1,4 +1,6 @@
-  config { dependencies: ["mysql-raw-chamado"] }
+  config { dependencies: ["mysql-raw-chamado"], 
+      tags: ["trusted"]
+  }
 MERGE
   `TRUSTED.cev_servico_chamado` T
 USING
