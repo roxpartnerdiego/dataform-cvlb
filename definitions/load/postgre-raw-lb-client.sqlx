@@ -6,7 +6,6 @@ config {
 
 INSERT INTO
   `RAW.lb_crm_client` ( 
-    CT_ID,
     ID, 
     NAME,
     EMAIL,
@@ -28,7 +27,6 @@ INSERT INTO
 WITH
   TABELA AS (
   SELECT
-    CT_ID,
     ID, 
     NAME,
     EMAIL,

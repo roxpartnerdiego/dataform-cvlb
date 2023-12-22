@@ -15,7 +15,7 @@ USING
     FROM (
       SELECT
         ROW_NUMBER() OVER (PARTITION BY DT_FATO, COD_FILIAL, COD_ITPROD ORDER BY PARTITIONTIME DESC) AS dense_rank,
-     cast(concat(substr(DT_FATO,1,4),'-',substr(DT_FATO,5,2),'-',substr(DT_FATO,7,2) ) as date) AS DT_FATO,
+     parse_date("%Y%m%d", DT_FATO) as DT_FATO,
       CAST(COD_FILIAL AS int64) AS COD_FILIAL,
       CAST(COD_ITPROD AS int64) AS COD_ITPROD,
       CAST(COD_ITPROD_SAP AS int64) AS COD_ITPROD_SAP,
