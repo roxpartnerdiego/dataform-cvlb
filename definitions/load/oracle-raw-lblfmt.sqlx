@@ -1,23 +1,22 @@
 config {
     type: "operations",
-    hasOutput: true   
+    hasOutput: true
 }
 
 INSERT INTO
-  `RAW.cev_wms_lblfmt` ( 
-	DEF_PRINTER,
-	RFID_FLG,
-	MODDTE,
-	MOD_USR_ID,
+  `RAW.cev_wms_lblfmt` ( DEF_PRINTER,
+    RFID_FLG,
+    MODDTE,
+    MOD_USR_ID,
     PARTITIONTIME )
 WITH
   TABELA AS (
   SELECT
-	LBLFMT,
-	DEF_PRINTER,
-	RFID_FLG,
-	MODDTE,
-	MOD_USR_ID,
+    LBLFMT,
+    DEF_PRINTER,
+    RFID_FLG,
+    MODDTE,
+    MOD_USR_ID,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
     `LAND.cev_wms_lblfmt` ),
