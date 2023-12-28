@@ -4,7 +4,9 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_wms_lblfmt` ( DEF_PRINTER,
+  `RAW.cev_wms_lblfmt` ( 
+     LBLFMT,
+    DEF_PRINTER,
     RFID_FLG,
     MODDTE,
     MOD_USR_ID,
