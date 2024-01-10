@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-enquadramento-federal"], 
+config { dependencies: ["sqlserver-raw-tipo-enquadramento-federal"], 
 tags: ["trusted"]
 }
 MERGE
