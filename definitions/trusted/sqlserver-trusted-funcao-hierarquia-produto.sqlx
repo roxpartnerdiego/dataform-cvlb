@@ -1,0 +1,49 @@
+config {
+    dependencies: ["sqlserver-raw-funcao-hieraquia-produto"],
+    tags: ["sqlserver"]
+}
+
+MERGE
+  `TRUSTED.corp_funcao_hierarquia_produto_cev` T
+USING
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT * EXCEPT (dense_rank,
+        PARTITIONTIME)
+    FROM (
+      SELECT
+        ROW_NUMBER() OVER (PARTITION BY COD_FUNCAO, COD_HIERARQUIA_PRODUTO ORDER BY PARTITIONTIME DESC) AS dense_rank,
+      CAST(COD_FUNCAO AS INT64) AS COD_FUNCAO,
+      CAST(COD_HIERARQUIA_PRODUTO AS INT64) AS COD_HIERARQUIA_PRODUTO,
+      PARTITIONTIME
+    FROM (
+      SELECT
+        DISTINCT A.*
+      FROM
+        `RAW.corp_funcao_hierarquia_produto_cev` A ) )
+  WHERE
+    dense_rank = 1 )
+SELECT
+  *
+FROM
+  TABELA) S
+ON
+  T.COD_FUNCAO  = S.COD_FUNCAO
+  AND T.COD_HIERARQUIA_PRODUTO  = S.COD_HIERARQUIA_PRODUTO
+  WHEN MATCHED THEN UPDATE SET 
+  T.COD_FUNCAO = S.COD_FUNCAO, 
+  T.COD_HIERARQUIA_PRODUTO = S.COD_HIERARQUIA_PRODUTO
+  WHEN NOT MATCHED
+  THEN
+INSERT
+  ( COD_FUNCAO,
+    COD_HIERARQUIA_PRODUTO )
+VALUES
+  ( S.COD_FUNCAO, 
+    S.COD_HIERARQUIA_PRODUTO )
+  WHEN NOT MATCHED BY SOURCE
+  THEN
+DELETE
+  ;
