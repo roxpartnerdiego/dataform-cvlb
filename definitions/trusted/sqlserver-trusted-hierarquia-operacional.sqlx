@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-hierarquia-operacional"], 
+config { dependencies: ["sqlserver-raw-hierarquia-operacional-cev"], 
 tags: ["trusted"]
 }
 MERGE

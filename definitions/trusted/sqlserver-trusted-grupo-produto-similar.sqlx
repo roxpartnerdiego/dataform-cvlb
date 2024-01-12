@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-grupo-produto-similar"], 
+config { dependencies: ["sqlserver-raw-grupo-produto-similar-cev"], 
 tags: ["trusted"]
 }
 MERGE
