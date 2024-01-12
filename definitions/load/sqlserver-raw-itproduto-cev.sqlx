@@ -5,7 +5,7 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_corp_itproduto` ( 
+  `RAW.corp_itproduto_cev` ( 
 	COD_ITPROD,
 	COD_PROD,
 	COD_GRPMODUL,
@@ -129,12 +129,12 @@ WITH
 	QTD_MESES_PRAZO_GARANTIA_FABRICANTE,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_corp_itproduto` ),
+    `LAND.corp_itproduto_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_corp_itproduto` )
+    `RAW.corp_itproduto_cev` )
 SELECT
   a.*
 FROM

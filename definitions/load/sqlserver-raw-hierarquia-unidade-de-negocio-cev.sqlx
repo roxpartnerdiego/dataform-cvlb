@@ -5,7 +5,7 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_cic_hierarquia_unidade_de_negocio` (
+  `RAW.cic_hierarquia_unidade_de_negocio_cev` (
      COD_HIERARQUIA_PRODUTO,
     UN_INGLES,
     UN_PORTUGUES,
@@ -20,12 +20,12 @@ WITH
     UN_DESCRICAO,
      _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_cic_hierarquia_unidade_de_negocio` ),
+    `LAND.cic_hierarquia_unidade_de_negocio_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_cic_hierarquia_unidade_de_negocio` )
+    `RAW.cic_hierarquia_unidade_de_negocio_cev` )
 SELECT
   a.*
 FROM

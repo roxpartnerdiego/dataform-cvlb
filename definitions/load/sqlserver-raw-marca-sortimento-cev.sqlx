@@ -5,23 +5,29 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_comercial_tipo_marca_sortimento` ( 
-	 COD_TIPO_MARCA_SORTIMENTO
-	,NOM_TIPO_MARCA_SORTIMENTO
+  `RAW.comercial_marca_sortimento_cev` ( 
+	 COD_MARCA_SORTIMENTO
+	,COD_TIPO_MARCA_SORTIMENTO
+	,NOM_MARCA_SORTIMENTO
+	,IND_MARCA_APROVADA
+	,IND_ATIVO
     ,PARTITIONTIME )
 WITH
   TABELA AS (
   SELECT
-	 COD_TIPO_MARCA_SORTIMENTO
-	,NOM_TIPO_MARCA_SORTIMENTO
+	 COD_MARCA_SORTIMENTO
+	,COD_TIPO_MARCA_SORTIMENTO
+	,NOM_MARCA_SORTIMENTO
+	,IND_MARCA_APROVADA
+	,IND_ATIVO
     ,_PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_comercial_tipo_marca_sortimento` ),
+    `LAND.comercial_marca_sortimento_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_comercial_tipo_marca_sortimento` )
+    `RAW.comercial_marca_sortimento_cev` )
 SELECT
   a.*
 FROM

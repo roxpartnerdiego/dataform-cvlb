@@ -5,23 +5,29 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_corp_tipo_classe_produto` ( 
-	COD_CLASSE,
-	NOM_CLASSE,
+  `RAW.corp_motivo_nao_vender_cev` ( 
+	COD_MOTIVO,
+	NOM_MOTIVO,
+	IND_USO_LOGISTICA,
+	IND_USO_PRICING,
+	IND_USO_COMPRAS,
     PARTITIONTIME )
 WITH
   TABELA AS (
   SELECT
-	COD_CLASSE,
-	NOM_CLASSE,
+	COD_MOTIVO,
+	NOM_MOTIVO,
+	IND_USO_LOGISTICA,
+	IND_USO_PRICING,
+	IND_USO_COMPRAS,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_corp_tipo_classe_produto` ),
+    `LAND.corp_motivo_nao_vender_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_corp_tipo_classe_produto` )
+    `RAW.corp_motivo_nao_vender_cev` )
 SELECT
   a.*
 FROM

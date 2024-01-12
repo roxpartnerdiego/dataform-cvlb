@@ -5,7 +5,7 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_corp_local` ( 
+  `RAW.corp_local_cev` ( 
 	COD_LOCAL,
 	COD_TIPO_LOCAL,
 	TIP_PESSOA_FISCAL,
@@ -84,12 +84,12 @@ WITH
 	DAT_EMISSAO_NFE,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_corp_local` ),
+    `LAND.corp_local_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_corp_local` )
+    `RAW.corp_local_cev` )
 SELECT
   a.*
 FROM

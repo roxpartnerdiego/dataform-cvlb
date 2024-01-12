@@ -5,7 +5,7 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_seguranca_usuario` ( 
+  `RAW.seguranca_usuario_cev` ( 
 	COD_USUARIO,
 	NOM_USUARIO,
 	NUM_SENHA,
@@ -42,12 +42,12 @@ WITH
 	NUM_CPF,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_seguranca_usuario` ),
+    `LAND.seguranca_usuario_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_seguranca_usuario` )
+    `RAW.seguranca_usuario_cev` )
 SELECT
   a.*
 FROM

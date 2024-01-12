@@ -5,23 +5,23 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_corp_nivel_hierarquia_produto` ( 
-	NUM_NIVEL_HIERARQUIA,
-	NOM_NIVEL_HIERARQUIA,
+  `RAW.corp_funcao_substituta_cev` ( 
+	COD_FUNCAO_SUBSTITUTA,
+    COD_FUNCAO,
     PARTITIONTIME )
 WITH
   TABELA AS (
   SELECT
-	NUM_NIVEL_HIERARQUIA,
-	NOM_NIVEL_HIERARQUIA,
+	COD_FUNCAO_SUBSTITUTA,
+    COD_FUNCAO,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_corp_nivel_hierarquia_produto` ),
+    `LAND.corp_funcao_substituta_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_corp_nivel_hierarquia_produto` )
+    `RAW.corp_funcao_substituta_cev` )
 SELECT
   a.*
 FROM

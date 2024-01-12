@@ -5,7 +5,7 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_corp_fornecedor` ( 
+  `RAW.corp_fornecedor_cev` ( 
 	COD_FORN,
     NOM_FANTASIA,
     COD_ANTIGO,
@@ -102,12 +102,12 @@ WITH
     IND_CONSIGNADO,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_corp_fornecedor` ),
+    `LAND.corp_fornecedor_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_corp_fornecedor` )
+    `RAW.corp_fornecedor_cev` )
 SELECT
   a.*
 FROM

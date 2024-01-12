@@ -5,7 +5,7 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_corp_motivo_nao_comprar` ( 
+  `RAW.corp_motivo_nao_comprar_cev` ( 
 	COD_MOTIVO,
 	NOM_MOTIVO,
 	IND_USO_LOGISTICA,
@@ -22,12 +22,12 @@ WITH
 	IND_USO_COMPRAS,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_corp_motivo_nao_comprar` ),
+    `LAND.corp_motivo_nao_comprar_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_corp_motivo_nao_comprar` )
+    `RAW.corp_motivo_nao_comprar_cev` )
 SELECT
   a.*
 FROM

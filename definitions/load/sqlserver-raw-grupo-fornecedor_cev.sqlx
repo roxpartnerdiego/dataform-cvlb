@@ -5,23 +5,25 @@ config {
 }
 
 INSERT INTO
-  `RAW.cev_corp_tipo_enquadramento_estadual` ( 
-	COD_TIPO_ENQUADRAMENTO,
-	NOM_TIPO_ENQUADRAMENTO,
+  `RAW.corp_grupo_fornecedor_cev` ( 
+	COD_GRUPO,
+	NOM_GRUPO,
+	NOM_TERMO_PESQUISA,
     PARTITIONTIME )
 WITH
   TABELA AS (
   SELECT
-	COD_TIPO_ENQUADRAMENTO,
-	NOM_TIPO_ENQUADRAMENTO,
+	COD_GRUPO,
+	NOM_GRUPO,
+	NOM_TERMO_PESQUISA,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.cev_corp_tipo_enquadramento_estadual` ),
+    `LAND.corp_grupo_fornecedor_cev` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.cev_corp_tipo_enquadramento_estadual` )
+    `RAW.corp_grupo_fornecedor_cev` )
 SELECT
   a.*
 FROM
