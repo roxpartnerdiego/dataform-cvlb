@@ -2,7 +2,7 @@
       tags: ["trusted"]
   }
 MERGE
-  `TRUSTED.cev_servico_chamado` T
+  `TRUSTED.servico_chamado_cev` T
 USING
   (
   WITH
@@ -23,13 +23,13 @@ USING
       CAST(CD_PRODUTO AS INT64) AS CD_PRODUTO,
       CAST(DS_PRODUTO AS STRING) AS DS_PRODUTO
     FROM
-      `RAW.cev_servico_chamado` A
+      `RAW.servico_chamado_cev` A
     WHERE
       PARTITIONTIME=(
       SELECT
         MAX(PARTITIONTIME)
       FROM
-        `RAW.cev_servico_chamado`))
+        `RAW.servico_chamado_cev`))
   SELECT
     *
   FROM
