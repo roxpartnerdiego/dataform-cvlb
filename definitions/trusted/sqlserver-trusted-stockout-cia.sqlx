@@ -4,7 +4,7 @@ config {
 }
 
 MERGE
-  `TRUSTED.cev_gestao_logistica_stockout_cia` T
+  `TRUSTED.gestao_logistica_stockout_cia` T
 USING
   (
   WITH
@@ -59,7 +59,7 @@ USING
       SELECT
         DISTINCT A.*
       FROM
-        `RAW.cev_gestao_logistica_stockout_cia` A ) )
+        `RAW.gestao_logistica_stockout_cia` A ) )
   WHERE
     dense_rank = 1 )
 SELECT
