@@ -5,7 +5,7 @@ config {
 }
 
 INSERT INTO
-  `RAW.gestaologistica_stockout_cia` ( 
+  `RAW.gestao_logistica_stockout_cia` ( 
 	DT_FATO,
 	COD_FILIAL,
 	COD_ITPROD,
@@ -90,12 +90,12 @@ WITH
 	IND_STK_COMPRA_MODULACAO,
     _PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.gestaologistica_stockout_cia` ),
+    `LAND.gestao_logistica_stockout_cia` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.gestaologistica_stockout_cia` )
+    `RAW.gestao_logistica_stockout_cia` )
 SELECT
   a.*
 FROM
