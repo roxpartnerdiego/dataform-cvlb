@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-tipo-enquadramento-estadual-cev"], 
+config { dependencies: ["corp_tipo_enquadramento_estadual_cev"], 
 tags: ["sqlserver"]
 }
 MERGE

@@ -1,5 +1,5 @@
 config {
-    dependencies: ["sqlserver-raw-stockout-cia"],
+    dependencies: ["gestao_logistica_stockout_cia"],
     tags: ["sqlserver"]
 }
 

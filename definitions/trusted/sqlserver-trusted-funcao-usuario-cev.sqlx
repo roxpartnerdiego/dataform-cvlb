@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-funcao-usuario-cev"], 
+config { dependencies: ["corp_funcao_usuario_cev"], 
     tags: ["sqlserver"]
 }
 MERGE

@@ -1,5 +1,5 @@
 config {
-    dependencies: ["sqlserver-raw-funcao-hieraquia-produto-cev"],
+    dependencies: ["corp_funcao_hierarquia_produto_cev"],
     tags: ["sqlserver"]
 }
 

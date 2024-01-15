@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-local-cev"], 
+config { dependencies: ["corp_local_cev"], 
     tags: ["sqlserver"]
 }
 MERGE

@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-fornecedor-cvlb"], 
+config { dependencies: ["corp_fornecedor_cvlb"], 
 tags: ["sqlserver"]
 }
 MERGE

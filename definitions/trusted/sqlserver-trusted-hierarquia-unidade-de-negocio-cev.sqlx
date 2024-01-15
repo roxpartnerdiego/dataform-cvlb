@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-hierarquia-unidade-de-negocio-cev"], 
+config { dependencies: ["cic_hierarquia_unidade_de_negocio_cev"], 
     tags: ["sqlserver"]
 }
 MERGE

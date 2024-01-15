@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-depara-organograma-lb"], 
+config { dependencies: ["corp_depara_organograma_lb"], 
 tags: ["sqlserver"]
 }
 MERGE

@@ -1,5 +1,5 @@
 config {
-    dependencies: ["sqlserver-raw-funcao-substituta-cev"],
+    dependencies: ["corp_funcao_substituta_cev"],
     tags: ["sqlserver"]
 }
 

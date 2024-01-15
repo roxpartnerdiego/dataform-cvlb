@@ -1,5 +1,5 @@
 config {
-    dependencies: ["sqlserver-raw-fornecedor-revenda-sku-cev"],
+    dependencies: ["corp_fornecedor_revenda_sku_cev"],
     tags: ["sqlserver"]
 }
 

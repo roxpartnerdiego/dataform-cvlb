@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-motivo-nao-comprar-cev"], 
+config { dependencies: ["corp_motivo_nao_comprar_cev"], 
     tags: ["sqlserver"]
 }
 MERGE

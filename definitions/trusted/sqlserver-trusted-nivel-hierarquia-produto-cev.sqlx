@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-nivel-hierarquia-produto-cev"], 
+config { dependencies: ["corp_nivel_hierarquia_produto_cev"], 
 tags: ["sqlserver"]
 }
 MERGE

@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-porte-empresa-cev"], 
+config { dependencies: ["corp_porte_empresa_cev"], 
 tags: ["sqlserver"]
 }
 MERGE

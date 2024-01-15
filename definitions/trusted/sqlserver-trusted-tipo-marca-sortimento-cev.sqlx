@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-tipo-marca-sortimento-cev"], 
+config { dependencies: ["comercial_tipo_marca_sortimento_cev"], 
     tags: ["sqlserver"]
 }
 MERGE

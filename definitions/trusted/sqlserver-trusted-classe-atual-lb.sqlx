@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-classe-atual-lb"], 
+config { dependencies: ["corp_classe_atual_lb"], 
 tags: ["sqlserver"]
 }
 MERGE

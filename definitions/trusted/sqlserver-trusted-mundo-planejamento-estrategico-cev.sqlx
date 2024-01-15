@@ -1,4 +1,4 @@
-config { dependencies: ["sqlserver-raw-mundo-planejamento-estrategico-cev"], 
+config { dependencies: ["corp_mundo_planejamento_estrategico_cev"], 
 tags: ["sqlserver"]
 }
 MERGE
