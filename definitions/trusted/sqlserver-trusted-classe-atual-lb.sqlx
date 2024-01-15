@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-classe-atual-lb"], 
-tags: ["trusted"]
+tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.corp_classe_atual_lb` T

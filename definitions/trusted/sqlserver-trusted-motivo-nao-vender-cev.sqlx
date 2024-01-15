@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-raw-motivo-nao-vender-cev"], 
-tags: ["trusted"]
+tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.corp_motivo_nao_vender_cev` T

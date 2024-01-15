@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-raw-tipo-funcao-usuario-cev"], 
-tags: ["trusted"]
+tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.corp_tipo_funcao_usuario_cev` T

@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-raw-mundo-planejamento-estrategico-cev"], 
-tags: ["trusted"]
+tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.corp_mundo_planejamento_estrategico_cev` T

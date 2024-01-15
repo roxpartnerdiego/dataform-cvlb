@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-raw-produto-cev"], 
-tags: ["trusted"]
+tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.corp_produto_cev` T
