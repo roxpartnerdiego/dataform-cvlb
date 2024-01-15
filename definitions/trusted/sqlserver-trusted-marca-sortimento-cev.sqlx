@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-raw-tipo-marca-sortimento-cev"], 
-tags: ["trusted"]
+    tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.comercial_marca_sortimento_cev` T

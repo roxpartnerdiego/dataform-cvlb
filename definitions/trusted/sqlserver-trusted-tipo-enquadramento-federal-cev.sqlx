@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-raw-tipo-enquadramento-federal-cev"], 
-tags: ["trusted"]
+    tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.corp_tipo_enquadramento_federal_cev` T

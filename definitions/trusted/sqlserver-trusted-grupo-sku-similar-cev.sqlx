@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-raw-grupo-sku-similar-cev"], 
-tags: ["trusted"]
+    tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.corp_grupo_sku_similar_cev` T

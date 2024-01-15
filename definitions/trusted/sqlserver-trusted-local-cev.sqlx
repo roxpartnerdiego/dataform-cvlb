@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-raw-local-cev"], 
-tags: ["trusted"]
+    tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.corp_local_cev` T

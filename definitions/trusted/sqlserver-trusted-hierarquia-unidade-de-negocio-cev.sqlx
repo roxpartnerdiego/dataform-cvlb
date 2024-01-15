@@ -1,5 +1,5 @@
 config { dependencies: ["sqlserver-raw-hierarquia-unidade-de-negocio-cev"], 
-tags: ["trusted"]
+    tags: ["sqlserver"]
 }
 MERGE
 `TRUSTED.cic_hierarquia_unidade_de_negocio_cev` T
