@@ -1,7 +1,7 @@
 config {
     type: "operations",
     hasOutput: true,
-    tags: ["raw","sqlserver"]
+    tags: ["sqlserver"]
 }
 
 INSERT INTO
