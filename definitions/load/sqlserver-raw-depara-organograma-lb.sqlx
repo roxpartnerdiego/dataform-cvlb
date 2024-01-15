@@ -1,0 +1,38 @@
+config {
+    type: "operations",
+    hasOutput: true,
+    tags: ["sqlserver"]
+}
+
+INSERT INTO
+  `RAW.corp_depara_organograma_lb` ( 
+	COD_CATEGORIA
+	,NOM_CATEGORIA_COMPLETO
+	,NOM_GM
+	,NOM_GC
+    ,PARTITIONTIME)
+WITH
+  TABELA AS (
+  SELECT
+	COD_CATEGORIA
+	,NOM_CATEGORIA_COMPLETO
+	,NOM_GM
+	,NOM_GC
+    ,_PARTITIONTIME AS PARTITIONTIME
+  FROM
+    `LAND.corp_depara_organograma_lb` ),
+  TABELA_B AS(
+  SELECT
+    MAX(PARTITIONTIME) AS PARTITIONTIME
+  FROM
+    `RAW.corp_depara_organograma_lb` )
+SELECT
+  a.*
+FROM
+  TABELA a
+WHERE
+  a.PARTITIONTIME = (
+  SELECT
+    MAX(PARTITIONTIME)
+  FROM
+    TABELA)
