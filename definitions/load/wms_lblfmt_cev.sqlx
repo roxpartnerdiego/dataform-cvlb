@@ -1,0 +1,19 @@
+config {
+    type: "incremental",
+    schema: "RAW",
+    tags: ["oracle"]
+}
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,
+    LBLFMT,
+    DEF_PRINTER,
+    RFID_FLG,
+    MODDTE,
+    MOD_USR_ID,
+    _PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.wms_lblfmt_cev`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }

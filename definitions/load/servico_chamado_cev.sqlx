@@ -1,0 +1,28 @@
+config {
+    type: "incremental",
+    schema: "RAW",
+    tags: ["mysql"]
+}
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,
+    NR_CHAMADO,
+    DS_PRODUTO,
+    ID_CLIENTE_CORPORATIVO,
+    ID_CLIENTE,
+    DATA_INICIO_CONTRATO,
+    DT_INICIO_CONTRATO,
+    DATA_FIM_CONTRATO,
+    DT_FIM_CONTRATO,
+    NR_CONTRATO,
+    NR_DDD_CELULAR,
+    NR_CELULAR,
+    NR_CPF,
+    NM_CLIENTE,
+    CD_PRODUTO,
+    _PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.servico_chamado_cev`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
