@@ -5,43 +5,29 @@ config {
 }
 
 INSERT INTO
-  `RAW.empresa_filial_lb` ( 
+  `RAW.gestao_logistica_tamanho_aptidao_negocio_lb` ( 
 	COD_FILIAL
-	,NOME_FILIAL
-	,ENDERECO
-	,CEP
-	,CIDADE
-	,ORG_COMPRA
-	,UF
-	,CTG_CENTRO
-	,REGIAO_DE_VENDAS
-	,DAT_ABERTURA
-	,DAT_FECHAMENTO
+	,COD_NEGOCIO
+	,TAMANHO
+	,CLUSTER
 	,DAT_ATUALIZACAO
     ,PARTITIONTIME)
 WITH
   TABELA AS (
   SELECT
 	COD_FILIAL
-	,NOME_FILIAL
-	,ENDERECO
-	,CEP
-	,CIDADE
-	,ORG_COMPRA
-	,UF
-	,CTG_CENTRO
-	,REGIAO_DE_VENDAS
-	,DAT_ABERTURA
-	,DAT_FECHAMENTO
+	,COD_NEGOCIO
+	,TAMANHO
+	,CLUSTER
 	,DAT_ATUALIZACAO
     ,_PARTITIONTIME AS PARTITIONTIME
   FROM
-    `LAND.empresa_filial_lb` ),
+    `LAND.gestao_logistica_tamanho_aptidao_negocio_lb` ),
   TABELA_B AS(
   SELECT
     MAX(PARTITIONTIME) AS PARTITIONTIME
   FROM
-    `RAW.empresa_filial_lb` )
+    `RAW.gestao_logistica_tamanho_aptidao_negocio_lb` )
 SELECT
   a.*
 FROM
