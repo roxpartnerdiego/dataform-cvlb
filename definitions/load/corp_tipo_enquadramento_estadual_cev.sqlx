@@ -1,34 +1,17 @@
 config {
-    type: "operations",
-    hasOutput: true,
+    type: "incremental",
+    schema: "RAW",
     tags: ["sqlserver"]
 }
-
-INSERT INTO
-  `RAW.corp_tipo_enquadramento_estadual_cev` ( 
-	COD_TIPO_ENQUADRAMENTO,
-	NOM_TIPO_ENQUADRAMENTO,
-    PARTITIONTIME )
-WITH
-  TABELA AS (
-  SELECT
-	COD_TIPO_ENQUADRAMENTO,
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,
+    CT_COD_TIPO_ENQUADRAMENTO,	
+    COD_TIPO_ENQUADRAMENTO,
 	NOM_TIPO_ENQUADRAMENTO,
     _PARTITIONTIME AS PARTITIONTIME
-  FROM
-    `LAND.corp_tipo_enquadramento_estadual_cev` ),
-  TABELA_B AS(
-  SELECT
-    MAX(PARTITIONTIME) AS PARTITIONTIME
-  FROM
-    `RAW.corp_tipo_enquadramento_estadual_cev` )
-SELECT
-  a.*
-FROM
-  TABELA a
-WHERE
-  a.PARTITIONTIME = (
-  SELECT
-    MAX(PARTITIONTIME)
-  FROM
-    TABELA)
+FROM `LAND.corp_tipo_enquadramento_estadual_cev`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }

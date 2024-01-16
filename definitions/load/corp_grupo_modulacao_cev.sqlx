@@ -1,48 +1,24 @@
 config {
-    type: "operations",
-    hasOutput: true,
+    type: "incremental",
+    schema: "RAW",
     tags: ["sqlserver"]
 }
-
-INSERT INTO
-  `RAW.corp_grupo_modulacao_cev` ( 
-	COD_GRUPMODUL,
-	NOM_GRUPMODUL,
-	COD_USU_INC,
-	COD_USU_ALT,
-	DAT_INC,
-	DAT_ALT,
-	DAT_EXPORTACAO,
-	IND_OPER_EXPORTACAO,
-	IND_CORTE_ONDA,
-    PARTITIONTIME )
-WITH
-  TABELA AS (
-  SELECT
-	COD_GRUPMODUL,
-	NOM_GRUPMODUL,
-	COD_USU_INC,
-	COD_USU_ALT,
-	DAT_INC,
-	DAT_ALT,
-	DAT_EXPORTACAO,
-	IND_OPER_EXPORTACAO,
-	IND_CORTE_ONDA,
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,
+    CT_COD_GRUPMODUL,	
+    COD_GRUPMODUL,
+    NOM_GRUPMODUL,
+    COD_USU_INC,
+    COD_USU_ALT,
+    DAT_INC,
+    DAT_ALT,
+    DAT_EXPORTACAO,
+    IND_OPER_EXPORTACAO,
+    IND_CORTE_ONDA,
     _PARTITIONTIME AS PARTITIONTIME
-  FROM
-    `LAND.corp_grupo_modulacao_cev` ),
-  TABELA_B AS(
-  SELECT
-    MAX(PARTITIONTIME) AS PARTITIONTIME
-  FROM
-    `RAW.corp_grupo_modulacao_cev` )
-SELECT
-  a.*
-FROM
-  TABELA a
-WHERE
-  a.PARTITIONTIME = (
-  SELECT
-    MAX(PARTITIONTIME)
-  FROM
-    TABELA)
+FROM `LAND.corp_grupo_modulacao_cev`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }

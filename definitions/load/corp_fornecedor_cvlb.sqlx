@@ -1,38 +1,19 @@
 config {
-    type: "operations",
-    hasOutput: true,
+    type: "incremental",
+    schema: "RAW",
     tags: ["sqlserver"]
 }
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,
+    CT_COD_FORN_SAP,	
+    COD_FORN_SAP,
+    BANDEIRA,
+    NOM_FORNECEDOR,
+    NOM_GRUPO,
+    _PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.corp_fornecedor_cvlb`
 
-INSERT INTO
-  `RAW.corp_fornecedor_cvlb` ( 
-	COD_FORN_SAP
-	,BANDEIRA
-	,NOM_FORNECEDOR
-	,NOM_GRUPO
-    ,PARTITIONTIME)
-WITH
-  TABELA AS (
-  SELECT
-	COD_FORN_SAP
-	,BANDEIRA
-	,NOM_FORNECEDOR
-	,NOM_GRUPO
-    ,_PARTITIONTIME AS PARTITIONTIME
-  FROM
-    `LAND.corp_fornecedor_cvlb` ),
-  TABELA_B AS(
-  SELECT
-    MAX(PARTITIONTIME) AS PARTITIONTIME
-  FROM
-    `RAW.corp_fornecedor_cvlb` )
-SELECT
-  a.*
-FROM
-  TABELA a
-WHERE
-  a.PARTITIONTIME = (
-  SELECT
-    MAX(PARTITIONTIME)
-  FROM
-    TABELA)
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
