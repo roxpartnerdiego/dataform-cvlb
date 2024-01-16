@@ -13,13 +13,13 @@ CAST(NOM_GRUPO_SKU_SIMILAR AS STRING) AS NOM_GRUPO_SKU_SIMILAR,
 CAST(COD_GRUPO_PRODUTO_SIMILAR AS INT64) AS COD_GRUPO_PRODUTO_SIMILAR,
 CAST(IND_ATIVO AS BOOL) AS IND_ATIVO
 FROM
-`RAW.corp_grupo_produto_similar_cev` A
+`RAW.corp_grupo_sku_similar_cev` A
 WHERE
 PARTITIONTIME=(
 SELECT
   MAX(PARTITIONTIME)
 FROM
-  `RAW.corp_grupo_produto_similar_cev`))
+  `RAW.corp_grupo_sku_similar_cev`))
 SELECT
 *
 FROM
