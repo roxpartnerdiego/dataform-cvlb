@@ -1,8 +1,8 @@
-  config { dependencies: ["postgre-raw-lb-client"], 
+  config { dependencies: ["crm_client_lb"], 
       tags: ["trusted"]
   }
 MERGE
-  `TRUSTED.lb_crm_client` T
+  `TRUSTED.crm_client_lb` T
 USING
   (
   WITH
@@ -27,13 +27,13 @@ USING
     ,CAST (IS_NEW AS BOOL) AS IS_NEW   
 
     FROM
-      `RAW.lb_crm_client` A
+      `RAW.crm_client_lb` A
     WHERE
       PARTITIONTIME=(
       SELECT
         MAX(PARTITIONTIME)
       FROM
-        `RAW.lb_crm_client`))
+        `RAW.crm_client_lb`))
   SELECT
     *
   FROM
