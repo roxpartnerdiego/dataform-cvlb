@@ -1,0 +1,61 @@
+config {
+    dependencies: ["gestao_logistica_tamanho_aptidao_negocio_lb"],
+    tags: ["sqlserver"]
+}
+
+MERGE
+  `TRUSTED.gestao_logistica_tamanho_aptidao_negocio_lb` T
+USING
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT * EXCEPT (dense_rank,
+        PARTITIONTIME)
+    FROM (
+      SELECT
+        ROW_NUMBER() OVER (PARTITION BY COD_FILIAL, COD_NEGOCIO ORDER BY PARTITIONTIME DESC) AS dense_rank,
+        CAST(COD_FILIAL AS INT64) AS COD_FILIAL,
+        CAST(COD_NEGOCIO AS STRING) AS COD_NEGOCIO,
+        CAST(TAMANHO AS STRING) AS TAMANHO,
+        CAST(CLUSTER AS STRING) AS CLUSTER,
+        CAST(DAT_ATUALIZACAO AS TIMESTAMP) AS DAT_ATUALIZACAO,
+        PARTITIONTIME
+    FROM (
+      SELECT
+        DISTINCT A.*
+      FROM
+        `RAW.gestao_logistica_tamanho_aptidao_negocio_lb` A ) )
+  WHERE
+    dense_rank = 1 )
+SELECT
+  *
+FROM
+  TABELA) S
+ON
+  T.COD_FILIAL = S.COD_FILIAL
+  AND T.COD_NEGOCIO = S.COD_NEGOCIO
+  WHEN MATCHED THEN UPDATE SET 
+  T.COD_FILIAL = S.COD_FILIAL,
+  T.COD_NEGOCIO = S.COD_NEGOCIO,
+  T.TAMANHO = S.TAMANHO,
+  T.CLUSTER = S.CLUSTER,
+  T.DAT_ATUALIZACAO = S.DAT_ATUALIZACAO
+  WHEN NOT MATCHED
+  THEN
+INSERT
+  ( COD_FILIAL,
+    COD_NEGOCIO,
+    TAMANHO,
+    CLUSTER,
+    DAT_ATUALIZACAO )
+VALUES
+  ( S.COD_FILIAL,
+    S.COD_NEGOCIO,
+    S.TAMANHO,
+    S.CLUSTER,
+    S.DAT_ATUALIZACAO )
+  WHEN NOT MATCHED BY SOURCE
+  THEN
+DELETE
+  ;
