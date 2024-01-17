@@ -1,6 +1,6 @@
 config {
-    type: "operations",
-    hasOutput: true,
+    type: "incremental",
+    schema: "RAW",
     tags: ["sqlserver"]
 }
 
@@ -8,7 +8,7 @@ SELECT
      SYS_CHANGE_VERSION	
     ,SYS_CHANGE_OPERATION
     ,SYS_CHANGE_CREATION_VERSION	
-    ,COMMIT_TIME,
+    ,COMMIT_TIME
 	,CT_COD_FILIAL
 	,COD_FILIAL
 	,NOM_FILIAL
