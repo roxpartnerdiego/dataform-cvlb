@@ -1,6 +1,7 @@
 config {
     tags: ["hierarquia_sku_cev"]
 }
+
 TRUNCATE TABLE REFINED.hierarquia_sku_cev;
 
 INSERT INTO
