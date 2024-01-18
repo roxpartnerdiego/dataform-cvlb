@@ -1,5 +1,5 @@
 config {
-    tags: ["hierarquia_sku_cev"]
+    tags: ["cubo-produtos"]
 }
 
 TRUNCATE TABLE REFINED.hierarquia_sku_cev;

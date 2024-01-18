@@ -1,5 +1,5 @@
 config {
-    tags: ["filial_cev"]
+    tags: ["cubo-filiais"]
 }
 
 TRUNCATE TABLE REFINED.filial_cev;
