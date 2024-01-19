@@ -17,6 +17,6 @@ SELECT
 	QTD_TRANSITO,
 	VAL_PMM,
     _PARTITIONTIME AS PARTITIONTIME
-FROM `LAND.estoque_historico_estoque_lb`
+FROM `LAND.estoque_historico_estoque_sap_lb`
 
 ${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
