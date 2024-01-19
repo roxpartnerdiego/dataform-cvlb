@@ -12,11 +12,11 @@ SELECT
     DAT_ESTOQUE,
     COD_ITPROD_SAP,
     COD_FILIAL,
-    COD_DEPOSITO_SAP,
+	COD_DEPOSITO_SAP,
 	QTD_DISPONIVEL,
 	QTD_TRANSITO,
 	VAL_PMM,
     _PARTITIONTIME AS PARTITIONTIME
-FROM `LAND.estoque_historico_estoque_sap_lb`
+FROM `LAND.estoque_historico_estoque_lb`
 
 ${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
