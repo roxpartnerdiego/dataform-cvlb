@@ -20,7 +20,5 @@ SELECT
 	VAL_PMM_AJUSTADO,
     _PARTITIONTIME AS PARTITIONTIME
 FROM `LAND.estoque_estoque_sap_lb`
-LIMIT 
-    20000
 
 ${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
