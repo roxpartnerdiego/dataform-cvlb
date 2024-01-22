@@ -1,42 +1,40 @@
-config { dependencies: ["corp_tipo_classe_produto_cev"], 
-tags: ["sqlserver"]
+config {
+    dependencies: ["corp_tipo_classe_produto_cev"],
+    tags: ["sqlserver"]
 }
+
 MERGE
-`TRUSTED.corp_tipo_classe_produto_cev` T
+  `TRUSTED.corp_tipo_classe_produto_cev` T
 USING
-(
-WITH
-TABELA AS (
-SELECT
-DISTINCT CAST(COD_CLASSE AS STRING) AS COD_CLASSE,
-	CAST(NOM_CLASSE AS STRING) AS NOM_CLASSE
-FROM
-`RAW.corp_tipo_classe_produto_cev` A
-WHERE
-PARTITIONTIME=(
-SELECT
-  MAX(PARTITIONTIME)
-FROM
-  `RAW.corp_tipo_classe_produto_cev`))
-SELECT
-*
-FROM
-TABELA) S
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT COD_CLASSE,
+      NOM_CLASSE
+    FROM
+      `RAW.corp_tipo_classe_produto_cev` A
+    WHERE
+      PARTITIONTIME=(
+      SELECT
+        MAX(PARTITIONTIME)
+      FROM
+        `RAW.corp_tipo_classe_produto_cev`))
+  SELECT
+    *
+  FROM
+    TABELA) S
 ON
-T.COD_CLASSE = S.COD_CLASSE
-WHEN MATCHED THEN UPDATE SET 
-T.COD_CLASSE = S.COD_CLASSE,
-T.NOM_CLASSE = S.NOM_CLASSE
-WHEN NOT MATCHED
-THEN
+  T.COD_CLASSE = S.COD_CLASSE
+  WHEN MATCHED THEN UPDATE SET T.COD_CLASSE = S.COD_CLASSE, T.NOM_CLASSE = S.NOM_CLASSE
+  WHEN NOT MATCHED
+  THEN
 INSERT
-(   COD_CLASSE,
+  ( COD_CLASSE,
     NOM_CLASSE )
 VALUES
-(
-    S.COD_CLASSE,
-    S.NOM_CLASSE )
-WHEN NOT MATCHED BY SOURCE
-THEN
+  ( S.COD_CLASSE, S.NOM_CLASSE )
+  WHEN NOT MATCHED BY SOURCE
+  THEN
 DELETE
-;
+  ;
