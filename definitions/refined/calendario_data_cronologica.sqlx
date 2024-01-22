@@ -1,0 +1,14 @@
+config {
+    tags: ["calendario"]
+}
+
+INSERT INTO 
+  `REFINED.calendario_data_cronologica` (
+SELECT 
+  CAST(FORMAT_TIMESTAMP('%Y-%m-%d %H:%M:%E*S', d) AS TIMESTAMP) as DAT_CRONOLOGICA
+FROM (
+  SELECT
+    *
+  FROM
+    UNNEST(GENERATE_DATE_ARRAY('1999-01-01', '2100-01-01', INTERVAL 1 DAY)) AS d ) A
+)
