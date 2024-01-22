@@ -1,42 +1,40 @@
-config { dependencies: ["corp_mundo_planejamento_estrategico_cev"], 
-tags: ["sqlserver"]
+config {
+    dependencies: ["corp_mundo_planejamento_estrategico_cev"],
+    tags: ["sqlserver"]
 }
+
 MERGE
-`TRUSTED.corp_mundo_planejamento_estrategico_cev` T
+  `TRUSTED.corp_mundo_planejamento_estrategico_cev` T
 USING
-(
-WITH
-TABELA AS (
-SELECT
-DISTINCT CAST(COD_MUNDO AS INT64) AS COD_MUNDO, 
-    CAST(NOM_MUNDO AS STRING) AS NOM_MUNDO
-FROM
-`RAW.corp_mundo_planejamento_estrategico_cev` A
-WHERE
-PARTITIONTIME=(
-SELECT
-  MAX(PARTITIONTIME)
-FROM
-  `RAW.corp_mundo_planejamento_estrategico_cev`))
-SELECT
-*
-FROM
-TABELA) S
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT CAST(COD_MUNDO AS INT64) AS COD_MUNDO,
+      NOM_MUNDO
+    FROM
+      `RAW.corp_mundo_planejamento_estrategico_cev` A
+    WHERE
+      PARTITIONTIME=(
+      SELECT
+        MAX(PARTITIONTIME)
+      FROM
+        `RAW.corp_mundo_planejamento_estrategico_cev`))
+  SELECT
+    *
+  FROM
+    TABELA) S
 ON
-T.COD_MUNDO = S.COD_MUNDO
-WHEN MATCHED THEN UPDATE SET 
-T.COD_MUNDO = S.COD_MUNDO,
-T.NOM_MUNDO = S.NOM_MUNDO
-WHEN NOT MATCHED
-THEN
+  T.COD_MUNDO = S.COD_MUNDO
+  WHEN MATCHED THEN UPDATE SET T.COD_MUNDO = S.COD_MUNDO, T.NOM_MUNDO = S.NOM_MUNDO
+  WHEN NOT MATCHED
+  THEN
 INSERT
-(   COD_MUNDO,
+  ( COD_MUNDO,
     NOM_MUNDO )
 VALUES
-(
-    S.COD_MUNDO,
-    S.NOM_MUNDO )
-WHEN NOT MATCHED BY SOURCE
-THEN
+  ( S.COD_MUNDO, S.NOM_MUNDO )
+  WHEN NOT MATCHED BY SOURCE
+  THEN
 DELETE
-;
+  ;
