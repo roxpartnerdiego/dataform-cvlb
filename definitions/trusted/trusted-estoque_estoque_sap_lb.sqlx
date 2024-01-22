@@ -1,8 +1,8 @@
-config { dependencies: ["corp_estoque_sap_lb"], 
+config { dependencies: ["estoque_estoque_sap_lb"], 
     tags: ["sqlserver"]
 }
 MERGE
-`TRUSTED.corp_estoque_sap_lb` T
+`TRUSTED.estoque_estoque_sap_lb` T
 USING
 (
 WITH
@@ -17,13 +17,13 @@ CAST(QTD_TRANSITO AS int64) AS QTD_TRANSITO,
 CAST(VAL_PMM AS numeric) AS VAL_PMM,
 CAST(VAL_PMM_AJUSTADO AS numeric) AS VAL_PMM_AJUSTADO
 FROM
-`RAW.corp_estoque_sap_lb` A
+`RAW.estoque_estoque_sap_lb` A
 WHERE
 PARTITIONTIME=(
 SELECT
   MAX(PARTITIONTIME)
 FROM
-  `RAW.corp_estoque_sap_lb`))
+  `RAW.estoque_estoque_sap_lb`))
 SELECT
 *
 FROM
