@@ -10,21 +10,26 @@ USING
   WITH
     TABELA AS (
     SELECT
-      DISTINCT CAST(DAT_ESTOQUE AS datetime) AS DAT_ESTOQUE,
-      COD_ITPROD_SAP,
-      CAST(COD_FILIAL AS int64) AS COD_FILIAL,
-      COD_DEPOSITO_SAP,
-      CAST(QTD_DISPONIVEL AS int64) AS QTD_DISPONIVEL,
-      CAST(QTD_TRANSITO AS int64) AS QTD_TRANSITO,
-      CAST(VAL_PMM AS numeric) AS VAL_PMM
-    FROM
-      `RAW.estoque_historico_estoque_sap_lb` A
-    WHERE
-      PARTITIONTIME=(
+      DISTINCT * EXCEPT (dense_rank,
+        PARTITIONTIME)
+    FROM (
       SELECT
-        MAX(PARTITIONTIME)
-      FROM
-        `RAW.estoque_historico_estoque_sap_lb`))
+        ROW_NUMBER() OVER (PARTITION BY DAT_ESTOQUE, COD_ITPROD_SAP, COD_FILIAL, COD_DEPOSITO_SAP ORDER BY PARTITIONTIME DESC) AS dense_rank,
+        CAST(DAT_ESTOQUE AS datetime) AS DAT_ESTOQUE,
+        COD_ITPROD_SAP,
+        CAST(COD_FILIAL AS int64) AS COD_FILIAL,
+        COD_DEPOSITO_SAP,
+        CAST(QTD_DISPONIVEL AS int64) AS QTD_DISPONIVEL,
+        CAST(QTD_TRANSITO AS int64) AS QTD_TRANSITO,
+        CAST(VAL_PMM AS numeric) AS VAL_PMM,
+        PARTITIONTIME
+      FROM (
+        SELECT
+          DISTINCT A.*
+        FROM
+          `RAW.estoque_historico_estoque_sap_lb` A))
+    WHERE
+      dense_rank = 1 )
   SELECT
     *
   FROM
