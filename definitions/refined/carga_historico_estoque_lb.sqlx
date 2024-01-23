@@ -1,9 +1,9 @@
 CONFIG { TAGS: ["CUBO-ESTOQUE"] }
 
 TRUNCATE TABLE
-  REFINED.carga_historico_estoque_lb;
+  REFINED.carga_historico_estoque_sap_lb;
 INSERT INTO
-  `REFINED.carga_historico_estoque_lb` (
+  `REFINED.carga_historico_estoque_sap_lb` (
   DECLARE
     DATA_ESTOQUE DATETIME DEFAULT CAST(CURRENT_DATETIME() AS DATETIME)
   DELETE
@@ -12,7 +12,7 @@ INSERT INTO
   WHERE
     DAT_ESTOQUE = DATA_ESTOQUE
   INSERT INTO
-    `TRUSTED.estoque_historico_estoque_sap_lb`(
+    `REFINED.carga_historico_estoque_sap_lb`(
       DAT_ESTOQUE,
       COD_ITPROD_SAP,
       COD_FILIAL,

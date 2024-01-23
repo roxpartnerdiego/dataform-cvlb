@@ -2,10 +2,10 @@ CONFIG { TAGS: ["CUBO-ESTOQUE"] }
 DECLARE 
     DATA_ESTOQUE DATETIME DEFAULT CAST(CURRENT_DATETIME() AS DATETIME);
 
-DELETE FROM `REFINED.estoque_historico_estoque_sap_cev`
+DELETE FROM `REFINED.carga_historico_estoque_sap_cev`
 WHERE DAT_ESTOQUE = DATA_ESTOQUE;
 
-INSERT INTO REFINED.estoque_historico_estoque_sap_cev
+INSERT INTO REFINED.carga_historico_estoque_sap_cev
 (
  DAT_ESTOQUE,
  COD_ITPROD_SAP,
