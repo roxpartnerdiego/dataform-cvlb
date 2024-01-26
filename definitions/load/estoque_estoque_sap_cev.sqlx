@@ -1,0 +1,23 @@
+config {
+    type: "incremental",
+    schema: "RAW",
+    tags: ["sqlserver"]
+}
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,
+    CT_COD_ITPROD,
+    COD_ITPROD,
+	COD_FILIAL,
+	QTD_DISPONIVEL,
+	QTD_TRANSITO,
+	QTD_FUTURO,
+	QTD_RESERVA,
+	DAT_ULTIMA_ALTERACAO,
+	COD_OPERACAO_SINCRONISMO_LOJA,	
+    _PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.estoque_estoque_sap_cev`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
