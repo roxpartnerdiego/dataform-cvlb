@@ -2,7 +2,7 @@ config {
   tags: ["cubo-estoque"] 
 }
 
-CREATE PROCEDURE `VIEWS.pr_carga_historico_estoque` ()
+--CREATE PROCEDURE `VIEWS.pr_carga_historico_estoque` ()
 BEGIN
 DECLARE DATA TIMESTAMP;              
 SET DATA = CURRENT_TIMESTAMP();   
