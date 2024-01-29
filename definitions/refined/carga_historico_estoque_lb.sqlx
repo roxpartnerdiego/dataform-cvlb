@@ -1,7 +1,9 @@
-CONFIG { TAGS: ["CUBO-ESTOQUE"] }
+config { 
+  tags: ["cubo-estoque"] 
+}
 
-TRUNCATE TABLE
-  REFINED.carga_historico_estoque_sap_lb;
+TRUNCATE TABLE REFINED.carga_historico_estoque_sap_lb;
+
 INSERT INTO
   `REFINED.carga_historico_estoque_sap_lb` (
   DECLARE

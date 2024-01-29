@@ -1,4 +1,7 @@
-CONFIG { TAGS: ["CUBO-ESTOQUE"] }
+config { 
+    tags: ["cubo-estoque"] 
+}
+
 DECLARE 
     DATA_ESTOQUE DATETIME DEFAULT CAST(CURRENT_DATETIME() AS DATETIME);
 
