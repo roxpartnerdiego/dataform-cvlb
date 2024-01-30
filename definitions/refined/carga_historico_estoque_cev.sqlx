@@ -2,6 +2,8 @@ config {
     tags: ["cubo-estoque"] 
 }
 
+TRUNCATE TABLE REFINED.carga_historico_estoque_sap_cev;
+
 DECLARE 
     DATA_ESTOQUE DATETIME DEFAULT CAST(CURRENT_DATETIME() AS DATETIME);
 
