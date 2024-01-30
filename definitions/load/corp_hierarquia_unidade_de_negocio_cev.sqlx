@@ -14,6 +14,6 @@ SELECT
     UN_PORTUGUES,
     UN_DESCRICAO,
     _PARTITIONTIME AS PARTITIONTIME
-FROM `LAND.cic_hierarquia_unidade_de_negocio_cev`
+FROM `LAND.corp_hierarquia_unidade_de_negocio_cev`
 
 ${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
