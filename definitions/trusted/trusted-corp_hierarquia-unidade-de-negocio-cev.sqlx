@@ -1,10 +1,10 @@
 config {
-    dependencies: ["cic_hierarquia_unidade_de_negocio_cev"],
+    dependencies: ["corp_hierarquia_unidade_de_negocio_cev"],
     tags: ["sqlserver"]
 }
 
 MERGE
-  `TRUSTED.cic_hierarquia_unidade_de_negocio_cev` T
+  `TRUSTED.corp_hierarquia_unidade_de_negocio_cev` T
 USING
   (
   WITH
@@ -15,13 +15,13 @@ USING
       UN_PORTUGUES,
       UN_DESCRICAO
     FROM
-      `RAW.cic_hierarquia_unidade_de_negocio_cev` A
+      `RAW.corp_hierarquia_unidade_de_negocio_cev` A
     WHERE
       PARTITIONTIME=(
       SELECT
         MAX(PARTITIONTIME)
       FROM
-        `RAW.cic_hierarquia_unidade_de_negocio_cev`))
+        `RAW.corp_hierarquia_unidade_de_negocio_cev`))
   SELECT
     *
   FROM
