@@ -4,7 +4,6 @@ config {
 
 TRUNCATE TABLE REFINED.carga_historico_estoque_sap_cev;
 
---CREATE PROCEDURE `VIEWS.pr_carga_historico_estoque` ()
 BEGIN
 DECLARE DATA TIMESTAMP;              
 SET DATA = CURRENT_TIMESTAMP();   
