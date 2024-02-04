@@ -7,7 +7,7 @@ TRUNCATE TABLE REFINED.hierarquia_sku_cev;
 INSERT INTO
   `REFINED.hierarquia_sku_cev` (
   SELECT
-    IT.COD_ITPROD,
+    IT.COD_ITPROD, 
     IT.COD_ITPROD_SAP,
     IT.COD_ANTIGO AS COD_SKU,
     IT.NOM_DESCRIT AS NOM_SKU,
