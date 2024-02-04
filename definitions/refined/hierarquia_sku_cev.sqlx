@@ -66,7 +66,7 @@ INSERT INTO
     HIE2.COD_ANTIGO = GM.COD_NIVEL_2
     --
   LEFT JOIN
-    `TRUSTED.cic_hierarquia_unidade_de_negocio_cev` DEP
+    `TRUSTED.corp_hierarquia_unidade_de_negocio_cev` DEP
   ON
     HIE2.COD_HIERARQUIA_PRODUTO = DEP.COD_HIERARQUIA_PRODUTO
     --
