@@ -8,24 +8,24 @@ SELECT
     ,SYS_CHANGE_OPERATION	
     ,SYS_CHANGE_CREATION_VERSION	
     ,COMMIT_TIME
-    ,CT_ID
-	,ID
-	,NAME
-	,EMAIL
-	,PHONE
-	,BIRTH_DATE
-	,CLUSTER
-	,DOC_NUMBER
-	,DOC_TYPE
-	,STATE_INSCRIPTION
-	,IS_EMPLOYEE
-	,MUNICIPAL_INSCRIPTION
-	,IS_BLOCKED
-	,CREATED_DATE
-	,UPDATED_DATE
-	,MODIFIED_BY
-	,CREATED_BY
-	,IS_NEW
+    ,CT_id
+	,id
+	,name
+	,email
+	,phone
+	,birth_date
+	,cluster
+	,doc_number
+	,doc_type
+	,state_inscription
+	,is_employee
+	,municipal_inscription
+	,is_blocked
+	,created_date
+	,updated_date
+	,modified_by
+	,created_by
+	,is_new
     ,_PARTITIONTIME AS PARTITIONTIME
 FROM `LAND.crm_client_cev`
 
