@@ -1,0 +1,34 @@
+config {
+    type: "incremental",
+    schema: "RAW",
+    tags: ["postgre"]
+}
+SELECT 
+    SYS_CHANGE_VERSION,
+    SYS_CHANGE_OPERATION,
+    SYS_CHANGE_CREATION_VERSION,
+    COMMIT_TIME,
+    CT_id,
+	id,
+	client_id,
+	original_id,
+	address_type,
+	sap_client_id,
+	address,
+	number,
+	complement,
+	city,
+	state,
+	zip_code,
+	neighborhood,
+	creation_date,
+	principal,
+	active,
+	updated_date,
+	modified_by,
+	sap_sync_status,
+	sap_sync_msg,
+    _PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.crm_address_cev`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
