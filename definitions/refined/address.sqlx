@@ -1,0 +1,50 @@
+config {
+  tags: ["cubo-clientes"]
+}
+
+CREATE OR REPLACE VIEW REFINED.ADDRESS AS (
+SELECT
+  id AS	ENDERECO_ID,
+  client_id AS	CLIENTE_ID,
+  address_type AS	ENDERECO_TIPO,
+  sap_client_id AS	CLIENTE_SAP_ID,
+  address AS	ENDERECO,
+  number AS	NUMERO,
+  complement AS	COMPLEMENTO,
+  city AS	CIDADE,
+  state AS	ESTADO,
+  zip_code AS	CEP,
+  neighborhood AS	BAIRRO,
+  creation_date AS	CRIADO_EM,
+  principal AS	FLAG_PRINCIPAL,
+  active AS	ATIVO,
+  updated_date AS	ATUALIZADO_EM,
+  modified_by AS	MODIFICADO_EM,	
+  created_by AS	CRIADO_POR,	
+  CURRENT_TIMESTAMP() AS	DATA_ATUALIZACAO,
+  "LB" AS	BANDEIRA
+FROM `TRUSTED.crm_address_lb`
+
+UNION ALL
+
+SELECT
+  id AS	ENDERECO_ID,
+  client_id AS	CLIENTE_ID,
+  address_type AS	ENDERECO_TIPO,
+  sap_client_id AS	CLIENTE_SAP_ID,
+  address AS	ENDERECO,
+  number AS	NUMERO,
+  complement AS	COMPLEMENTO,
+  city AS	CIDADE,
+  state AS	ESTADO,
+  zip_code AS	CEP,
+  neighborhood AS	BAIRRO,
+  creation_date AS	CRIADO_EM,
+  principal AS	FLAG_PRINCIPAL,
+  active AS	ATIVO,
+  updated_date AS	ATUALIZADO_EM,
+  modified_by AS	MODIFICADO_EM,	
+  NULL AS	CRIADO_POR,	
+  CURRENT_TIMESTAMP() AS	DATA_ATUALIZACAO,
+  "CEV" AS	BANDEIRA
+FROM `TRUSTED.crm_address_cev`);

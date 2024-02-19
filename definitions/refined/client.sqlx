@@ -1,0 +1,50 @@
+config {
+  tags: ["cubo-clientes"]
+}
+
+CREATE OR REPLACE VIEW REFINED.CLIENT AS (
+SELECT 
+  id AS ID_CLIENTE,
+  name AS NOME,
+  phone AS TELEFONE,
+  birth_date AS DAT_NASCIMENTO,
+  email AS EMAIL,
+  doc_number AS NUM_CPF_CNPJ,
+  created_date AS DAT_CRIACAO,
+  updated_date AS DAT_ATUALIZACAO,
+  cluster AS CLUSTER,
+  doc_type AS TIPO_DOCUMENTO,
+  state_inscription AS ESTADO,
+  municipal_inscription AS MUNICIPIO,
+  is_employee AS FLAG_COLABORADOR,
+  is_blocked AS FLAG_OPT_OUT,
+  modified_by AS MODIFICADO_POR,
+  created_by AS CRIADO_POR,
+  is_new AS FLAG_NOVO,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
+  'CEV' AS BANDEIRA
+FROM `TRUSTED.crm_client_cev`
+
+UNION ALL
+
+SELECT 
+  id AS ID_CLIENTE,
+  CONCAT(first_name, " ",last_name) AS NOME,
+  phone AS TELEFONE,
+  CAST(birth_date AS DATE) AS DAT_NASCIMENTO,
+  email AS EMAIL,
+  doc_number AS NUM_CPF_CNPJ,
+  creation_date AS DAT_CRIACAO,
+  updated_date AS DAT_ATUALIZACAO,
+  cluster AS CLUSTER,
+  doc_type AS TIPO_DOCUMENTO,
+  state_inscription AS ESTADO,
+  municipal_inscription AS MUNICIPIO,
+  is_employee AS FLAG_COLABORADOR,
+  is_blocked AS FLAG_OPT_OUT,
+  modified_by AS MODIFICADO_POR,
+  created_by AS CRIADO_POR,
+  NULL AS FLAG_NOVO,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
+  'LB' AS BANDEIRA
+FROM `TRUSTED.crm_client_lb`);
