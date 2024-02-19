@@ -1,70 +1,156 @@
 config {
     dependencies: ["crm_client_lb"],
-    tags: ["trusted"]
+    tags: ["postgre"]
 }
 
 MERGE
-  `TRUSTED.crm_client_lb` T
+`TRUSTED.crm_client_lb` T
 USING
-  (
-  WITH
-    TABELA AS (
-    SELECT
-      ID,
-      NAME,
-      EMAIL,
-      PHONE,
-      CAST (BIRTH_DATE AS DATE) AS BIRTH_DATE,
-      CLUSTER,
-      DOC_NUMBER,
-      CAST (DOC_TYPE AS INT64) AS DOC_TYPE,
-      STATE_INSCRIPTION,
-      CAST (IS_EMPLOYEE AS BOOL) AS IS_EMPLOYEE,
-      MUNICIPAL_INSCRIPTION,
-      CAST (IS_BLOCKED AS BOOL) AS IS_BLOCKED,
-      CAST (CREATED_DATE AS TIMESTAMP) AS CREATED_DATE,
-      CAST (UPDATED_DATE AS TIMESTAMP) AS UPDATED_DATE,
-      MODIFIED_BY,
-      CREATED_BY,
-      CAST (IS_NEW AS BOOL) AS IS_NEW
-    FROM
-      `RAW.crm_client_lb` A
-    WHERE
-      PARTITIONTIME=(
-      SELECT
-        MAX(PARTITIONTIME)
-      FROM
-        `RAW.crm_client_lb`))
-  SELECT
-    *
-  FROM
-    TABELA) S
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT id,
+	first_name,
+	last_name,
+	phone,
+	birth_date,
+	cluster,
+	email,
+	doc_number,
+	CAST(doc_type AS INT64) AS doc_type,
+	state_inscription,
+	municipal_inscription,
+	CAST(is_employee AS BOOL) AS is_employee,
+	CAST(has_opted_in_of_sms_bln_c AS BOOL) AS has_opted_in_of_sms_bln_c,
+	CAST(has_opted_in_of_email_bln_c AS BOOL) AS has_opted_in_of_email_bln_c,
+	CAST(registered_cml_bln_c AS BOOL) AS registered_cml_bln_c,
+	store_id,
+	pos_id,
+	employee_id,
+	correlation_id,
+	CAST(profile_complete AS BOOL) AS profile_complete,
+	has_credit,
+	CAST(is_blocked AS BOOL) AS is_blocked,
+	device_id,
+	CAST(creation_date AS TIMESTAMP) AS creation_date,
+	CAST(updated_date AS TIMESTAMP) AS updated_date,
+	CAST(removed_date AS TIMESTAMP) AS removed_date,
+	modified_by,
+	created_by,
+	CAST(has_opted_in_of_whatsapp_bln_c AS BOOL) AS has_opted_in_of_whatsapp_bln_c,
+	CAST(has_opted_in_of_push_bln_c AS BOOL) AS has_opted_in_of_push_bln_c
+FROM
+`RAW.crm_client_lb` A
+WHERE
+PARTITIONTIME=(
+SELECT
+  MAX(PARTITIONTIME)
+FROM
+  `RAW.crm_client_lb`))
+SELECT
+*
+FROM
+TABELA) S
 ON
-  T.ID = S.ID
-  WHEN MATCHED THEN UPDATE SET T.ID = S.ID, T.NAME = S.NAME, T.EMAIL = S.EMAIL, T.PHONE = S.PHONE, T.BIRTH_DATE = S.BIRTH_DATE, T.CLUSTER = S.CLUSTER, T.DOC_NUMBER = S.DOC_NUMBER, T.DOC_TYPE = S.DOC_TYPE, T.STATE_INSCRIPTION = S.STATE_INSCRIPTION, T.IS_EMPLOYEE = S.IS_EMPLOYEE, T.MUNICIPAL_INSCRIPTION = S.MUNICIPAL_INSCRIPTION, T.IS_BLOCKED = S.IS_BLOCKED, T.CREATED_DATE = S.CREATED_DATE, T.UPDATED_DATE = S.UPDATED_DATE, T.MODIFIED_BY = S.MODIFIED_BY, T.CREATED_BY = S.CREATED_BY, T.IS_NEW = S.IS_NEW
-  WHEN NOT MATCHED
-  THEN
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET 
+T.id = S.id,
+T.first_name = S.first_name,
+T.last_name = S.last_name,
+T.phone = S.phone,
+T.birth_date = S.birth_date,
+T.cluster = S.cluster,
+T.email = S.email,
+T.doc_number = S.doc_number,
+T.doc_type = S.doc_type,
+T.state_inscription = S.state_inscription,
+T.municipal_inscription = S.municipal_inscription,
+T.is_employee = S.is_employee,
+T.has_opted_in_of_sms_bln_c = S.has_opted_in_of_sms_bln_c,
+T.has_opted_in_of_email_bln_c = S.has_opted_in_of_email_bln_c,
+T.registered_cml_bln_c = S.registered_cml_bln_c,
+T.store_id = S.store_id,
+T.pos_id = S.pos_id,
+T.employee_id = S.employee_id,
+T.correlation_id = S.correlation_id,
+T.profile_complete = S.profile_complete,
+T.has_credit = S.has_credit,
+T.is_blocked = S.is_blocked,
+T.device_id = S.device_id,
+T.creation_date = S.creation_date,
+T.updated_date = S.updated_date,
+T.removed_date = S.removed_date,
+T.modified_by = S.modified_by,
+T.created_by = S.created_by,
+T.has_opted_in_of_whatsapp_bln_c = S.has_opted_in_of_whatsapp_bln_c,
+T.has_opted_in_of_push_bln_c = S.has_opted_in_of_push_bln_c
+WHEN NOT MATCHED
+THEN
 INSERT
-  ( ID,
-    NAME,
-    EMAIL,
-    PHONE,
-    BIRTH_DATE,
-    CLUSTER,
-    DOC_NUMBER,
-    DOC_TYPE,
-    STATE_INSCRIPTION,
-    IS_EMPLOYEE,
-    MUNICIPAL_INSCRIPTION,
-    IS_BLOCKED,
-    CREATED_DATE,
-    UPDATED_DATE,
-    MODIFIED_BY,
-    CREATED_BY,
-    IS_NEW )
+(   id,
+	first_name,
+	last_name,
+	phone,
+	birth_date,
+	cluster,
+	email,
+	doc_number,
+	doc_type,
+	state_inscription,
+	municipal_inscription,
+	is_employee,
+	has_opted_in_of_sms_bln_c,
+	has_opted_in_of_email_bln_c,
+	registered_cml_bln_c,
+	store_id,
+	pos_id,
+	employee_id,
+	correlation_id,
+	profile_complete,
+	has_credit,
+	is_blocked,
+	device_id,
+	creation_date,
+	updated_date,
+	removed_date,
+	modified_by,
+	created_by,
+	has_opted_in_of_whatsapp_bln_c,
+	has_opted_in_of_push_bln_c )
 VALUES
-  ( S.ID,S.NAME,S.EMAIL,S.PHONE,S.BIRTH_DATE,S.CLUSTER,S.DOC_NUMBER,S.DOC_TYPE,S.STATE_INSCRIPTION,S.IS_EMPLOYEE,S.MUNICIPAL_INSCRIPTION,S.IS_BLOCKED,S.CREATED_DATE,S.UPDATED_DATE,S.MODIFIED_BY,S.CREATED_BY,S.IS_NEW )
-  WHEN NOT MATCHED BY SOURCE
-  THEN
+(
+    S.id,
+	S.first_name,
+	S.last_name,
+	S.phone,
+	S.birth_date,
+	S.cluster,
+	S.email,
+	S.doc_number,
+	S.doc_type,
+	S.state_inscription,
+	S.municipal_inscription,
+	S.is_employee,
+	S.has_opted_in_of_sms_bln_c,
+	S.has_opted_in_of_email_bln_c,
+	S.registered_cml_bln_c,
+	S.store_id,
+	S.pos_id,
+	S.employee_id,
+	S.correlation_id,
+	S.profile_complete,
+	S.has_credit,
+	S.is_blocked,
+	S.device_id,
+	S.creation_date,
+	S.updated_date,
+	S.removed_date,
+	S.modified_by,
+	S.created_by,
+	S.has_opted_in_of_whatsapp_bln_c,
+	S.has_opted_in_of_push_bln_c )
+WHEN NOT MATCHED BY SOURCE
+THEN
 DELETE
-  ;
+;
