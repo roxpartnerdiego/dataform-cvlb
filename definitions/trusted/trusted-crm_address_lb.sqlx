@@ -1,0 +1,128 @@
+config {
+    dependencies: ["crm_address_lb"],
+    tags: ["postgre"]
+}
+
+MERGE
+`TRUSTED.crm_address_lb` T
+USING
+(
+WITH
+TABELA AS (
+SELECT
+	DISTINCT id,
+	client_id,
+	original_id,
+	address_type,
+	sap_client_id,
+	address,
+	number,
+	complement,
+	city,
+	state,
+	zip_code,
+	neighborhood,
+	CAST(principal AS BOOL) AS principal,
+	CAST(active AS BOOL) AS active,
+	CAST(creation_date AS TIMESTAMP) AS creation_date,
+	CAST(updated_date AS TIMESTAMP) AS updated_date,
+	created_by,
+	modified_by,
+	country,
+	country_fake,
+	geo_coordinate,
+	receiver_name,
+	reference
+FROM
+`RAW.crm_address_lb` A
+WHERE
+PARTITIONTIME=(
+SELECT
+  MAX(PARTITIONTIME)
+FROM
+  `RAW.crm_address_lb`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET 
+T.id = S.id,
+T.client_id = S.client_id,
+T.original_id = S.original_id,
+T.address_type = S.address_type,
+T.sap_client_id = S.sap_client_id,
+T.address = S.address,
+T.number = S.number,
+T.complement = S.complement,
+T.city = S.city,
+T.state = S.state,
+T.zip_code = S.zip_code,
+T.neighborhood = S.neighborhood,
+T.principal = S.principal,
+T.active = S.active,
+T.creation_date = S.creation_date,
+T.updated_date = S.updated_date,
+T.created_by = S.created_by,
+T.modified_by = S.modified_by,
+T.country = S.country,
+T.country_fake = S.country_fake,
+T.geo_coordinate = S.geo_coordinate,
+T.receiver_name = S.receiver_name,
+T.reference = S.reference
+WHEN NOT MATCHED
+THEN
+INSERT
+(   id,
+	client_id,
+	original_id,
+	address_type,
+	sap_client_id,
+	address,
+	number,
+	complement,
+	city,
+	state,
+	zip_code,
+	neighborhood,
+	principal,
+	active,
+	creation_date,
+	updated_date,
+	created_by,
+	modified_by,
+	country,
+	country_fake,
+	geo_coordinate,
+	receiver_name,
+	reference )
+VALUES
+(
+    S.id,
+	S.client_id,
+	S.original_id,
+	S.address_type,
+	S.sap_client_id,
+	S.address,
+	S.number,
+	S.complement,
+	S.city,
+	S.state,
+	S.zip_code,
+	S.neighborhood,
+	S.principal,
+	S.active,
+	S.creation_date,
+	S.updated_date,
+	S.created_by,
+	S.modified_by,
+	S.country,
+	S.country_fake,
+	S.geo_coordinate,
+	S.receiver_name,
+	S.reference )
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE
+;

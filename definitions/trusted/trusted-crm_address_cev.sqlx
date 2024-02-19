@@ -1,0 +1,112 @@
+config {
+    dependencies: ["crm_address_cev"],
+    tags: ["postgre"]
+}
+
+MERGE
+`TRUSTED.crm_address_cev` T
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT id,
+	client_id,
+	original_id,
+	address_type,
+	sap_client_id,
+	address,
+	number,
+	complement,
+	city,
+	state,
+	zip_code,
+	neighborhood,
+	CAST(creation_date AS TIMESTAMP) AS creation_date,
+	CAST(principal AS BOOL) AS principal,
+	CAST(active AS BOOL) AS active,
+	CAST(updated_date AS TIMESTAMP) AS updated_date,
+	modified_by,
+	CAST(sap_sync_status AS INT64) AS sap_sync_status,
+	sap_sync_msg
+FROM
+`RAW.crm_address_cev` A
+WHERE
+PARTITIONTIME=(
+SELECT
+  MAX(PARTITIONTIME)
+FROM
+  `RAW.crm_address_cev`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET 
+T.id = S.id,
+T.client_id = S.client_id,
+T.original_id = S.original_id,
+T.address_type = S.address_type,
+T.sap_client_id = S.sap_client_id,
+T.address = S.address,
+T.number = S.number,
+T.complement = S.complement,
+T.city = S.city,
+T.state = S.state,
+T.zip_code = S.zip_code,
+T.neighborhood = S.neighborhood,
+T.creation_date = S.creation_date,
+T.principal = S.principal,
+T.active = S.active,
+T.updated_date = S.updated_date,
+T.modified_by = S.modified_by,
+T.sap_sync_status = S.sap_sync_status,
+T.sap_sync_msg = S.sap_sync_msg
+WHEN NOT MATCHED
+THEN
+INSERT
+(   id,
+	client_id,
+	original_id,
+	address_type,
+	sap_client_id,
+	address,
+	number,
+	complement,
+	city,
+	state,
+	zip_code,
+	neighborhood,
+	creation_date,
+	principal,
+	active,
+	updated_date,
+	modified_by,
+	sap_sync_status,
+	sap_sync_msg  )
+VALUES
+(
+    S.id,
+	S.client_id,
+	S.original_id,
+	S.address_type,
+	S.sap_client_id,
+	S.address,
+	S.number,
+	S.complement,
+	S.city,
+	S.state,
+	S.zip_code,
+	S.neighborhood,
+	S.creation_date,
+	S.principal,
+	S.active,
+	S.updated_date,
+	S.modified_by,
+	S.sap_sync_status,
+	S.sap_sync_msg )
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE
+;
