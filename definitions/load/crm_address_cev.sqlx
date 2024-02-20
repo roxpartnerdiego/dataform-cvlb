@@ -28,6 +28,7 @@ SELECT
 	modified_by,
 	sap_sync_status,
 	sap_sync_msg,
+	created_by,
     _PARTITIONTIME AS PARTITIONTIME
 FROM `LAND.crm_address_cev`
 

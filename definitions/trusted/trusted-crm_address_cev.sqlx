@@ -28,7 +28,8 @@ DISTINCT id,
 	CAST(updated_date AS TIMESTAMP) AS updated_date,
 	modified_by,
 	CAST(sap_sync_status AS INT64) AS sap_sync_status,
-	sap_sync_msg
+	sap_sync_msg,
+    created_by
 FROM
 `RAW.crm_address_cev` A
 WHERE
@@ -62,7 +63,8 @@ T.active = S.active,
 T.updated_date = S.updated_date,
 T.modified_by = S.modified_by,
 T.sap_sync_status = S.sap_sync_status,
-T.sap_sync_msg = S.sap_sync_msg
+T.sap_sync_msg = S.sap_sync_msg,
+T.created_by = S.created_by
 WHEN NOT MATCHED
 THEN
 INSERT
@@ -84,7 +86,8 @@ INSERT
 	updated_date,
 	modified_by,
 	sap_sync_status,
-	sap_sync_msg  )
+	sap_sync_msg,
+    created_by  )
 VALUES
 (
     S.id,
@@ -105,7 +108,8 @@ VALUES
 	S.updated_date,
 	S.modified_by,
 	S.sap_sync_status,
-	S.sap_sync_msg )
+	S.sap_sync_msg,
+    S.created_by )
 WHEN NOT MATCHED BY SOURCE
 THEN
 DELETE
