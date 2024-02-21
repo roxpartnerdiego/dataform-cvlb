@@ -1,6 +1,6 @@
 config {
     dependencies: ["gestao_logistica_stockout_cia"],
-    tags: ["sqlserver"]
+    tags: ["inativo"]
 }
 
 MERGE
