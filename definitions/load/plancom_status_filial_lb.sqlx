@@ -1,0 +1,24 @@
+config {
+    type: "incremental",
+    schema: "RAW",
+    tags: ["sqlserver"]
+}
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,
+    CT_COD_LOJA,
+    COD_LOJA,
+    DESCRICAO_RELATORIO,
+    UF,
+    CIDADE,
+    TIPO,
+    INAUGURACAO,
+    DISTRITAL,
+    SAFRA,
+    STATUS,
+    _PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.plancom_status_filial_lb`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
