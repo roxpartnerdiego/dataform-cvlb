@@ -48,7 +48,7 @@ USING
   FROM
     TABELA) S
 ON
-  T.COD_FILIAL = S.COD_FILIAL
+  T.mandt = S.mandt
   WHEN MATCHED THEN UPDATE SET 
     T.mandt = S.mandt,
     T.bukrs = S.bukrs,
