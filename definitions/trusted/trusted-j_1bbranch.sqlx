@@ -1,0 +1,135 @@
+config {
+    dependencies: ["j_1bbranch"],
+    tags: ["sqlserver"]
+}
+
+MERGE
+  `TRUSTED.j_1bbranch` T
+USING
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT mandt,
+      bukrs,
+      branch,
+      name,
+      cgc_branch,
+      state_insc,
+      munic_insc,
+      industry,
+      single,
+      adrnr,
+      nfdec,
+      kr_repres,
+      kr_bustype,
+      kr_indtype,
+      stcd1,
+      stcd2,
+      kr_taxoff,
+      pac01,
+      vdp01,
+      pac02,
+      vdp02,
+      ipicontributor,
+      idsign,
+      soure_dangergood,
+      recordstamp,
+    FROM
+        `RAW.j_1bbranch` A
+    WHERE
+      PARTITIONTIME=(
+      SELECT
+        MAX(PARTITIONTIME)
+      FROM
+        `RAW.j_1bbranch`))
+  SELECT
+    *
+  FROM
+    TABELA) S
+ON
+  T.COD_FILIAL = S.COD_FILIAL
+  WHEN MATCHED THEN UPDATE SET 
+    T.mandt = S.mandt,
+    T.bukrs = S.bukrs,
+    T.branch = S.branch,
+    T.name = S.name,
+    T.cgc_branch = S.cgc_branch,
+    T.state_insc = S.state_insc,
+    T.munic_insc = S.munic_insc,
+    T.industry = S.industry,
+    T.single = S.single,
+    T.adrnr = S.adrnr,
+    T.nfdec = S.nfdec,
+    T.kr_repres = S.kr_repres,
+    T.kr_bustype = S.kr_bustype,
+    T.kr_indtype = S.kr_indtype,
+    T.stcd1 = S.stcd1,
+    T.stcd2 = S.stcd2,
+    T.kr_taxoff = S.kr_taxoff,
+    T.pac01 = S.pac01,
+    T.vdp01 = S.vdp01,
+    T.pac02 = S.pac02,
+    T.vdp02 = S.vdp02,
+    T.ipicontributor = S.ipicontributor,
+    T.idsign = S.idsign,
+    T.soure_dangergood = S.soure_dangergood,
+    T.recordstamp = S.recordstamp
+  WHEN NOT MATCHED
+  THEN
+INSERT
+  ( mandt,
+    bukrs,
+    branch,
+    name,
+    cgc_branch,
+    state_insc,
+    munic_insc,
+    industry,
+    single,
+    adrnr,
+    nfdec,
+    kr_repres,
+    kr_bustype,
+    kr_indtype,
+    stcd1,
+    stcd2,
+    kr_taxoff,
+    pac01,
+    vdp01,
+    pac02,
+    vdp02,
+    ipicontributor,
+    idsign,
+    soure_dangergood,
+    recordstamp )
+VALUES
+  ( S.mandt,
+    S.bukrs,
+    S.branch,
+    S.name,
+    S.cgc_branch,
+    S.state_insc,
+    S.munic_insc,
+    S.industry,
+    S.single,
+    S.adrnr,
+    S.nfdec,
+    S.kr_repres,
+    S.kr_bustype,
+    S.kr_indtype,
+    S.stcd1,
+    S.stcd2,
+    S.kr_taxoff,
+    S.pac01,
+    S.vdp01,
+    S.pac02,
+    S.vdp02,
+    S.ipicontributor,
+    S.idsign,
+    S.soure_dangergood,
+    S.recordstamp )
+  WHEN NOT MATCHED BY SOURCE
+  THEN
+DELETE
+  ;
