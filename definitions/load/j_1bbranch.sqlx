@@ -1,0 +1,35 @@
+config {
+    type: "incremental",
+    schema: "RAW",
+    tags: ["sqlserver"]
+}
+SELECT 
+    mandt,
+    bukrs,
+    branch,
+    name,
+    cgc_branch,
+    state_insc,
+    munic_insc,
+    industry,
+    single,
+    adrnr,
+    nfdec,
+    kr_repres,
+    kr_bustype,
+    kr_indtype,
+    stcd1,
+    stcd2,
+    kr_taxoff,
+    pac01,
+    vdp01,
+    pac02,
+    vdp02,
+    ipicontributor,
+    idsign,
+    soure_dangergood,
+    recordstamp,
+    _PARTITIONTIME AS PARTITIONTIM
+FROM `LAND.j_1bbranch`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
