@@ -1,27 +1,27 @@
 config {
-    dependencies: ["corp_depara_organograma_lb"],
+    dependencies: ["plancom_depara_organograma_lb"],
     tags: ["sqlserver"]
 }
 
 MERGE
-  `TRUSTED.corp_depara_organograma_lb` T
+  `TRUSTED.plancom_depara_organograma_lb` T
 USING
   (
   WITH
     TABELA AS (
     SELECT
-      DISTINCT CAST(COD_CATEGORIA AS STRING) AS COD_CATEGORIA,
+      DISTINCT COD_CATEGORIA,
       NOM_CATEGORIA_COMPLETO,
-      CAST(NOM_GM AS STRING) AS NOM_GM,
-      CAST(NOM_GC AS STRING) AS NOM_GC
+      NOM_GM,
+      NOM_GC
     FROM
-      `RAW.corp_depara_organograma_lb` A
+      `RAW.plancom_depara_organograma_lb` A
     WHERE
       PARTITIONTIME=(
       SELECT
         MAX(PARTITIONTIME)
       FROM
-        `RAW.corp_depara_organograma_lb`))
+        `RAW.plancom_depara_organograma_lb`))
   SELECT
     *
   FROM

@@ -1,10 +1,10 @@
 config {
-    dependencies: ["corp_classe_atual_lb"],
+    dependencies: ["plancom_classe_atual_lb"],
     tags: ["sqlserver"]
 }
 
 MERGE
-  `TRUSTED.corp_classe_atual_lb` T
+  `TRUSTED.plancom_classe_atual_lb` T
 USING
   (
   WITH
@@ -14,13 +14,13 @@ USING
       COD_CLASSE,
       CAST(DATA_ATUALIZACAO AS TIMESTAMP) AS DATA_ATUALIZACAO
     FROM
-      `RAW.corp_classe_atual_lb` A
+      `RAW.plancom_classe_atual_lb` A
     WHERE
       PARTITIONTIME=(
       SELECT
         MAX(PARTITIONTIME)
       FROM
-        `RAW.corp_classe_atual_lb`))
+        `RAW.plancom_classe_atual_lb`))
   SELECT
     *
   FROM
