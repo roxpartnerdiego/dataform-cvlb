@@ -34,7 +34,7 @@ USING
       ipicontributor,
       idsign,
       soure_dangergood,
-      recordstamp,
+      recordstamp
     FROM
         `RAW.sap_j_1bbranch` A
     WHERE
