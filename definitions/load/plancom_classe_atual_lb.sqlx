@@ -13,6 +13,6 @@ SELECT
     COD_CLASSE,
     DATA_ATUALIZACAO,
     _PARTITIONTIME AS PARTITIONTIME
-FROM `LAND.corp_classe_atual_lb`
+FROM `LAND.plancom_classe_atual_lb`
 
 ${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
