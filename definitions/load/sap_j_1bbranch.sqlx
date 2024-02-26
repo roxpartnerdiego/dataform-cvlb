@@ -1,7 +1,7 @@
 config {
     type: "incremental",
     schema: "RAW",
-    tags: ["sqlserver"]
+    tags: ["sap"]
 }
 SELECT 
     mandt,
@@ -29,7 +29,7 @@ SELECT
     idsign,
     soure_dangergood,
     recordstamp,
-    _PARTITIONTIME AS PARTITIONTIM
+    CURRENT_TIMESTAMP() AS PARTITIONTIME
 FROM `LAND.j_1bbranch`
 
-${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
+${ when(incremental(), `WHERE recordstamp > (SELECT MAX(recordstamp) FROM ${self()})`) }
