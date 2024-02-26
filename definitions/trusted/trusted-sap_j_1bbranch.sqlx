@@ -1,6 +1,6 @@
 config {
     dependencies: ["sap_j_1bbranch"],
-    tags: ["sqlserver"]
+    tags: ["sap"]
 }
 
 MERGE
