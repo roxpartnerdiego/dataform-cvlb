@@ -1,18 +1,18 @@
 config {
-    dependencies: ["j_1bbranch"],
+    dependencies: ["sap_j_1bbranch"],
     tags: ["sqlserver"]
 }
 
 MERGE
-  `TRUSTED.j_1bbranch` T
+  `TRUSTED.sap_j_1bbranch` T
 USING
   (
   WITH
     TABELA AS (
     SELECT
-      DISTINCT mandt,
+      DISTINCT branch,
       bukrs,
-      branch,
+      mandt,
       name,
       cgc_branch,
       state_insc,
@@ -36,19 +36,19 @@ USING
       soure_dangergood,
       recordstamp,
     FROM
-        `RAW.j_1bbranch` A
+        `RAW.sap_j_1bbranch` A
     WHERE
       PARTITIONTIME=(
       SELECT
         MAX(PARTITIONTIME)
       FROM
-        `RAW.j_1bbranch`))
+        `RAW.sap_j_1bbranch`))
   SELECT
     *
   FROM
     TABELA) S
 ON
-  T.mandt = S.mandt
+  T.branch = S.branch
   WHEN MATCHED THEN UPDATE SET 
     T.mandt = S.mandt,
     T.bukrs = S.bukrs,
