@@ -34,7 +34,7 @@ SELECT
   id AS ID_CLIENTE,
   CONCAT(first_name, " ",last_name) AS NOME,
   phone AS TELEFONE,
-  CAST(birth_date AS DATE) AS DAT_NASCIMENTO,
+  EXTRACT(DATE FROM CAST(birth_date AS TIMESTAMP)) AS DAT_NASCIMENTO,
   email AS EMAIL,
   doc_number AS NUM_CPF_CNPJ,
   creation_date AS DAT_CRIACAO,
