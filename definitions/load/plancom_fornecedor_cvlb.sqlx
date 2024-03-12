@@ -14,6 +14,6 @@ SELECT
     NOM_FORNECEDOR,
     NOM_GRUPO,
     _PARTITIONTIME AS PARTITIONTIME
-FROM `LAND.corp_fornecedor_cvlb`
+FROM `LAND.plancom_fornecedor_cvlb`
 
 ${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }

@@ -1,10 +1,10 @@
 config {
-    dependencies: ["corp_fornecedor_cvlb"],
+    dependencies: ["plancom_fornecedor_cvlb"],
     tags: ["sqlserver"]
 }
 
 MERGE
-  `TRUSTED.corp_fornecedor_cvlb` T
+  `TRUSTED.plancom_fornecedor_cvlb` T
 USING
   (
   WITH
@@ -15,13 +15,13 @@ USING
       NOM_FORNECEDOR,
       NOM_GRUPO
     FROM
-      `RAW.corp_fornecedor_cvlb` A
+      `RAW.plancom_fornecedor_cvlb` A
     WHERE
       PARTITIONTIME=(
       SELECT
         MAX(PARTITIONTIME)
       FROM
-        `RAW.corp_fornecedor_cvlb`))
+        `RAW.plancom_fornecedor_cvlb`))
   SELECT
     *
   FROM
