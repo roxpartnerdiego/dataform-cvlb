@@ -1,0 +1,37 @@
+config {
+   type: "operations",
+   tags: ["function_check_partitions","function_check_table"],
+   hasOutput: true
+}
+
+CREATE OR REPLACE PROCEDURE `PROCEDURES.LOAD_LAND_TO_RAW`(tableName STRING, TIPO STRING)
+BEGIN
+
+DECLARE InsertFull, InsertIncr, ConditionId, PartitionId STRING;
+DECLARE Result, PartitionIdResult INT64;
+
+  SET ConditionId = FUNCTIONS.FncCheckTable(tableName);
+  SET PartitionId = FUNCTIONS.FncGetRawPartitions(tableName);
+  SET PartitionIdResult = CAST(PartitionId AS INT64);
+  SET Result = CAST(ConditionId AS INT64);
+
+  
+  IF Tipo='FULL' THEN
+    SET InsertFull = "INSERT INTO `RAW."||tableName||"` SELECT DISTINCT *, _PARTITIONTIME AS PARTITIONTIME FROM `LAND."||tableName||"`";
+    SET InsertIncr = "INSERT INTO `RAW."||tableName||"` WITH TABELA AS (SELECT DISTINCT *, _PARTITIONTIME AS PARTITIONTIME FROM `LAND."||tableName||"`),TABELA_FILTER AS (SELECT *, CAST(REPLACE(CAST(DATE(PARTITIONTIME) AS STRING),'-','') AS INT64) AS FILTRO FROM TABELA ) SELECT * EXCEPT (FILTRO) FROM  TABELA_FILTER WHERE  FILTRO > "||PartitionIdResult||"";
+  ELSE
+    SET InsertFull = "INSERT INTO `RAW."||tableName||"` SELECT DISTINCT *, _PARTITIONTIME AS PARTITIONTIME FROM `LAND."||tableName||"`";
+    SET InsertIncr = "INSERT INTO `RAW."||tableName||"` WITH TABELA AS (SELECT DISTINCT *, _PARTITIONTIME AS PARTITIONTIME FROM `LAND."||tableName||"`),TABELA_FILTER AS (SELECT *, CAST(REPLACE(CAST(DATE(PARTITIONTIME) AS STRING),'-','') AS INT64) AS FILTRO FROM TABELA ) SELECT * EXCEPT (FILTRO) FROM  TABELA_FILTER WHERE  FILTRO > "||PartitionIdResult||"";
+  END IF;
+  
+  
+  IF Result=0 THEN
+      EXECUTE IMMEDIATE InsertFull;
+  ELSE
+      EXECUTE IMMEDIATE InsertIncr;
+  END IF;
+
+
+END
+
+;

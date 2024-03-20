@@ -1,0 +1,14 @@
+config {
+   type: "operations",
+   hasOutput: true
+}
+
+CREATE OR REPLACE FUNCTION
+  FUNCTIONS.FncCheckTable(TableName STRING)
+  RETURNS STRING AS ( (
+    SELECT
+      CAST(row_count AS STRING) AS RESULT
+    FROM
+      RAW.__TABLES__
+    WHERE
+      table_id=TableName ) );

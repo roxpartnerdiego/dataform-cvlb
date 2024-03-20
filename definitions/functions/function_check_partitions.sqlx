@@ -1,0 +1,18 @@
+config {
+   type: "operations",
+   hasOutput: true
+}
+
+CREATE OR REPLACE FUNCTION FUNCTIONS.FncGetRawPartitions (TableName STRING)
+  RETURNS STRING AS ( (
+    SELECT
+      CAST(partition_id AS STRING) AS partition_id
+    FROM
+      `RAW.INFORMATION_SCHEMA.PARTITIONS`
+    WHERE
+      table_name=TableName
+      AND partition_id <> '__NULL__'
+    ORDER BY
+      last_modified_time DESC
+    LIMIT
+      1 ) );
