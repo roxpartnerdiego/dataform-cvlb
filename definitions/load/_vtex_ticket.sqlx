@@ -1,4 +1,8 @@
 config {
    type: "operations",
+   tags: ["procedure_land_to_raw"],
    hasOutput: true
 }
+
+
+CALL `PROCEDURES.LOAD_LAND_TO_RAW`('vtex_ticket', 'FULL');
