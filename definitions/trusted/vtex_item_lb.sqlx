@@ -3,7 +3,7 @@ config {
     schema: "TRUSTED",
     description: "Tabela criada e gerenciada pelo Dataform",
     tags: ["arquivos"],
-    dependencies: ["archive_vtex_item"]
+    dependencies: ["archive_vtex_item_lb"]
 }
 
 WITH
@@ -48,7 +48,7 @@ WITH
         ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY PARTITIONTIME DESC) AS dense_rank,
         *
       FROM
-        `RAW.vtex_item` A ) ) )
+        `RAW.vtex_item_lb` A ) ) )
 SELECT
   * EXCEPT (dense_rank)
 FROM

@@ -1,0 +1,57 @@
+config {
+    type: "table",
+    schema: "TRUSTED",
+    description: "Tabela criada e gerenciada pelo Dataform",
+    tags: ["arquivos"],
+    dependencies: ["archive_vtex_item_cev"]
+}
+
+WITH
+  TABLE AS (
+  SELECT
+    DISTINCT *
+  FROM (
+    SELECT
+      CAST(order_id AS STRING) AS order_id,
+      CAST(item_unique_id AS STRING) AS item_unique_id,
+      CAST(item_id AS INT64) AS item_id,
+      CAST(item_product_id AS INT64) AS item_product_id,
+      CAST(item_ean AS STRING) AS item_ean,
+      CAST(item_quantity AS STRING) AS item_quantity,
+      CAST(item_pos AS STRING) AS item_pos,
+      CAST(item_name AS STRING) AS item_name,
+      CAST(item_price AS FLOAT64) AS item_price,
+      CAST(item_list_price AS FLOAT64) AS item_list_price,
+      CAST(item_commission AS FLOAT64) AS item_commission,
+      CAST(item_tax AS FLOAT64) AS item_tax,
+      CAST(item_presale_date AS STRING) AS item_presale_date,
+      CAST(item_brandname AS STRING) AS item_brandname,
+      CAST(item_category_name1 AS STRING) AS item_category_name1,
+      CAST(item_category_name2 AS STRING) AS item_category_name2,
+      CAST(item_category_name3 AS STRING) AS item_category_name3,
+      CAST(item_product_cluster_id AS STRING) AS item_product_cluster_id,
+      CAST(item_commercial_condition_id AS STRING) AS item_commercial_condition_id,
+      CAST(item_offering_type AS STRING) AS item_offering_type,
+      CAST(item_measurement_unit AS STRING) AS item_measurement_unit,
+      CAST(item_unit_multiplier AS STRING) AS item_unit_multiplier,
+      CAST(item_selling_price AS STRING) AS item_selling_price,
+      CAST(item_shipping_price AS STRING) AS item_shipping_price,
+      CAST(item_reward_value AS STRING) AS item_reward_value,
+      CAST(item_freight_commission AS STRING) AS item_freight_commission,
+      CAST(item_tax_code AS STRING) AS item_tax_code,
+      CAST(item_cost_price AS STRING) AS item_cost_price,
+      CAST(selected_sla AS STRING) AS selected_sla,
+      CAST(delivery_channel AS STRING) AS delivery_channel,
+      dense_rank
+    FROM (
+      SELECT
+        ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY PARTITIONTIME DESC) AS dense_rank,
+        *
+      FROM
+        `RAW.vtex_item_cev` A ) ) )
+SELECT
+  * EXCEPT (dense_rank)
+FROM
+  TABLE
+WHERE
+  dense_rank=1

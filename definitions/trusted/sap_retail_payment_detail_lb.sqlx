@@ -3,7 +3,7 @@ config {
     schema: "TRUSTED",
     description: "Tabela criada e gerenciada pelo Dataform",
     tags: ["arquivos"],
-    dependencies: ["archive_sap_retail_payment_detail"]
+    dependencies: ["archive_sap_retail_payment_detail_lb"]
 }
 
 WITH
@@ -29,7 +29,7 @@ WITH
         ROW_NUMBER() OVER (PARTITION BY ticket_id, store_id ORDER BY PARTITIONTIME DESC) AS dense_rank,
         *
       FROM
-        `RAW.sap_retail_payment_detail` A ) ) )
+        `RAW.sap_retail_payment_detail_lb` A ) ) )
 SELECT
   * EXCEPT (dense_rank)
 FROM

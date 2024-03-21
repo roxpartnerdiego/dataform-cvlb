@@ -1,0 +1,10 @@
+config {
+   type: "operations",
+   tags: ["arquivos"],
+   dependencies: ["procedure_land_to_raw"],
+   hasOutput: true
+}
+
+
+
+CALL `PROCEDURES.LOAD_LAND_TO_RAW`('vtex_payment_lb', 'FULL');

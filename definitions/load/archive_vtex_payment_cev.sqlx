@@ -6,4 +6,5 @@ config {
 }
 
 
-CALL `PROCEDURES.LOAD_LAND_TO_RAW`('sap_retail_item_detail', 'FULL');
+
+CALL `PROCEDURES.LOAD_LAND_TO_RAW`('vtex_payment_cev', 'FULL');

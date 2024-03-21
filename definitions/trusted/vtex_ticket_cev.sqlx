@@ -1,0 +1,82 @@
+config {
+    type: "table",
+    schema: "TRUSTED",
+    description: "Tabela criada e gerenciada pelo Dataform",
+    tags: ["arquivos"],
+    dependencies: ["archive_vtex_ticket_cev"]
+}
+
+
+WITH
+  TABLE AS (
+  SELECT
+    DISTINCT *
+  FROM (
+    SELECT
+      CAST(customer_id AS INT64) AS customer_id,
+      CAST(seller_order_id AS STRING) AS seller_order_id,
+      CAST(order_id AS STRING) AS order_id,
+      CAST(order_group AS STRING) AS order_group,
+      CAST(origin AS STRING) AS origin,
+      CAST(status AS STRING) AS status,
+      CAST(created_date AS STRING) AS created_date,
+      CAST(created_time AS STRING) AS created_time,
+      CAST(updated_date AS STRING) AS updated_date,
+      CAST(updated_time AS STRING) AS updated_time,
+      CAST(total_compra AS FLOAT64) AS total_compra,
+      CAST(total_itens AS FLOAT64) AS total_itens,
+      CAST(total_descontos AS FLOAT64) AS total_descontos,
+      CAST(total_frete AS FLOAT64) AS total_frete,
+      CAST(total_taxa AS FLOAT64) AS total_taxa,
+      CAST(client_profiledata_id AS STRING) AS client_profiledata_id,
+      CAST(client_profiledata_email AS STRING) AS client_profiledata_email,
+      CAST(client_profiledata_firstname AS STRING) AS client_profiledata_firstname,
+      CAST(client_profiledata_lastname AS STRING) AS client_profiledata_lastname,
+      CAST(client_profiledata_documenttype AS STRING) AS client_profiledata_documenttype,
+      CAST(client_profiledata_document AS STRING) AS client_profiledata_document,
+      CAST(client_profiledata_phone AS STRING) AS client_profiledata_phone,
+      CAST(client_profiledata_corporatename AS STRING) AS client_profiledata_corporatename,
+      CAST(client_profiledata_tradename AS STRING) AS client_profiledata_tradename,
+      CAST(client_profiledata_corporatedocument AS STRING) AS client_profiledata_corporatedocument,
+      CAST(client_profiledata_corporatephone AS STRING) AS client_profiledata_corporatephone,
+      CAST(client_profiledata_iscorporate AS STRING) AS client_profiledata_iscorporate,
+      CAST(client_profiledata_userprofileid AS STRING) AS client_profiledata_userprofileid,
+      CAST(client_profiledata_customerclass AS STRING) AS client_profiledata_customerclass,
+      CAST(sellers_name AS STRING) AS sellers_name,
+      CAST(authorized_date AS TIMESTAMP) AS authorized_date,
+      CAST(cancel_reason AS STRING) AS cancel_reason,
+      CAST(cancellation_data AS STRING) AS cancellation_data,
+      CAST(load_date AS DATE) AS load_date,
+      CAST(load_time AS STRING) AS load_time,
+      CAST(utm_source AS STRING) AS utm_source,
+      CAST(utm_partner AS STRING) AS utm_partner,
+      CAST(utm_medium AS STRING) AS utm_medium,
+      CAST(utm_campaign AS STRING) AS utm_campaign,
+      CAST(utmi_campaign AS STRING) AS utmi_campaign,
+      CAST(utmi_page AS STRING) AS utmi_page,
+      CAST(utmi_part AS STRING) AS utmi_part,
+      CAST(hostname AS STRING) AS hostname,
+      CAST(marketing_tags AS STRING) AS marketing_tags,
+      CAST(flg_lemais AS STRING) AS flg_lemais,
+      CAST(sequence AS INT64) AS sequence,
+      CAST(coupon AS STRING) AS coupon,
+      CAST(delivery_company AS STRING) AS delivery_company,
+      CAST(delivery_estimate_date AS DATE) AS delivery_estimate_date,
+      CAST(delivery_estimate_time AS STRING) AS delivery_estimate_time,
+      CAST(tracking_number AS STRING) AS tracking_number,
+      CAST(is_completed AS STRING) AS is_completed,
+      CAST(invoice_number AS INT64) AS invoice_number,
+      CAST(delivery_channel AS STRING) AS delivery_channel,
+      dense_rank
+    FROM (
+      SELECT
+        ROW_NUMBER() OVER (PARTITION BY customer_id,order_id ORDER BY PARTITIONTIME DESC) AS dense_rank,
+        *
+      FROM
+        `RAW.vtex_ticket_cev` A ) ) )
+SELECT
+  * EXCEPT (dense_rank)
+FROM
+  TABLE
+WHERE
+  dense_rank=1

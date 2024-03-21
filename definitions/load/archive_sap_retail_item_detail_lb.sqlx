@@ -6,5 +6,4 @@ config {
 }
 
 
-
-CALL `PROCEDURES.LOAD_LAND_TO_RAW`('vtex_ticket', 'FULL');
+CALL `PROCEDURES.LOAD_LAND_TO_RAW`('sap_retail_item_detail_lb', 'FULL');
