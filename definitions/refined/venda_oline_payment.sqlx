@@ -1,0 +1,60 @@
+config {
+  tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.VENDA_ONLINE_PAYMENT;
+
+INSERT INTO
+  REFINED.VENDA_ONLINE_PAYMENT (
+SELECT
+    order_id,
+    transaction_pos,
+    payment_pos,
+    payment_id,
+    payment_system_name,
+    payment_value,
+    payment_installments,
+    payment_reference_value,
+    payment_transaction_id,
+    payment_merchant_name,
+    payment_system,
+    payment_group,
+    billing_address_postal_code,
+    billing_address_city,
+    billing_address_state,
+    billing_address_country,
+    billing_address_street,
+    billing_address_number,
+    billing_address_neighborhood,
+    billing_address_complement,
+    CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
+    "LB" AS BANDEIRA
+FROM `TRUSTED.vtex_payment_lb`
+
+UNION ALL
+
+SELECT
+    order_id,
+    transaction_pos,
+    payment_pos,
+    payment_id,
+    payment_system_name,
+    payment_value,
+    payment_installments,
+    payment_reference_value,
+    payment_transaction_id,
+    payment_merchant_name,
+    payment_system,
+    payment_group,
+    billing_address_postal_code,
+    billing_address_city,
+    billing_address_state,
+    billing_address_country,
+    billing_address_street,
+    billing_address_number,
+    billing_address_neighborhood,
+    billing_address_complement,
+    CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
+    "CEV" AS BANDEIRA
+FROM `TRUSTED.vtex_payment_cev`
+  )
