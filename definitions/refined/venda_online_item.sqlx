@@ -1,0 +1,80 @@
+config {
+  tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.VENDA_ONLINE_ITEM;
+
+INSERT INTO
+  REFINED.VENDA_ONLINE_ITEM (
+SELECT
+  order_id,
+    item_unique_id,
+    item_id,
+    item_product_id,
+    item_ean,
+    item_quantity,
+    item_pos,
+    item_name,
+    item_price,
+    item_list_price,
+    item_commission,
+    item_tax,
+    item_presale_date,
+    item_brandname,
+    item_category_name1,
+    item_category_name2,
+    item_category_name3,
+    item_product_cluster_id,
+    item_commercial_condition_id,
+    item_offering_type,
+    item_measurement_unit,
+    item_unit_multiplier,
+    item_selling_price,
+    item_shipping_price,
+    item_reward_value,
+    item_freight_commission,
+    item_tax_code,
+    item_cost_price,
+    selected_sla,
+    delivery_channel,
+    CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
+    "LB" AS BANDEIRA
+FROM `TRUSTED.vtex_item_lb`
+
+UNION ALL
+
+SELECT
+  order_id,
+    item_unique_id,
+    item_id,
+    item_product_id,
+    item_ean,
+    item_quantity,
+    item_pos,
+    item_name,
+    item_price,
+    item_list_price,
+    item_commission,
+    item_tax,
+    item_presale_date,
+    item_brandname,
+    item_category_name1,
+    item_category_name2,
+    item_category_name3,
+    item_product_cluster_id,
+    item_commercial_condition_id,
+    item_offering_type,
+    item_measurement_unit,
+    item_unit_multiplier,
+    item_selling_price,
+    item_shipping_price,
+    item_reward_value,
+    item_freight_commission,
+    item_tax_code,
+    item_cost_price,
+    selected_sla,
+    delivery_channel,
+    CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
+    "CEV" AS BANDEIRA
+FROM `TRUSTED.vtex_item_cev`
+  )
