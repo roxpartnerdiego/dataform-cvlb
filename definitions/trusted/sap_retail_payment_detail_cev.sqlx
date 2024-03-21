@@ -1,0 +1,38 @@
+config {
+    type: "table",
+    schema: "TRUSTED",
+    description: "Tabela criada e gerenciada pelo Dataform",
+    tags: ["arquivos"],
+    dependencies: ["archive_sap_retail_payment_detail_cev"]
+}
+
+WITH
+  TABLE AS (
+  SELECT
+    DISTINCT *
+  FROM (
+    SELECT
+      CAST(customer_id AS STRING ) AS customer_id,
+      CAST(ticket_id AS FLOAT64 ) AS ticket_id,
+      CAST(store_id AS INT64 ) AS store_id,
+      CAST(amount AS FLOAT64 ) AS amount,
+      CAST(payment_method AS STRING ) AS payment_method,
+      CAST(payment_terms AS STRING ) AS payment_terms,
+      CAST(iin_issuer_ident_number AS INT64 ) AS iin_issuer_ident_number,
+      CAST(type_of_operation AS STRING ) AS type_of_operation,
+      CAST(number_of_installments AS INT64 ) AS number_of_installments,
+      CAST(type_of_financing AS STRING ) AS type_of_financing,
+      CAST(cod_sist_auto01 AS STRING ) AS cod_sist_auto01,
+      dense_rank
+    FROM (
+      SELECT
+        ROW_NUMBER() OVER (PARTITION BY ticket_id, store_id ORDER BY PARTITIONTIME DESC) AS dense_rank,
+        *
+      FROM
+        `RAW.sap_retail_payment_detail_cev` A ) ) )
+SELECT
+  * EXCEPT (dense_rank)
+FROM
+  TABLE
+WHERE
+  dense_rank=1

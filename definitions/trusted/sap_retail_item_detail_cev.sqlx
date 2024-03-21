@@ -1,0 +1,52 @@
+config {
+    type: "table",
+    schema: "TRUSTED",
+    description: "Tabela criada e gerenciada pelo Dataform",
+    tags: ["arquivos"],
+    dependencies: ["archive_sap_retail_item_detail_cev"]
+}
+
+WITH
+  TABLE AS (
+  SELECT
+    DISTINCT *
+  FROM (
+    SELECT
+      CAST(customer_id AS STRING) AS customer_id,
+      CAST(ticket_id AS FLOAT64 ) AS ticket_id,
+      CAST(product_id AS INT64 ) AS product_id,
+      CAST(item_id AS INT64 ) AS item_id,
+      CAST(store_id AS INT64 ) AS store_id,
+      CAST(promotion_id AS STRING ) AS promotion_id,
+      CAST(amount AS FLOAT64 ) AS amount,
+      CAST(coupon_flag AS INT64 ) AS coupon_flag,
+      CAST(date AS TIMESTAMP ) AS date,
+      CAST(discount_amount AS FLOAT64 ) AS discount_amount,
+      CAST(display_flag AS STRING ) AS display_flag,
+      CAST(feature_flag AS STRING ) AS feature_flag,
+      CAST(gross_profit_amount AS FLOAT64 ) AS gross_profit_amount,
+      CAST(points_bonus_amount AS STRING ) AS points_bonus_amount,
+      CAST(points_earned_amount AS STRING ) AS points_earned_amount,
+      CAST(points_burned_amount AS STRING ) AS points_burned_amount,
+      CAST(price_reduction_flag AS STRING ) AS price_reduction_flag,
+      CAST(quantity AS FLOAT64 ) AS quantity,
+      CAST(status AS INT64 ) AS status,
+      CAST(last_update AS TIMESTAMP ) AS last_update,
+      CAST(employee_id AS INT64 ) AS employee_id,
+      CAST(back_gross_profit_amount AS STRING ) AS back_gross_profit_amount,
+      CAST(benefit AS STRING ) AS benefit,
+      CAST(cod_sist_auto01 AS STRING ) AS cod_sist_auto01,
+      CAST(valor_frete AS FLOAT64 ) AS valor_frete,
+      dense_rank
+    FROM (
+      SELECT
+        ROW_NUMBER() OVER (PARTITION BY customer_id, ticket_id, product_id ORDER BY PARTITIONTIME DESC) AS dense_rank,
+        *
+      FROM
+        `RAW.sap_retail_item_detail_cev` A ) ) )
+SELECT
+  * EXCEPT (dense_rank)
+FROM
+  TABLE
+WHERE
+  dense_rank=1
