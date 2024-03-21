@@ -2,7 +2,7 @@ config {
     type: "table",
     schema: "TRUSTED",
     description: "Tabela criada e gerenciada pelo Dataform",
-    tags: ["arquivos"],
+    tags: ["vtex_archives_cv"],
     dependencies: ["archive_vtex_ticket_cev"]
 }
 
