@@ -1,0 +1,50 @@
+config {
+    type: "table",
+    schema: "TRUSTED",
+    description: "Tabela criada e gerenciada pelo Dataform",
+    tags: ["arquivos"],
+    dependencies: ["archive_sap_retail_ticket"]
+}
+
+WITH
+  TABLE AS (
+  SELECT
+    DISTINCT *
+  FROM (
+    SELECT
+      CAST(customer_id AS STRING) AS customer_id,
+      CAST(ticket_id AS FLOAT64) AS ticket_id,
+      CAST(store_id AS INT64 ) AS store_id,
+      CAST(Promotion_id AS STRING ) AS Promotion_id,
+      CAST(pos_id AS INT64 ) AS pos_id,
+      CAST(employee_id AS INT64 ) AS employee_id,
+      CAST(amount AS FLOAT64 ) AS amount,
+      CAST(channel AS STRING ) AS channel,
+      CAST(coupon_flag AS INT64 ) AS coupon_flag,
+      CAST(favorite_store AS STRING ) AS favorite_store,
+      CAST(date AS TIMESTAMP ) AS date,
+      CAST(discount_amount AS FLOAT64 ) AS discount_amount,
+      CAST(gross_profit_amount AS FLOAT64) AS gross_profit_amount,
+      CAST(points_earned_amount AS STRING ) AS points_earned_amount,
+      CAST(points_burned_amount AS STRING ) AS points_burned_amount,
+      CAST(items_quantity AS FLOAT64 ) AS items_quantity,
+      CAST(status AS INT64 ) AS status,
+      CAST(last_update AS STRING ) AS last_update,
+      CAST(total_back_gross AS STRING ) AS total_back_gross,
+      CAST(amount_difference AS STRING ) AS amount_difference,
+      CAST(benefit AS STRING ) AS benefit,
+      CAST(cod_sist_auto01 AS STRING ) AS cod_sist_auto01,
+      CAST(ident_pdv AS STRING ) AS ident_pdv,
+      dense_rank
+    FROM (
+      SELECT
+        ROW_NUMBER() OVER (PARTITION BY ticket_id, store_id ORDER BY PARTITIONTIME DESC) AS dense_rank,
+        *
+      FROM
+        `RAW.sap_retail_ticket` A ) ) )
+SELECT
+  * EXCEPT (dense_rank)
+FROM
+  TABLE
+WHERE
+  dense_rank=1
