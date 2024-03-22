@@ -2,10 +2,10 @@ config {
   tags: ["cubo-vendas"]
 }
 
-TRUNCATE TABLE REFINED.VENDA_ONLINE_TICKET;
+TRUNCATE TABLE REFINED.VTEX_TICKET;
 
 INSERT INTO
-  REFINED.VENDA_ONLINE_TICKET (
+  REFINED.VTEX_TICKET (
 SELECT
     customer_id,
     seller_order_id,
