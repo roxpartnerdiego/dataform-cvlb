@@ -5,7 +5,7 @@ config {
 TRUNCATE TABLE REFINED.VTEX_ITEM;
 
 INSERT INTO
-  REFINED.VENDA_ONLINE_ITEM (
+  REFINED.VTEX_ITEM (
 SELECT
   order_id,
     item_unique_id,
