@@ -2,7 +2,7 @@ config {
     type: "table",
     schema: "TRUSTED",
     description: "Tabela criada e gerenciada pelo Dataform",
-    tags: ["arquivos"],
+    tags: ["sap_archives_lb"],
     dependencies: ["archive_sap_retail_payment_detail_lb"]
 }
 
