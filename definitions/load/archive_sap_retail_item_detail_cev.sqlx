@@ -1,6 +1,6 @@
 config {
    type: "operations",
-   tags: ["arquivos"],
+   tags: ["sap_archives_cv"],
    dependencies: ["procedure_land_to_raw"],
    hasOutput: true
 }
