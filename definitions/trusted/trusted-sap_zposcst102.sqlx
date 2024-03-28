@@ -204,8 +204,4 @@ VALUES
     S.num_doc_ref02,
     S.qtde_imposto02,
     S.imei,
-    S.recordstamp )
-  WHEN NOT MATCHED BY SOURCE
-  THEN
-DELETE
-  ;
+    S.recordstamp );

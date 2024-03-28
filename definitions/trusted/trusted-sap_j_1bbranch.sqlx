@@ -128,8 +128,4 @@ VALUES
     S.ipicontributor,
     S.idsign,
     S.soure_dangergood,
-    S.recordstamp )
-  WHEN NOT MATCHED BY SOURCE
-  THEN
-DELETE
-  ;
+    S.recordstamp );

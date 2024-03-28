@@ -280,8 +280,4 @@ VALUES
     S.oihcredipi,
     S.storetype,
     S.dep_store,
-    S.recordstamp )
-  WHEN NOT MATCHED BY SOURCE
-  THEN
-DELETE
-  ;
+    S.recordstamp );

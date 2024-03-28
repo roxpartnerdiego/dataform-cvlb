@@ -304,8 +304,4 @@ VALUES
     S.orgprice,
     S.prctr,
     S.rma_prof,
-    S.recordstamp )
-  WHEN NOT MATCHED BY SOURCE
-  THEN
-DELETE
-  ;
+    S.recordstamp );
