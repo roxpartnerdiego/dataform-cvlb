@@ -1,0 +1,40 @@
+config {
+    type: "incremental",
+    schema: "RAW",
+    tags: ["sap"]
+}
+SELECT 
+    mandt,
+    matnr,
+    meinh,
+    umrez,
+    umren,
+    eannr,
+    ean11,
+    numtp,
+    laeng,
+    breit,
+    hoehe,
+    meabm,
+    volum,
+    voleh,
+    brgew,
+    gewei,
+    mesub,
+    atinn,
+    mesrt,
+    xfhdw,
+    xbeww,
+    kzwso,
+    msehi,
+    bflme_marm,
+    gtin_variant,
+    nest_ftr,
+    max_stack,
+    capause,
+    ty2tq,
+    recordstamp,
+    CURRENT_TIMESTAMP() AS PARTITIONTIME
+FROM `LAND.marm`
+
+${ when(incremental(), `WHERE recordstamp > (SELECT MAX(recordstamp) FROM ${self()})`) }
