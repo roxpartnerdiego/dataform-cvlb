@@ -1,0 +1,38 @@
+config {
+   type: "operations",
+   tags: ["sap"],
+   hasOutput: true
+}
+SELECT 
+    Material,
+    `Denominação` AS Denominacao,
+    GR_Mer,
+    Subcat,
+    Segmento,
+    SubSegm,
+    `Sub-Sub` AS Sub_Sub,
+    Gr_prod,
+    Origem,
+    Cod_Forn,
+    Fornecedor,
+    Segm_LB,
+    Indi_LB,
+    MOD_LB,
+    Sens_LB,
+    Comparab,
+    UF,
+    NCM,
+    UMP,
+    Qtd_Ped,
+    R_S,
+    Qtd_Rem,
+    Arred,
+    Bloq_LB,
+    `NºMaterialFornecedor` AS NoMaterialFornecedor,
+    `Descrição_de_Venda` AS Descricao_de_Venda,
+    Nv_Sort,
+    Exclusvo,
+    Volt,
+    Marca,
+    CURRENT_TIMESTAMP() AS PARTITIONTIME
+FROM `LAND.ZLBMM001`
