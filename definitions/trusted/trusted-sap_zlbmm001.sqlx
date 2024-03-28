@@ -1,0 +1,151 @@
+config {
+    dependencies: ["sap_zlbmm001"],
+    tags: ["sap"]
+}
+
+MERGE
+  `TRUSTED.sap_zlbmm001` T
+USING
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT Material,
+        Denominacao,
+        GR_Mer,
+        Subcat,
+        Segmento,
+        SubSegm,
+        Sub_Sub,
+        Gr_prod,
+        Origem,
+        Cod_Forn,
+        Fornecedor,
+        Segm_LB,
+        Indi_LB,
+        MOD_LB,
+        Sens_LB,
+        Comparab,
+        UF,
+        NCM,
+        UMP,
+        Qtd_Ped,
+        R_S,
+        Qtd_Rem,
+        Arred,
+        Bloq_LB,
+        NoMaterialFornecedor,
+        Descricao_de_Venda,
+        Nv_Sort,
+        Exclusvo,
+        Volt,
+        Marca
+    FROM
+      `RAW.sap_zlbmm001` A
+    WHERE
+      PARTITIONTIME=(
+      SELECT
+        MAX(PARTITIONTIME)
+      FROM
+        `RAW.sap_zlbmm001`))
+  SELECT
+    *
+  FROM
+    TABELA) S
+ON
+  T.Material = S.Material
+  WHEN MATCHED THEN UPDATE SET 
+  T.Material = S.Material,
+    T.Denominacao = S.Denominacao,
+    T.GR_Mer = S.GR_Mer,
+    T.Subcat = S.Subcat,
+    T.Segmento = S.Segmento,
+    T.SubSegm = S.SubSegm,
+    T.Sub_Sub = S.Sub_Sub,
+    T.Gr_prod = S.Gr_prod,
+    T.Origem = S.Origem,
+    T.Cod_Forn = S.Cod_Forn,
+    T.Fornecedor = S.Fornecedor,
+    T.Segm_LB = S.Segm_LB,
+    T.Indi_LB = S.Indi_LB,
+    T.MOD_LB = S.MOD_LB,
+    T.Sens_LB = S.Sens_LB,
+    T.Comparab = S.Comparab,
+    T.UF = S.UF,
+    T.NCM = S.NCM,
+    T.UMP = S.UMP,
+    T.Qtd_Ped = S.Qtd_Ped,
+    T.R_S = S.R_S,
+    T.Qtd_Rem = S.Qtd_Rem,
+    T.Arred = S.Arred,
+    T.Bloq_LB = S.Bloq_LB,
+    T.NoMaterialFornecedor = S.NoMaterialFornecedor,
+    T.Descricao_de_Venda = S.Descricao_de_Venda,
+    T.Nv_Sort = S.Nv_Sort,
+    T.Exclusvo = S.Exclusvo,
+    T.Volt = S.Volt,
+    T.Marca = S.Marca
+  WHEN NOT MATCHED
+  THEN
+INSERT
+  ( Material,
+    Denominacao,
+    GR_Mer,
+    Subcat,
+    Segmento,
+    SubSegm,
+    Sub_Sub,
+    Gr_prod,
+    Origem,
+    Cod_Forn,
+    Fornecedor,
+    Segm_LB,
+    Indi_LB,
+    MOD_LB,
+    Sens_LB,
+    Comparab,
+    UF,
+    NCM,
+    UMP,
+    Qtd_Ped,
+    R_S,
+    Qtd_Rem,
+    Arred,
+    Bloq_LB,
+    NoMaterialFornecedor,
+    Descricao_de_Venda,
+    Nv_Sort,
+    Exclusvo,
+    Volt,
+    Marca)
+VALUES
+  ( S.Material,
+    S.Denominacao,
+    S.GR_Mer,
+    S.Subcat,
+    S.Segmento,
+    S.SubSegm,
+    S.Sub_Sub,
+    S.Gr_prod,
+    S.Origem,
+    S.Cod_Forn,
+    S.Fornecedor,
+    S.Segm_LB,
+    S.Indi_LB,
+    S.MOD_LB,
+    S.Sens_LB,
+    S.Comparab,
+    S.UF,
+    S.NCM,
+    S.UMP,
+    S.Qtd_Ped,
+    S.R_S,
+    S.Qtd_Rem,
+    S.Arred,
+    S.Bloq_LB,
+    S.NoMaterialFornecedor,
+    S.Descricao_de_Venda,
+    S.Nv_Sort,
+    S.Exclusvo,
+    S.Volt,
+    S.Marca);
