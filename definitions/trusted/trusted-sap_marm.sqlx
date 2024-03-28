@@ -1,0 +1,151 @@
+config {
+    dependencies: ["sap_marm"],
+    tags: ["sap"]
+}
+
+MERGE
+  `TRUSTED.sap_marm` T
+USING
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT matnr,
+        mandt,
+        meinh,
+        umrez,
+        umren,
+        eannr,
+        ean11,
+        numtp,
+        laeng,
+        breit,
+        hoehe,
+        meabm,
+        volum,
+        voleh,
+        brgew,
+        gewei,
+        mesub,
+        atinn,
+        mesrt,
+        xfhdw,
+        xbeww,
+        kzwso,
+        msehi,
+        bflme_marm,
+        gtin_variant,
+        nest_ftr,
+        max_stack,
+        capause,
+        ty2tq,
+        recordstamp
+    FROM
+      `RAW.sap_marm` A
+    WHERE
+      PARTITIONTIME=(
+      SELECT
+        MAX(PARTITIONTIME)
+      FROM
+        `RAW.sap_marm`))
+  SELECT
+    *
+  FROM
+    TABELA) S
+ON
+  T.matnr = S.matnr
+  WHEN MATCHED THEN UPDATE SET 
+  T.mandt = S.mandt,
+  T.matnr = S.matnr,
+  T.meinh = S.meinh,
+  T.umrez = S.umrez,
+  T.umren = S.umren,
+  T.eannr = S.eannr,
+  T.ean11 = S.ean11,
+  T.numtp = S.numtp,
+  T.laeng = S.laeng,
+  T.breit = S.breit,
+  T.hoehe = S.hoehe,
+  T.meabm = S.meabm,
+  T.volum = S.volum,
+  T.voleh = S.voleh,
+  T.brgew = S.brgew,
+  T.gewei = S.gewei,
+  T.mesub = S.mesub,
+  T.atinn = S.atinn,
+  T.mesrt = S.mesrt,
+  T.xfhdw = S.xfhdw,
+  T.xbeww = S.xbeww,
+  T.kzwso = S.kzwso,
+  T.msehi = S.msehi,
+  T.bflme_marm = S.bflme_marm,
+  T.gtin_variant = S.gtin_variant,
+  T.nest_ftr = S.nest_ftr,
+  T.max_stack = S.max_stack,
+  T.capause = S.capause,
+  T.ty2tq = S.ty2tq,
+  T.recordstamp = S.recordstamp
+  WHEN NOT MATCHED
+  THEN
+INSERT
+  ( mandt,
+    matnr,
+    meinh,
+    umrez,
+    umren,
+    eannr,
+    ean11,
+    numtp,
+    laeng,
+    breit,
+    hoehe,
+    meabm,
+    volum,
+    voleh,
+    brgew,
+    gewei,
+    mesub,
+    atinn,
+    mesrt,
+    xfhdw,
+    xbeww,
+    kzwso,
+    msehi,
+    bflme_marm,
+    gtin_variant,
+    nest_ftr,
+    max_stack,
+    capause,
+    ty2tq,
+    recordstamp )
+VALUES
+  ( S.mandt,
+    S.matnr,
+    S.meinh,
+    S.umrez,
+    S.umren,
+    S.eannr,
+    S.ean11,
+    S.numtp,
+    S.laeng,
+    S.breit,
+    S.hoehe,
+    S.meabm,
+    S.volum,
+    S.voleh,
+    S.brgew,
+    S.gewei,
+    S.mesub,
+    S.atinn,
+    S.mesrt,
+    S.xfhdw,
+    S.xbeww,
+    S.kzwso,
+    S.msehi,
+    S.bflme_marm,
+    S.gtin_variant,
+    S.nest_ftr,
+    S.max_stack,
+    S.capause,
+    S.ty2tq,
+    S.recordstamp );
