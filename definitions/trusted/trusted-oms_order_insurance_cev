@@ -1,0 +1,68 @@
+config {
+	dependencies: ["oms_order_insurance_cev"],
+	tags: ["postgre"]
+}
+
+MERGE
+`TRUSTED.oms_order_insurance_cev` T 
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT CAST(id AS INT64) AS id,
+	insurance_id,
+	order_id,
+	name,
+	cast(price as numeric) as price,
+	CAST(total_price AS numeric) AS total_price,
+	CAST(discount AS numeric) AS discount,
+	discount_name
+FROM
+`RAW.oms_order_insurance_cev` A 
+WHERE
+PARTITIONTIME=(
+SELECT
+	MAX(PARTITIONTIME) 
+FROM
+	`RAW.oms_order_insurance_cev`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET   
+	T.id = S.id,
+	T.insurance_id = S.insurance_id,
+	T.order_id = S.order_id,
+	T.name = S.name,
+	T.price = S.price,
+	T.total_price = S.total_price,
+	T.discount = S.discount,
+	T.discount_name = S.discount_name
+WHEN NOT MATCHED 
+THEN
+INSERT 
+(   id,
+	insurance_id,
+	order_id,
+	name,
+	price,
+	total_price,
+	discount,
+	discount_name ) 
+VALUES
+(
+	 S.id,
+	 S.insurance_id,
+	 S.order_id,
+	 S.name,
+	 S.price,
+	 S.total_price,
+	 S.discount,
+	 S.discount_name ) 
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE 
+;
