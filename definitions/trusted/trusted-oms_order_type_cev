@@ -1,0 +1,44 @@
+config {
+	dependencies: ["oms_order_type_cev"],
+	tags: ["postgre"]
+}
+
+MERGE
+`TRUSTED.oms_order_type_cev` T 
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT cast(id as int64) as id,
+  	name 
+FROM
+`RAW.oms_order_type_cev` A 
+WHERE
+PARTITIONTIME=(
+SELECT
+	MAX(PARTITIONTIME) 
+FROM
+	`RAW.oms_order_type_cev`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET   
+	T.id = S.id,
+    T.name = S.name
+WHEN NOT MATCHED 
+THEN
+INSERT 
+(   id
+  	name  ) 
+VALUES
+(
+	S.id,
+   	S.name ) 
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE 
+;
