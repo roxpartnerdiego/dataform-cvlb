@@ -4,7 +4,7 @@ config {
 }
 
 MERGE
-`TRUSTED.oms_order_invoice` T 
+`TRUSTED.oms_order_invoice_cev` T 
 USING
 (
 WITH
