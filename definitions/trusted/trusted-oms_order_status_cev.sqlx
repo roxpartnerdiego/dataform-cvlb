@@ -25,10 +25,10 @@ SELECT
 FROM
 TABELA) S
 ON
-T.id = S.id
+	T.id = S.id
 WHEN MATCHED THEN UPDATE SET      
-T.id = S.id,
-T.name = S.name
+	T.id = S.id,
+	T.name = S.name
 WHEN NOT MATCHED 
 THEN
 INSERT 
