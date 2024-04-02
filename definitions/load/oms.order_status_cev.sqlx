@@ -8,18 +8,10 @@ SELECT
     SYS_CHANGE_OPERATION,	
     SYS_CHANGE_CREATION_VERSION,	
     COMMIT_TIME,	
-    CT_id,
+    CT_ID,
     id,
-	courier_type_id,
-	courier_id,
-	courier_name,
-	sap_id,
-	store_number,
-	store_account,
-	address_id,
-	cod_transportadora,
-	active,
-    _PARTITIONTIME AS PARTITIONTIME
-FROM `LAND.oms_freighttables_cev`
+    name,
+	_PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.oms.order_status_cev`
 
 ${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
