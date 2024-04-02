@@ -8,17 +8,10 @@ SELECT
 	SYS_CHANGE_OPERATION, 
 	SYS_CHANGE_CREATION_VERSION, 
 	COMMIT_TIME, 
-	CT_order_id, 
-	order_id,
-	vtex_order_id,
-	contract_reference,
-	offer,
-	transp_cnpj,
-	charged_shipping_value,
-	estimated_delivery_date,
-	response_json,
-	courier_type_id,
+	CT_id, 
+	id,
+	type,
 	_PARTITIONTIME AS PARTITIONTIME
-FROM `LAND.oms_frete_rapido_lb`
+FROM `LAND.oms_courier_type_lb`
 
 ${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
