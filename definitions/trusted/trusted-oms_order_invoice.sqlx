@@ -1,0 +1,108 @@
+config {
+	dependencies: ["oms_order_invoice"],
+	tags: ["postgre"]
+}
+
+MERGE
+`TRUSTED.oms_order_invoice` T 
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT id,
+	CAST(creation_date AS TIMESTAMP) AS creation_date ,
+	CAST(order_id AS INT64) AS order_id ,
+	CAST(nfe_protocol AS INT64) AS nfe_protocol ,
+	nfe_type,
+	nfe_number,
+	nfe_serie,
+	nfe_message ,
+	nfe_link ,
+	nfe_xml  ,
+	nfe_doc ,
+	nfe_key ,
+	CAST(nfe_sync AS BOLL) AS nfe_sync,
+	CAST(nfe_date_sync AS TIMESTAMP) AS nfe_date_sync ,
+	CAST(nfe_canceled AS BOOL) AS nfe_canceled,
+	CAST(nfe_canceled_date AS TIMESTAMP) AS nfe_canceled_date ,
+	nfe_canceled_reason,
+	CAST(sequence AS INT64) AS sequence
+FROM
+`RAW.oms_order_invoice` A 
+WHERE
+PARTITIONTIME=(
+SELECT
+	MAX(PARTITIONTIME) 
+FROM
+	`RAW.oms_order_invoice`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET   
+	T.id = S.id,
+	T.creation_date = S.creation_date,
+	T.order_id  = S.order_id,
+	T.nfe_protocol = S.nfe_protocol,
+	T.nfe_type  = S.nfe_type,
+	T.nfe_number  = S.nfe_number,
+	T.nfe_serie  = S.nfe_serie,
+	T.nfe_message  = S.nfe_message,
+	T.nfe_link  = S.nfe_link,
+	T.nfe_xml  = S.nfe_xml,
+	T.nfe_doc  = S.nfe_doc,
+	T.nfe_key = S.nfe_key,
+	T.nfe_sync  = S.nfe_sync,
+	T.nfe_date_sync = S.nfe_date_sync,
+	T.nfe_canceled = S.nfe_canceled,
+	T.nfe_canceled_date  = S.nfe_canceled_date,
+	T.nfe_canceled_reason = S.nfe_canceled_reason,
+	T.sequence = S.sequence
+WHEN NOT MATCHED 
+THEN
+INSERT 
+(  	id,
+	creation_date,
+	order_id ,
+	nfe_protocol,
+	nfe_type ,
+	nfe_number ,
+	nfe_serie ,
+	nfe_message  ,
+	nfe_link ,
+	nfe_xml ,
+	nfe_doc ,
+	nfe_key,
+	nfe_sync ,
+	nfe_date_sync ,
+	nfe_canceled,
+	nfe_canceled_date ,
+	nfe_canceled_reason ,
+	sequence ) 
+VALUES
+(
+	S.id,
+	S.creation_date,
+	S.order_id,
+	S.nfe_protocol,
+	S.nfe_type,
+	S.nfe_number,
+	S.nfe_serie,
+	S.nfe_message,
+	S.nfe_link,
+	S.nfe_xml,
+	S.nfe_doc,
+	S.nfe_key,
+	S.nfe_sync,
+	S.nfe_date_sync,
+	S.nfe_canceled,
+	S.nfe_canceled_date,
+	S.nfe_canceled_reason,
+	S.sequence ) 
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE 
+;
