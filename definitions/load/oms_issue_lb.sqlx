@@ -1,0 +1,17 @@
+config {
+	type: "incremental", 
+	schema: "RAW",
+	tags: ["postgre"] 
+}
+SELECT 
+	SYS_CHANGE_VERSION,	
+	SYS_CHANGE_OPERATION, 
+	SYS_CHANGE_CREATION_VERSION, 
+	COMMIT_TIME, 
+	CT_id, 
+	id,
+	name,
+	_PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.oms_issue_lb`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }

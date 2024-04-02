@@ -1,0 +1,24 @@
+config {
+	type: "incremental", 
+	schema: "RAW",
+	tags: ["postgre"] 
+}
+SELECT 
+	SYS_CHANGE_VERSION,	
+	SYS_CHANGE_OPERATION, 
+	SYS_CHANGE_CREATION_VERSION, 
+	COMMIT_TIME, 
+	CT_id, 
+	order_id,
+	vtex_order_id,
+	contract_reference,
+	offer,
+	transp_cnpj,
+	charged_shipping_value,
+	estimated_delivery_date,
+	response_json,
+	courier_type_id,
+	_PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.oms_frete_rapido_lb`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
