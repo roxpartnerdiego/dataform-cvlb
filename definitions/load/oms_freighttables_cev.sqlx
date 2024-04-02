@@ -1,0 +1,25 @@
+config {
+    type: "incremental",
+    schema: "RAW",
+    tags: ["sqlserver"]
+}
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,	
+    CT_id,
+    id,
+	courier_type_id,
+	courier_id,
+	courier_name,
+	sap_id,
+	store_number,
+	store_account,
+	address_id,
+	cod_transportadora,
+	active,
+    _PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.oms_freighttables_cev`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
