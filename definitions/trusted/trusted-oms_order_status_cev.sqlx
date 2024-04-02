@@ -11,7 +11,7 @@ WITH
 TABELA AS (
 SELECT
 DISTINCT CAST(id AS INT64) AS id,
-name
+	name
 FROM
 `RAW.oms_order_status_cev` A 
 WHERE
