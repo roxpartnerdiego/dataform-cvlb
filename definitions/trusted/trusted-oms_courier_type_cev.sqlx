@@ -1,0 +1,44 @@
+config {
+	dependencies: ["oms_courier_type_cev"],
+	tags: ["postgre"]
+}
+
+MERGE
+`TRUSTED.oms_courier_type_cev` T 
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT CAST(id AS INT64) AS id,
+	type
+FROM
+`RAW.oms_courier_type_cev` A 
+WHERE
+PARTITIONTIME=(
+SELECT
+	MAX(PARTITIONTIME) 
+FROM
+	`RAW.oms_courier_type_cev`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET   
+	T.id = S.id,
+	T.type = S.type
+WHEN NOT MATCHED 
+THEN
+INSERT 
+(   id,
+	name ) 
+VALUES
+(
+	 S.id,
+	 S.type ) 
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE 
+;
