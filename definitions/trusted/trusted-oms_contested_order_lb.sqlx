@@ -1,0 +1,56 @@
+config {
+	dependencies: ["oms_contested_order_lb"],
+	tags: ["postgre"]
+}
+
+MERGE
+`TRUSTED.oms_contested_order_lb` T 
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT CAST(id AS INT64) AS id,
+	CAST(order_id AS INT64) AS order_id,
+	type,
+	CAST(contestation_date AS TIMESTAMP) AS contestation_date ,
+	user_id
+FROM
+`RAW.oms_contested_order_lb` A 
+WHERE
+PARTITIONTIME=(
+SELECT
+	MAX(PARTITIONTIME) 
+FROM
+	`RAW.oms_contested_order_lb`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET   
+	T.id = S.id,
+	T.order_id = S.order_id,
+	T.type = S.type,
+	T.contestation_date = S.contestation_date,
+	T.user_id = S.user_id
+WHEN NOT MATCHED 
+THEN
+INSERT 
+(  	id,
+	order_id,
+	type,
+	contestation_date,
+	user_id ) 
+VALUES
+(
+	S.id,
+	S.order_id,
+	S.type,
+	S.contestation_date,
+	S.user_id ) 
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE 
+;
