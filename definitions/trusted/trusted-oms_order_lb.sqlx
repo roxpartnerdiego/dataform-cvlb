@@ -1,0 +1,103 @@
+config {
+    dependencies: ["oms_order_lb"],
+    tags: ["sqlserver"]
+}
+
+MERGE
+`TRUSTED.oms_order_lb` T
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT CAST(id AS INT64) AS id,
+	CAST(type_id AS INT64) AS type_id,
+	CAST(status_id AS INT64) AS status_id,
+	client_id,
+	address_id,
+	CAST(creation_date AS TIMESTAMP) AS creation_date,
+	original_id,
+	CAST(store_origin AS INT64) AS store_origin,
+	CAST(store_to AS INT64) AS store_to,
+	CAST(date_cancelled AS TIMESTAMP) AS date_cancelled,
+	CAST(value AS NUMERIC) AS value,
+	CAST(shipping_cost AS NUMERIC) AS shipping_cost,
+	user_id,
+	CAST(store_visibility AS BOOL) AS store_visibility,
+	CAST(date_shipping AS TIMESTAMP) AS date_shipping,
+	CAST(date_estimate_transit AS TIMESTAMP) AS date_estimate_transit,
+	CAST(date_contest_estimate AS TIMESTAMP) AS date_contest_estimate
+FROM
+`RAW.oms_order_lb` A
+WHERE
+PARTITIONTIME=(
+SELECT
+  MAX(PARTITIONTIME)
+FROM
+  `RAW.oms_order_lb`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET 
+T.id = S.id,
+T.type_id = S.type_id,
+T.status_id = S.status_id,
+T.client_id = S.client_id,
+T.address_id = S.address_id,
+T.creation_date = S.creation_date,
+T.original_id = S.original_id,
+T.store_origin = S.store_origin,
+T.store_to = S.store_to,
+T.date_cancelled = S.date_cancelled,
+T.value = S.value,
+T.shipping_cost = S.shipping_cost,
+T.user_id = S.user_id,
+T.store_visibility = S.store_visibility,
+T.date_shipping = S.date_shipping,
+T.date_estimate_transit = S.date_estimate_transit,
+T.date_contest_estimate = S.date_contest_estimate
+WHEN NOT MATCHED
+THEN
+INSERT
+(   id,
+	type_id,
+	status_id,
+	client_id,
+	address_id,
+	creation_date,
+	original_id,
+	store_origin,
+	store_to,
+	date_cancelled,
+	value,
+	shipping_cost,
+	user_id,
+	store_visibility,
+	date_shipping,
+	date_estimate_transit,
+	date_contest_estimate )
+VALUES
+(  	S.id,
+	S.type_id,
+	S.status_id,
+	S.client_id,
+	S.address_id,
+	S.creation_date,
+	S.original_id,
+	S.store_origin,
+	S.store_to,
+	S.date_cancelled,
+	S.value,
+	S.shipping_cost,
+	S.user_id,
+	S.store_visibility,
+	S.date_shipping,
+	S.date_estimate_transit,
+	S.date_contest_estimate )
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE
+;
