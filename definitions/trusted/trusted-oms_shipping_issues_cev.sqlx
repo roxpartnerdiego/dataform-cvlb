@@ -1,0 +1,72 @@
+config {
+	dependencies: ["oms_shipping_issues_cev"],
+	tags: ["postgre"]
+}
+
+MERGE
+`TRUSTED.oms_shipping_issues_cev` T 
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT CAST(id AS INT64) AS id,
+	shipping_id ,
+	CAST(sequence AS INT64) AS sequence,
+	code ,
+	status ,
+	description ,
+	CAST(date_status AS TIMESTAMP) AS date_status,
+	CAST(sap_id AS INT64) AS sap_id ,
+	CAST(date_sync AS TIMESTAMP) AS date_sync
+FROM
+`RAW.oms_shipping_issues_cev` A 
+WHERE
+PARTITIONTIME=(
+SELECT
+	MAX(PARTITIONTIME) 
+FROM
+	`RAW.oms_shipping_issues_cev`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET   
+	T.id = S.id   
+	T.shipping_id = S.shipping_id,
+	T.sequence = S.sequence,
+	T.code = S.code,
+	T.status = S.status,
+	T.description = S.description,
+	T.date_status = S.date_status,
+	T.sap_id = S.sap_id,
+	T.date_sync = S.date_sync		
+WHEN NOT MATCHED 
+THEN
+INSERT 
+(   id,
+	shipping_id,
+	sequence,
+	code,
+	status,
+	description,
+	date_status,
+	sap_id,
+	date_sync  ) 
+VALUES
+(
+	S.id,
+	S.shipping_id,
+	S.sequence,
+	S.code,
+	S.status,
+	S.description,
+	S.date_status,
+	S.sap_id,
+	S.date_sync  ) 
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE 
+;
