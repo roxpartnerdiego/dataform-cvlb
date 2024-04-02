@@ -1,5 +1,5 @@
 config {
-	dependencies: ["oms_order_invoice"],
+	dependencies: ["oms_order_invoice_cev"],
 	tags: ["postgre"]
 }
 
@@ -29,13 +29,13 @@ DISTINCT id,
 	nfe_canceled_reason,
 	CAST(sequence AS INT64) AS sequence
 FROM
-`RAW.oms_order_invoice` A 
+`RAW.oms_order_invoice_cev` A 
 WHERE
 PARTITIONTIME=(
 SELECT
 	MAX(PARTITIONTIME) 
 FROM
-	`RAW.oms_order_invoice`))
+	`RAW.oms_order_invoice_cev`))
 SELECT
 *
 FROM
