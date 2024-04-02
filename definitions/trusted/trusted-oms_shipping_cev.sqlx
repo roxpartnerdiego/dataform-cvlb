@@ -1,0 +1,178 @@
+config {
+    dependencies: ["oms_shipping_cev"],
+    tags: ["sqlserver"]
+}
+
+MERGE
+`TRUSTED.oms_shipping_cev` T
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT id,
+	CAST(creation_date AS TIMESTAMP) AS creation_date,
+	freighttables_id,
+	CAST(order_id AS INT64) AS order_id,
+	delivery_id,
+	CAST(nfe_protocol AS INT64) AS nfe_protocol,
+	nfe_type,
+	nfe_number,
+	nfe_serie,
+	nfe_message,
+	nfe_link,
+	nfe_xml,
+	nfe_doc,
+	nfe_key,
+	CAST(nfe_sync AS BOOL) AS nfe_sync,
+	CAST(nfe_date_sync AS TIMESTAMP) AS nfe_date_sync,
+	track_code,
+	track_url,
+	CAST(track_sync AS BOOL) AS track_sync,
+	CAST(track_date_sync AS TIMESTAMP) AS track_date_sync,
+	CAST(date_shipped AS TIMESTAMP) AS date_shipped,
+	CAST(date_return AS TIMESTAMP) AS date_return,
+	CAST(delivered_date AS TIMESTAMP) AS delivered_date,
+	CAST(pickup_sync AS BOOL) AS pickup_sync,
+	CAST(pickup_date AS TIMESTAMP) AS pickup_date,
+	CAST(package_quantity AS INT64) AS package_quantity,
+	label_url,
+	nfe_xml_transf,
+	CAST(relocation_code AS INT64) AS relocation_code,
+	CAST(nfe_transf_date_sync AS TIMESTAMP) AS nfe_transf_date_sync,
+	nfe_transf_number,
+	nfe_transf_serie,
+	nfe_transf_key,
+	CAST(nfe_canceled AS BOOL) AS nfe_canceled,
+	CAST(nfe_canceled_date AS TIMESTAMP) AS nfe_canceled_date,
+	nfe_canceled_reason
+FROM
+`RAW.oms_shipping_cev` A
+WHERE
+PARTITIONTIME=(
+SELECT
+  MAX(PARTITIONTIME)
+FROM
+  `RAW.oms_shipping_cev`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET 
+T.creation_date = S.creation_date,
+T.freighttables_id = S.freighttables_id,
+T.order_id = S.order_id,
+T.delivery_id = S.delivery_id,
+T.nfe_protocol = S.nfe_protocol,
+T.nfe_type = S.nfe_type,
+T.nfe_number = S.nfe_number,
+T.nfe_serie = S.nfe_serie,
+T.nfe_message = S.nfe_message,
+T.nfe_link = S.nfe_link,
+T.nfe_xml = S.nfe_xml,
+T.nfe_doc = S.nfe_doc,
+T.nfe_key = S.nfe_key,
+T.nfe_sync = S.nfe_sync,
+T.nfe_date_sync = S.nfe_date_sync,
+T.track_code = S.track_code,
+T.track_url = S.track_url,
+T.track_sync = S.track_sync,
+T.track_date_sync = S.track_date_sync,
+T.date_shipped = S.date_shipped,
+T.date_return = S.date_return,
+T.delivered_date = S.delivered_date,
+T.pickup_sync = S.pickup_sync,
+T.pickup_date = S.pickup_date,
+T.package_quantity = S.package_quantity,
+T.label_url = S.label_url,
+T.nfe_xml_transf = S.nfe_xml_transf,
+T.relocation_code = S.relocation_code,
+T.nfe_transf_date_sync = S.nfe_transf_date_sync,
+T.nfe_transf_number = S.nfe_transf_number,
+T.nfe_transf_serie = S.nfe_transf_serie,
+T.nfe_transf_key = S.nfe_transf_key,
+T.nfe_canceled = S.nfe_canceled,
+T.nfe_canceled_date = S.nfe_canceled_date,
+T.nfe_canceled_reason = S.nfe_canceled_reason
+WHEN NOT MATCHED
+THEN
+INSERT
+(   id,
+	creation_date,
+	freighttables_id,
+	order_id,
+	delivery_id,
+	nfe_protocol,
+	nfe_type,
+	nfe_number,
+	nfe_serie,
+	nfe_message,
+	nfe_link,
+	nfe_xml,
+	nfe_doc,
+	nfe_key,
+	nfe_sync,
+	nfe_date_sync,
+	track_code,
+	track_url,
+	track_sync,
+	track_date_sync,
+	date_shipped,
+	date_return,
+	delivered_date,
+	pickup_sync,
+	pickup_date,
+	package_quantity,
+	label_url,
+	nfe_xml_transf,
+	relocation_code,
+	nfe_transf_date_sync,
+	nfe_transf_number,
+	nfe_transf_serie,
+	nfe_transf_key,
+	nfe_canceled,
+	nfe_canceled_date,
+	nfe_canceled_reason )
+VALUES
+(   S.id,
+	S.creation_date,
+	S.freighttables_id,
+	S.order_id,
+	S.delivery_id,
+	S.nfe_protocol,
+	S.nfe_type,
+	S.nfe_number,
+	S.nfe_serie,
+	S.nfe_message,
+	S.nfe_link,
+	S.nfe_xml,
+	S.nfe_doc,
+	S.nfe_key,
+	S.nfe_sync,
+	S.nfe_date_sync,
+	S.track_code,
+	S.track_url,
+	S.track_sync,
+	S.track_date_sync,
+	S.date_shipped,
+	S.date_return,
+	S.delivered_date,
+	S.pickup_sync,
+	S.pickup_date,
+	S.package_quantity,
+	S.label_url,
+	S.nfe_xml_transf,
+	S.relocation_code,
+	S.nfe_transf_date_sync,
+	S.nfe_transf_number,
+	S.nfe_transf_serie,
+	S.nfe_transf_key,
+	S.nfe_canceled,
+	S.nfe_canceled_date,
+	S.nfe_canceled_reason  )
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE
+;

@@ -1,25 +1,25 @@
 config {
-    dependencies: ["oms_order_status_cev"],
+    dependencies: ["oms_issue_lb"],
     tags: ["sqlserver"]
 }
 
 MERGE
-`TRUSTED.oms_order_status_cev` T
+`TRUSTED.oms_issue_lb` T
 USING
 (
 WITH
 TABELA AS (
 SELECT
 DISTINCT CAST(id AS INT64) AS id,
-	name
+	type
 FROM
-`RAW.oms_order_status_cev` A
+`RAW.oms_issue_lb` A
 WHERE
 PARTITIONTIME=(
 SELECT
   MAX(PARTITIONTIME)
 FROM
-  `RAW.oms_order_status_cev`))
+  `RAW.oms_issue_lb`))
 SELECT
 *
 FROM
@@ -28,15 +28,15 @@ ON
 T.id = S.id
 WHEN MATCHED THEN UPDATE SET 
 T.id = S.id,
-T.name = S.name
+T.type = S.type
 WHEN NOT MATCHED
 THEN
 INSERT
 (   id,
-	name  )
+	type  )
 VALUES
 (  	S.id,
-	S.name )
+	S.type )
 WHEN NOT MATCHED BY SOURCE
 THEN
 DELETE
