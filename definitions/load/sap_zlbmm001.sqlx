@@ -3,6 +3,8 @@ config {
    tags: ["sap"],
    hasOutput: true
 }
+
+INSERT INTO `RAW.sap_zlbmm001` (
 SELECT 
     Material,
     `Denominação` AS Denominacao,
@@ -35,4 +37,4 @@ SELECT
     Volt,
     Marca,
     CURRENT_TIMESTAMP() AS PARTITIONTIME
-FROM `LAND.SAP_ZLBMM001`
+FROM `LAND.SAP_ZLBMM001`);
