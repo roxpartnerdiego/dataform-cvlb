@@ -1,0 +1,30 @@
+config {
+    type: "operations",
+    tags: ["sap"],
+    hasOutput: true
+ }
+
+INSERT INTO `RAW.sap_zfir023_cev` (
+SELECT 
+    __Material AS Material,
+    Descricao_Material,
+    GrpMercadoria,
+    Loja,
+    ___Data AS Data,
+    _Data_Fim AS Data_Fim,
+    Quantidade,
+    __Valor AS Valor,
+    Desconto,
+    Frete,
+    Acrescimo,
+    Despesas,
+    __ICMS AS ICMS,
+    __PIS AS PIS,
+    ______COFINS AS COFINS,
+    _IPI AS IPI,
+    _ISS AS ISS,
+    Total_Imposto,
+    __Custo AS Custo,
+    Comissao,
+    CURRENT_TIMESTAMP() AS PARTITIONTIME
+FROM `LAND.SAP_ZFIR023_CEV`);
