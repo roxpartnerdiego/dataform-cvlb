@@ -12,7 +12,7 @@ SELECT
     printer_code,
 	printer_name,
 	store_code,
-	inserted_date 
+	inserted_date,
 	_PARTITIONTIME AS PARTITIONTIME
 FROM `LAND.oms_printers_oms_cev`
 
