@@ -62,7 +62,7 @@ WHEN MATCHED THEN UPDATE SET
 		T.cancel_date = S.cancel_date,
 		T.cancel_order = S.cancel_order,
 		T.cancel_detail  = S.cancel_detail,
-		T.unity_priceS = unity_price
+		T.unity_price = S.unity_price
 WHEN NOT MATCHED 
 THEN
 INSERT 

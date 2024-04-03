@@ -22,7 +22,7 @@ USING
       nfe_xml,
       nfe_doc,
       nfe_key,
-      CAST(nfe_sync AS BOLL) AS nfe_sync,
+      CAST(nfe_sync AS BOOL) AS nfe_sync,
       CAST(nfe_date_sync AS TIMESTAMP) AS nfe_date_sync,
       CAST(nfe_canceled AS BOOL) AS nfe_canceled,
       CAST(nfe_canceled_date AS TIMESTAMP) AS nfe_canceled_date,

@@ -34,15 +34,15 @@ TABELA) S
 ON
 T.id = S.id
 WHEN MATCHED THEN UPDATE SET   
-	T.id = S.id   
-	T.shipping_id = S.shipping_id,
-	T.sequence = S.sequence,
-	T.code = S.code,
-	T.status = S.status,
-	T.description = S.description,
-	T.date_status = S.date_status,
-	T.sap_id = S.sap_id,
-	T.date_sync = S.date_sync		
+T.id = S.id,
+T.shipping_id = S.shipping_id,
+T.sequence = S.sequence,
+T.code = S.code,
+T.status = S.status,
+T.description = S.description,
+T.date_status = S.date_status,
+T.sap_id = S.sap_id,
+T.date_sync = S.date_sync		
 WHEN NOT MATCHED 
 THEN
 INSERT 
