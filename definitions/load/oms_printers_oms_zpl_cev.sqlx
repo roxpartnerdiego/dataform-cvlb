@@ -1,0 +1,20 @@
+config {
+    type: "incremental",
+    schema: "RAW",
+    tags: ["postgre"]
+}
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,	
+    CT_printer_code,
+    printer_code,
+    num_serie,
+    num_ip,
+    inserted_date,
+    store_code,
+	_PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.oms_printers_oms_zpl_cev`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
