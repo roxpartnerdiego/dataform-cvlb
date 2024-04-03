@@ -1,6 +1,8 @@
-config { dependencies: ["oms_freighttables_lb"], 
-tags: ["postgre"]
+config { 
+    dependencies: ["oms_freighttables_lb"], 
+    tags: ["postgre"]
 }
+
 MERGE
 `TRUSTED.oms_freighttables_lb` T
 USING
@@ -8,16 +10,16 @@ USING
 WITH
 TABELA AS (
 SELECT
-DISTINCT CAST(ID AS INT64) AS ID, 
-    CAST(COURIER_TYPE_ID AS INT64) AS COURIER_TYPE_ID, 
-    COURIER_ID,
-    COURIER_NAME,
-    SAP_ID,
-    CAST(STORE_NUMBER AS INT64) AS STORE_NUMBER,
-    STORE_ACCOUNT,
-    ADDRESS_ID,
-    CAST(COD_TRANSPORTADORA AS INT64) AS COD_TRANSPORTADORA,
-    CAST(ACTIVE AS BOOL) AS ACTIVE,
+DISTINCT CAST(id AS INT64) AS id, 
+    CAST(courier_type_id AS INT64) AS courier_type_id, 
+    courier_id,
+    courier_name,
+    sap_id,
+    CAST(store_number AS INT64) AS store_number,
+    store_account,
+    address_id,
+    CAST(cod_transportadora AS INT64) AS cod_transportadora,
+    CAST(active AS BOOL) AS active,
     CAST(ic_cotacao_frete AS BOOL) AS ic_cotacao_frete
 FROM
 `RAW.oms_freighttables_lb` A
@@ -32,46 +34,46 @@ SELECT
 FROM
 TABELA) S
 ON
-T.ID = S.ID
+T.id = S.id
 WHEN MATCHED THEN UPDATE SET 
-T.ID = S.ID
-T.COURIER_TYPE_ID = S.COURIER_TYPE_ID 
-T.COURIER_ID = S.COURIER_ID,
-T.COURIER_NAME = S.COURIER_NAME,
-T.SAP_ID = S.SAP_ID,
-T.STORE_NUMBER = S.STORE_NUMBER,
-T.STORE_ACCOUNT = S.STORE_ACCOUNT,
-T.ADDRESS_ID = S.ADDRESS_ID,
-T.COD_TRANSPORTADORA = S.COD_TRANSPORTADORA,
-T.ACTIVE = S.ACTIVE
-T.IC_COTACAO_FRETE = S.IC_COTACAO_FRETE
+T.id = S.id,
+T.courier_type_id = S.courier_type_id,
+T.courier_id = S.courier_id,
+T.courier_name = S.courier_name,
+T.sap_id = S.sap_id,
+T.store_number = S.store_number,
+T.store_account = S.store_account,
+T.address_id = S.address_id,
+T.cod_transportadora = S.cod_transportadora,
+T.active = S.active,
+T.ic_cotacao_frete = S.ic_cotacao_frete
 WHEN NOT MATCHED
 THEN
 INSERT
-(   ID,
-    COURIER_TYPE_ID,
-    COURIER_ID,
-    COURIER_NAME,
-    SAP_ID,
-    STORE_NUMBER,
-    STORE_ACCOUNT,
-    ADDRESS_ID,
-    COD_TRANSPORTADORA,
-    ACTIVE,
-    IC_COTACAO_FRETE )
+(   id,
+    courier_type_id,
+    courier_id,
+    courier_name,
+    sap_id,
+    store_number,
+    store_account,
+    address_id,
+    cod_transportadora,
+    active,
+    ic_cotacao_frete )
 VALUES
 (
-    S.ID,
-    S.COURIER_TYPE_ID 
-    S.COURIER_ID,
-    S.COURIER_NAME,
-    S.SAP_ID,
-    S.STORE_NUMBER,
-    S.STORE_ACCOUNT,
-    S.ADDRESS_ID,
-    S.COD_TRANSPORTADORA,
-    S.ACTIVE,
-    S.IC_COTACAO_FRETE )
+    S.id,
+    S.courier_type_id, 
+    S.courier_id,
+    S.courier_name,
+    S.sap_id,
+    S.store_number,
+    S.store_account,
+    S.address_id,
+    S.cod_transportadora,
+    S.active,
+    S.ic_cotacao_frete )
 WHEN NOT MATCHED BY SOURCE
 THEN
 DELETE
