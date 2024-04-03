@@ -1,0 +1,110 @@
+config {
+    dependencies: ["sap_zfir023_cev"],
+    tags: ["sap"]
+}
+
+MERGE
+  `TRUSTED.sap_zfir023_cev` T
+USING
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT Material,
+      Descricao_Material,
+      GrpMercadoria,
+      Loja,
+      Data,
+      Data_Fim,
+      Quantidade,
+      Valor,
+      Desconto,
+      Frete,
+      Acrescimo,
+      Despesas,
+      ICMS,
+      PIS,
+      COFINS,
+      IPI,
+      ISS,
+      Total_Imposto,
+      Custo,
+      Comissao
+    FROM
+      `RAW.sap_zfir023_cev` A
+    WHERE
+      PARTITIONTIME=(
+      SELECT
+        MAX(PARTITIONTIME)
+      FROM
+        `RAW.sap_zfir023_cev`))
+  SELECT
+    *
+  FROM
+    TABELA) S
+ON
+  T.Material = S.Material
+  WHEN MATCHED THEN UPDATE SET 
+  T.Descricao_Material = S.Descricao_Material,
+  T.GrpMercadoria = S.GrpMercadoria,
+  T.Loja = S.Loja,
+  T.Data = S.Data,
+  T.Data_Fim = S.Data_Fim,
+  T.Quantidade = S.Quantidade,
+  T.Valor = S.Valor,
+  T.Desconto = S.Desconto,
+  T.Frete = S.Frete,
+  T.Acrescimo = S.Acrescimo,
+  T.Despesas = S.Despesas,
+  T.ICMS = S.ICMS,
+  T.PIS = S.PIS,
+  T.COFINS = S.COFINS,
+  T.IPI = S.IPI,
+  T.ISS = S.ISS,
+  T.Total_Imposto = S.Total_Imposto,
+  T.Custo = S.Custo,
+  T.Comissao = S.Comissao
+  WHEN NOT MATCHED
+  THEN
+INSERT
+  ( Material,
+    Descricao_Material,
+    GrpMercadoria,
+    Loja,
+    Data,
+    Data_Fim,
+    Quantidade,
+    Valor,
+    Desconto,
+    Frete,
+    Acrescimo,
+    Despesas,
+    ICMS,
+    PIS,
+    COFINS,
+    IPI,
+    ISS,
+    Total_Imposto,
+    Custo,
+    Comissao )
+VALUES
+  ( S.Material,
+    S.Descricao_Material,
+    S.GrpMercadoria,
+    S.Loja,
+    S.Data,
+    S.Data_Fim,
+    S.Quantidade,
+    S.Valor,
+    S.Desconto,
+    S.Frete,
+    S.Acrescimo,
+    S.Despesas,
+    S.ICMS,
+    S.PIS,
+    S.COFINS,
+    S.IPI,
+    S.ISS,
+    S.Total_Imposto,
+    S.Custo,
+    S.Comissao );
