@@ -10,7 +10,7 @@ USING
 WITH
 TABELA AS (
 SELECT
-DISTINCT CAST(id AS INT64) AS id,
+DISTINCT id,
 	shipping_id ,
 	CAST(sequence AS INT64) AS sequence,
 	code ,
