@@ -26,7 +26,7 @@ SELECT
 	nfe_canceled,
 	nfe_canceled_date ,
 	nfe_canceled_reason ,
-	sequence
+	sequence,
 	_PARTITIONTIME AS PARTITIONTIME
 FROM `LAND.oms_order_invoice_cev`
 
