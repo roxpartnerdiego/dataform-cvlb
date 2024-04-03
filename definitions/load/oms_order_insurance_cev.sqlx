@@ -16,7 +16,7 @@ SELECT
 	price,
 	total_price,
 	discount,
-	discount_name
+	discount_name,
 	_PARTITIONTIME AS PARTITIONTIME
 FROM `LAND.oms_order_insurance_cev`
 
