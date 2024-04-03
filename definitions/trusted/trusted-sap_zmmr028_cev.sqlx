@@ -1,0 +1,110 @@
+config {
+    dependencies: ["sap_zmmr028_cev"],
+    tags: ["sap"]
+}
+
+MERGE
+  `TRUSTED.sap_zmmr028_cev` T
+USING
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT N_material,
+      Desc_material,
+      Grupo_Mercadorias,
+      Centro,
+      Data_Inicio,
+      Data_Fim,
+      Qtde_Itens_Material,
+      Total_Vendido,
+      Somatoria_Desconto,
+      Somatorio_Frete,
+      Somatorio_Acresscimo,
+      Somatorio_Despesas,
+      Somatorio_ICMS,
+      Somatorio_PIS,
+      Somatorio_COFINS,
+      Somatorio_IPI,
+      Somatorio_ISS,
+      Total_Impostos,
+      Somatorio_CMM,
+      Somatorio_Comissao
+    FROM
+      `RAW.sap_zmmr028_cev` A
+    WHERE
+      PARTITIONTIME=(
+      SELECT
+        MAX(PARTITIONTIME)
+      FROM
+        `RAW.sap_zmmr028_cev`))
+  SELECT
+    *
+  FROM
+    TABELA) S
+ON
+  T.N_material = S.N_material
+  WHEN MATCHED THEN UPDATE SET 
+  T.Desc_material = S.Desc_material,
+  T.Grupo_Mercadorias = S.Grupo_Mercadorias,
+  T.Centro = S.Centro,
+  T.Data_Inicio = S.Data_Inicio,
+  T.Data_Fim = S.Data_Fim,
+  T.Qtde_Itens_Material = S.Qtde_Itens_Material,
+  T.Total_Vendido = S.Total_Vendido,
+  T.Somatoria_Desconto = S.Somatoria_Desconto,
+  T.Somatorio_Frete = S.Somatorio_Frete,
+  T.Somatorio_Acresscimo = S.Somatorio_Acresscimo,
+  T.Somatorio_Despesas = S.Somatorio_Despesas,
+  T.Somatorio_ICMS = S.Somatorio_ICMS,
+  T.Somatorio_PIS = S.Somatorio_PIS,
+  T.Somatorio_COFINS = S.Somatorio_COFINS,
+  T.Somatorio_IPI = S.Somatorio_IPI,
+  T.Somatorio_ISS = S.Somatorio_ISS,
+  T.Total_Impostos = S.Total_Impostos,
+  T.Somatorio_CMM = S.Somatorio_CMM,
+  T.Somatorio_Comissao = S.Somatorio_Comissao
+  WHEN NOT MATCHED
+  THEN
+INSERT
+  ( N_material,
+    Desc_material,
+    Grupo_Mercadorias,
+    Centro,
+    Data_Inicio,
+    Data_Fim,
+    Qtde_Itens_Material,
+    Total_Vendido,
+    Somatoria_Desconto,
+    Somatorio_Frete,
+    Somatorio_Acresscimo,
+    Somatorio_Despesas,
+    Somatorio_ICMS,
+    Somatorio_PIS,
+    Somatorio_COFINS,
+    Somatorio_IPI,
+    Somatorio_ISS,
+    Total_Impostos,
+    Somatorio_CMM,
+    Somatorio_Comissao )
+VALUES
+  ( S.N_material,
+    S.Desc_material,
+    S.Grupo_Mercadorias,
+    S.Centro,
+    S.Data_Inicio,
+    S.Data_Fim,
+    S.Qtde_Itens_Material,
+    S.Total_Vendido,
+    S.Somatoria_Desconto,
+    S.Somatorio_Frete,
+    S.Somatorio_Acresscimo,
+    S.Somatorio_Despesas,
+    S.Somatorio_ICMS,
+    S.Somatorio_PIS,
+    S.Somatorio_COFINS,
+    S.Somatorio_IPI,
+    S.Somatorio_ISS,
+    S.Total_Impostos,
+    S.Somatorio_CMM,
+    S.Somatorio_Comissao );
