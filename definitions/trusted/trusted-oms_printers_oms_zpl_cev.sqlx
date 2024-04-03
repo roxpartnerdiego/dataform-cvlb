@@ -1,0 +1,56 @@
+config {
+	dependencies: ["oms_printers_oms_zpl_cev"],
+	tags: ["postgre"]
+}
+
+MERGE
+`TRUSTED.oms_printers_oms_zpl_cev` T 
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT CAST(printer_code AS INT64) AS printer_code,
+    CAST(num_serie AS INT64) AS num_serie,
+    num_ip,
+    CAST(inserted_date AS DATE) AS inserted_date,
+    CAST(store_code AS INT64) AS store_code
+FROM
+`RAW.oms_printers_oms_zpl_cev` A 
+WHERE
+PARTITIONTIME=(
+SELECT
+	MAX(PARTITIONTIME) 
+FROM
+	`RAW.oms_printers_oms_zpl_cev`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.printer_code = S.printer_code
+WHEN MATCHED THEN UPDATE SET   
+	T.printer_code = S.printer_code,
+    T.num_serie = S.num_serie,
+    T.num_ip = S.num_ip,
+    T.inserted_date = S.inserted_date,
+    T.store_code = S.store_code INT64
+WHEN NOT MATCHED 
+THEN
+INSERT 
+(   printer_code,
+    num_serie,
+    num_ip,
+    inserted_date,
+    store_code INT64 ) 
+VALUES
+(
+	 S.printer_code,
+    S.num_serie,
+    S.num_ip,
+    S.inserted_date,
+    S.store_code INT64 ) 
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE 
+;
