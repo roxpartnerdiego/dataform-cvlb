@@ -18,7 +18,7 @@ SELECT
 	user_id,
 	system_name,
 	details,
-	rightnow_id
+	rightnow_id,
 	_PARTITIONTIME AS PARTITIONTIME
 FROM `LAND.oms_order_issue_cev`
 
