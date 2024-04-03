@@ -8,7 +8,7 @@ SELECT
     SYS_CHANGE_OPERATION,	
     SYS_CHANGE_CREATION_VERSION,	
     COMMIT_TIME,	
-    CT_PRINTER_CODE,
+    CT_printer_code,
     printer_code,
 	printer_name,
 	store_code,

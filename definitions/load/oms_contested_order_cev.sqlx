@@ -1,19 +1,19 @@
 config {
-				type: "incremental", 
-				schema: "RAW", 
-				tags: ["postgre"] 
-			}
-			SELECT 
-				SYS_CHANGE_VERSION,	
-				SYS_CHANGE_OPERATION, 
-				SYS_CHANGE_CREATION_VERSION, 	
-				COMMIT_TIME, 
-				CT_id, 
-				id,
-				order_id,
-				type,
-				contestation_date,
-				user_id,
-				_PARTITIONTIME AS PARTITIONTIME 
-			FROM `LAND.oms_contested_order_cev`
-			${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
+    type: "incremental", 
+    schema: "RAW", 
+    tags: ["postgre"] 
+}
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION, 
+    SYS_CHANGE_CREATION_VERSION, 	
+    COMMIT_TIME, 
+    CT_id, 
+    id,
+    order_id,
+    type,
+    contestation_date,
+    user_id,
+    _PARTITIONTIME AS PARTITIONTIME 
+FROM `LAND.oms_contested_order_cev`
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }

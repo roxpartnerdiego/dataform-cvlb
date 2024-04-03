@@ -8,7 +8,7 @@ SELECT
     SYS_CHANGE_OPERATION,	
     SYS_CHANGE_CREATION_VERSION,	
     COMMIT_TIME,	
-    CT_ID,
+    CT_id,
     id,
 	insurance_id,
 	order_id,
