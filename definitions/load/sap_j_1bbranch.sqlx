@@ -30,6 +30,6 @@ SELECT
     soure_dangergood,
     recordstamp,
     CURRENT_TIMESTAMP() AS PARTITIONTIME
-FROM `LAND.j_1bbranch`
+FROM `LAND.SAP_J_1BBRANCH`
 
 ${ when(incremental(), `WHERE recordstamp > (SELECT MAX(recordstamp) FROM ${self()})`) }
