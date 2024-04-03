@@ -1,6 +1,6 @@
 config {
     dependencies: ["oms_order_status_cev"],
-    tags: ["sqlserver"]
+    tags: ["postgre"]
 }
 
 MERGE

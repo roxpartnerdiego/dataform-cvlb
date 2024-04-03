@@ -1,6 +1,6 @@
 config {
     dependencies: ["oms_order_invoice_lb"],
-    tags: ["sqlserver"]
+    tags: ["postgre"]
 }
 
 MERGE

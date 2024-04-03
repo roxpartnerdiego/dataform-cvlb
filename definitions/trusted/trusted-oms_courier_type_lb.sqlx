@@ -1,6 +1,6 @@
 config {
     dependencies: ["oms_courier_type_lb"],
-    tags: ["sqlserver"]
+    tags: ["postgre"]
 }
 
 MERGE
