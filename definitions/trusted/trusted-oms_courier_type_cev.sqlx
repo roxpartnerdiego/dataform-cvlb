@@ -33,7 +33,7 @@ WHEN NOT MATCHED
 THEN
 INSERT 
 (   id,
-	name ) 
+	type ) 
 VALUES
 (
 	 S.id,

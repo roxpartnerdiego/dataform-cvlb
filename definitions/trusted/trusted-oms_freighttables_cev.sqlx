@@ -8,7 +8,7 @@ USING
 WITH
 TABELA AS (
 SELECT
-DISTINCT CAST(id AS INT64) AS id, 
+DISTINCT id, 
     CAST(courier_type_id AS INT64) AS courier_type_id, 
     courier_id,
     courier_name,
