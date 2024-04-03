@@ -1,0 +1,30 @@
+config {
+    type: "operations",
+    tags: ["sap"],
+    hasOutput: true
+ }
+
+INSERT INTO `RAW.sap_zmmr028_cev` (
+SELECT 
+    _N_material AS N_material,
+    Desc_material,
+    Grupo_Mercadorias,
+    Centro,
+    Data_Inicio,
+    _Data_Fim AS Data_Fim,
+    Qtde_Itens_Material,
+    Total_Vendido,
+    Somatoria_Desconto,
+    Somatorio_Frete,
+    `Somatorio_Acrésscimo` AS Somatorio_Acresscimo,
+    Somatorio_Despesas,
+    Somatorio_ICMS,
+    Somatorio_PIS,
+    _Somatorio_COFINS AS Somatorio_COFINS,
+    Somatorio_IPI,
+    Somatorio_ISS,
+    Total_Impostos,
+    `Somatório_CMM` AS Somatorio_CMM,
+    `Somatório_Comissao` AS Somatorio_Comissao,
+    CURRENT_TIMESTAMP() AS PARTITIONTIME
+FROM `LAND.SAP_ZMMR028_CEV`);
