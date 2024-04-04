@@ -1,0 +1,14 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.ORDER_INSURANCE;
+
+INSERT INTO 
+    REFINED.ORDER_INSURANCE (
+SELECT 
+    *, 
+    "CEV" AS BANDEIRA, 
+    CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_order_insurance_cev`
+    )

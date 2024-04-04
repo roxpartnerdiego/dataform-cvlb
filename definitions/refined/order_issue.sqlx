@@ -1,0 +1,40 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.ORDER_ISSUE;
+
+INSERT INTO
+    REFINED.ORDER_ISSUE (
+        SELECT
+  id,
+  order_id,
+  status_id,
+  issue_id,
+  issue_sequence,
+  creation_date,
+  user_id,
+  system_name,
+  details,
+  rightnow_id,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_order_issue_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  order_id,
+  status_id,
+  issue_id,
+  issue_sequence,
+  creation_date,
+  user_id,
+  system_name,
+  details,
+  rightnow_id,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_order_issue_lb`
+    )

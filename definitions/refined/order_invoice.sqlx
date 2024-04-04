@@ -1,0 +1,56 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.ORDER_INVOICE;
+
+INSERT INTO
+    REFINED.ORDER_INVOICE (
+SELECT
+  id,
+  creation_date,
+  order_id,
+  nfe_protocol,
+  nfe_type,
+  nfe_number,
+  nfe_serie,
+  nfe_message,
+  nfe_link,
+  nfe_xml,
+  nfe_doc,
+  nfe_key,
+  nfe_sync,
+  nfe_date_sync,
+  nfe_canceled,
+  nfe_canceled_date,
+  nfe_canceled_reason,
+  sequence,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_order_invoice_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  creation_date,
+  order_id,
+  nfe_protocol,
+  nfe_type,
+  nfe_number,
+  nfe_serie,
+  nfe_message,
+  nfe_link,
+  nfe_xml,
+  nfe_doc,
+  nfe_key,
+  nfe_sync,
+  nfe_date_sync,
+  nfe_canceled,
+  nfe_canceled_date,
+  nfe_canceled_reason,
+  sequence,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_order_invoice_lb`
+    )

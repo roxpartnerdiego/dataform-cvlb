@@ -1,0 +1,24 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.ORDER_STATUS;
+
+INSERT INTO 
+    REFINED.ORDER_STATUS (
+SELECT
+  id,
+  name,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_order_status_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  name,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_order_status_lb`
+)

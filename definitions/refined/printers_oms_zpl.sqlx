@@ -1,0 +1,14 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.PRINTERS_OMS_ZPL;
+
+INSERT INTO 
+    REFINED.PRINTERS_OMS_ZPL (
+SELECT 
+    *, 
+    "CEV" AS BANDEIRA, 
+    CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_printers_oms_zpl_cev`
+    )
