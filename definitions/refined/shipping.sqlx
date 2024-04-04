@@ -1,0 +1,92 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.SHIPPING;
+
+INSERT INTO 
+    REFINED.SHIPPING (
+SELECT
+  id,
+  creation_date,
+  freighttables_id,
+  order_id,
+  delivery_id,
+  nfe_protocol,
+  nfe_type,
+  nfe_number,
+  nfe_serie,
+  nfe_message,
+  nfe_link,
+  nfe_xml,
+  nfe_doc,
+  nfe_key,
+  nfe_sync,
+  nfe_date_sync,
+  track_code,
+  track_url,
+  track_sync,
+  track_date_sync,
+  date_shipped,
+  date_return,
+  delivered_date,
+  pickup_sync,
+  pickup_date,
+  package_quantity,
+  label_url,
+  nfe_xml_transf,
+  relocation_code,
+  nfe_transf_date_sync,
+  nfe_transf_number,
+  nfe_transf_serie,
+  nfe_transf_key,
+  nfe_canceled,
+  nfe_canceled_date,
+  nfe_canceled_reason,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_shipping_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  creation_date,
+  freighttables_id,
+  order_id,
+  delivery_id,
+  nfe_protocol,
+  nfe_type,
+  nfe_number,
+  nfe_serie,
+  nfe_message,
+  nfe_link,
+  nfe_xml,
+  nfe_doc,
+  nfe_key,
+  nfe_sync,
+  nfe_date_sync,
+  track_code,
+  track_url,
+  track_sync,
+  track_date_sync,
+  date_shipped,
+  date_return,
+  delivered_date,
+  pickup_sync,
+  pickup_date,
+  package_quantity,
+  label_url,
+  nfe_xml_transf,
+  relocation_code,
+  nfe_transf_date_sync,
+  nfe_transf_number,
+  nfe_transf_serie,
+  nfe_transf_key,
+  nfe_canceled,
+  nfe_canceled_date,
+  nfe_canceled_reason,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_shipping_lb`
+    )
