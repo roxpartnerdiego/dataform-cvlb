@@ -1,0 +1,53 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.ORDER;
+
+INSERT INTO 
+    REFINED.ORDER (
+SELECT
+  id,
+  type_id,
+  status_id,
+  client_id,
+  address_id,
+  creation_date,
+  original_id,
+  store_origin,
+  store_to,
+  date_cancelled,
+  value,
+  shipping_cost,
+  user_id,
+  store_visibility,
+  date_shipping,
+  date_estimate_transit,
+  date_contest_estimate,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_order_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  type_id,
+  status_id,
+  client_id,
+  address_id,
+  creation_date,
+  original_id,
+  store_origin,
+  store_to,
+  date_cancelled,
+  value,
+  shipping_cost,
+  user_id,
+  store_visibility,
+  date_shipping,
+  date_estimate_transit,
+  date_contest_estimate,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_order_lb` )

@@ -1,0 +1,12 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.FRETE_RAPIDO;
+
+INSERT INTO
+    REFINED.FRETE_RAPIDO (
+SELECT *, 
+    "LB" AS BANDEIRA, 
+    CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_frete_rapido_lb` )

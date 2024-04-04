@@ -1,0 +1,41 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.FREIGHTTABLES;
+
+INSERT INTO 
+    REFINED.FREIGHTTABLES (
+SELECT
+  id,
+  courier_type_id,
+  courier_id,
+  courier_name,
+  sap_id,
+  store_number,
+  store_account,
+  address_id,
+  cod_transportadora,
+  active,
+  NULL AS ic_cotacao_frete,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_freighttables_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  courier_type_id,
+  courier_id,
+  courier_name,
+  sap_id,
+  store_number,
+  store_account,
+  address_id,
+  cod_transportadora,
+  active,
+  ic_cotacao_frete,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_freighttables_lb`  )

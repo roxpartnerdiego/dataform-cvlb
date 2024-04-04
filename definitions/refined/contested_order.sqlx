@@ -1,0 +1,29 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.CONTESTED_ORDER;
+
+INSERT INTO 
+    REFINED.CONTESTED_ORDER (
+SELECT
+  id,
+  order_id,
+  type,
+  contestation_date,
+  user_id,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_contested_order_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  order_id,
+  type,
+  contestation_date,
+  user_id,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_contested_order_lb` )

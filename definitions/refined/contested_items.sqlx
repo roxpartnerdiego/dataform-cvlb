@@ -1,0 +1,41 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE `REFINED.CONTESTED_ITEMS`;
+
+INSERT INTO 
+    `REFINED.CONTESTED_ITEMS` (
+        SELECT
+  id,
+  order_id,
+  sequence,
+  sku_cev AS sku,
+  original_quantity,
+  confered_quantity,
+  inventory,
+  contest_description,
+  stock_adjustment,
+  adjustment_date,
+  inventory_found,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_contested_items_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  order_id,
+  sequence,
+  sku_lb AS sku,
+  original_quantity,
+  confered_quantity,
+  inventory,
+  contest_description,
+  stock_adjustment,
+  adjustment_date,
+  inventory_found,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_contested_items_lb` )

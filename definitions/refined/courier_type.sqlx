@@ -1,0 +1,23 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.COURIER_TYPE;
+
+INSERT INTO 
+    REFINED.COURIER_TYPE (
+SELECT
+  id,
+  type,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_courier_type_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  type,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_courier_type_lb` )

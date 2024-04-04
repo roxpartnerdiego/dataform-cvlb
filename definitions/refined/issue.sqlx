@@ -1,0 +1,23 @@
+config {
+    tags: ["cubo-vendas"]
+}
+
+TRUNCATE TABLE REFINED.ISSUE;
+
+INSERT INTO 
+    REFINED.ISSUE (
+SELECT
+  id,
+  name,
+  "CEV" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_issue_cev`
+
+UNION ALL
+
+SELECT
+  id,
+  name,
+  "LB" AS BANDEIRA,
+  CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO
+FROM `TRUSTED.oms_issue_lb` )
