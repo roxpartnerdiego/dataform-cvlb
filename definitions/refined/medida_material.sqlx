@@ -1,0 +1,32 @@
+TRUNCATE TABLE REFINED.MEDIDA_MATERIAL;
+
+INSERT INTO 
+    REFINED.MEDIDA_MATERIAL (
+SELECT
+    LTRIM(M.matnr, '0') AS COD_SKU,
+    Z.Cod_Forn AS COD_FORNEC,
+    L.stcd1 AS CNPJ,
+    Z.Fornecedor AS FORNECEDOR,
+    --Z.Ativo AS ATIVO,
+    M.brgew AS PESO_BRUTO,
+    M.hoehe AS ALTURA,
+    M.breit AS LARGURA,
+    M.umrez AS CONTADOR,
+    M.umren AS DENMD,
+    M.eannr AS N_EAN,
+    M.ean11 AS EAN,
+    M.numtp AS CG,
+    M.laeng AS CMPR,
+    M.meabm AS UNIDADE,
+    M.volum AS VOLUME,
+    M.voleh AS UVL,
+    M.gewei AS UN,
+    M.mesub AS UMI,
+    M.meinh AS UMA,
+    CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
+    "LB" AS BANDEIRA
+FROM `cvlb-development.TRUSTED.sap_marm` M
+LEFT JOIN `cvlb-development.TRUSTED.sap_zlbmm001` Z
+ON LTRIM(M.matnr, '0') = Z.Material
+LEFT JOIN `cvlb-development.TRUSTED.sap_lfa1` L
+ON Z.Cod_Forn = L.lifnr)
