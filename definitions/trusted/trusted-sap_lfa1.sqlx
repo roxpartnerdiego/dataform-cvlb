@@ -11,7 +11,7 @@ USING
     TABELA AS (
     SELECT
       DISTINCT lifnr,
-        mandt,
+        mandt,        
         land1,
         name1,
         name2,
@@ -132,8 +132,7 @@ USING
         staging_time,
         scheduling_type,
         submi_relevant,
-        zzgtin,
-        recordstamp
+        zzgtin
     FROM
       `RAW.sap_lfa1` A
     WHERE
@@ -271,13 +270,12 @@ ON
   T.staging_time = S.staging_time,
   T.scheduling_type = S.scheduling_type,
   T.submi_relevant = S.submi_relevant,
-  T.zzgtin = S.zzgtin,
-  T.recordstamp = S.recordstamp
+  T.zzgtin = S.zzgtin
   WHEN NOT MATCHED
   THEN
 INSERT
-  ( mandt,
-    lifnr,
+  ( lifnr,
+    mandt,        
     land1,
     name1,
     name2,
@@ -398,11 +396,10 @@ INSERT
     staging_time,
     scheduling_type,
     submi_relevant,
-    zzgtin,
-    recordstamp )
+    zzgtin )
 VALUES
-  ( S.mandt,
-    S.lifnr,
+  ( S.lifnr,
+    S.mandt,
     S.land1,
     S.name1,
     S.name2,
@@ -523,5 +520,4 @@ VALUES
     S.staging_time,
     S.scheduling_type,
     S.submi_relevant,
-    S.zzgtin,
-    S.recordstamp );
+    S.zzgtin );
