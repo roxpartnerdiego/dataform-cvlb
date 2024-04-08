@@ -1,0 +1,33 @@
+config {
+    type: "incremental", 
+    schema: "RAW",
+    tags: ["sqlserver"]
+}
+SELECT 
+    SYS_CHANGE_VERSION,	
+    SYS_CHANGE_OPERATION,	
+    SYS_CHANGE_CREATION_VERSION,	
+    COMMIT_TIME,
+    CT_COD_FILIAL,
+    DAT_VENDA,
+    COD_FILIAL,
+    TIP_VENDA,
+    COD_ITPROD_SAP,
+    QTD_VENDA,
+    VAL_VENDA,
+    VAL_DESCONTO,
+    VAL_FRETE,
+    VAL_ACRESCIMO,
+    VAL_DESPESAS,
+    VAL_ICMS,
+    VAL_PIS,
+    VAL_COFINS,
+    VAL_IPI,
+    VAL_ISS,
+    VAL_TOTAL_IMPOSTO,
+    VAL_CMM,
+    VAL_COMISSAO,
+    _PARTITIONTIME AS PARTITIONTIME
+FROM `LAND.vendas_venda_dia_sap_cev`
+
+${ when(incremental(), `WHERE _PARTITIONTIME > (SELECT MAX(PARTITIONTIME) FROM ${self()})`) }
