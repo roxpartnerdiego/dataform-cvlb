@@ -7,54 +7,33 @@ TRUNCATE TABLE REFINED.VTEX_PAYMENT;
 INSERT INTO
   REFINED.VTEX_PAYMENT (
 SELECT
-    order_id,
-    transaction_pos,
-    payment_pos,
-    payment_id,
-    payment_system_name,
-    payment_value,
-    payment_installments,
-    payment_reference_value,
-    payment_transaction_id,
-    payment_merchant_name,
-    payment_system,
-    payment_group,
-    billing_address_postal_code,
-    billing_address_city,
-    billing_address_state,
-    billing_address_country,
-    billing_address_street,
-    billing_address_number,
-    billing_address_neighborhood,
-    billing_address_complement,
+    COALESCE(LB.order_id, CEV.order_id) AS order_id,
+    COALESCE(LB.transaction_pos, CEV.transaction_pos) AS transaction_pos,
+    COALESCE(LB.payment_pos, CEV.payment_pos) AS payment_pos,
+    COALESCE(LB.payment_id, CEV.payment_id) AS payment_id,
+    COALESCE(LB.payment_system_name, CEV.payment_system_name) AS payment_system_name,
+    COALESCE(LB.payment_value, CEV.payment_value) AS payment_value,
+    COALESCE(LB.payment_installments, CEV.payment_installments) AS payment_installments,
+    COALESCE(LB.payment_reference_value, CEV.payment_reference_value) AS payment_reference_value,
+    COALESCE(LB.payment_transaction_id, CEV.payment_transaction_id) AS payment_transaction_id,
+    COALESCE(LB.payment_merchant_name, CEV.payment_merchant_name) AS payment_merchant_name,
+    COALESCE(LB.payment_system, CEV.payment_system) AS payment_system,
+    COALESCE(LB.payment_group, CEV.payment_group) AS payment_group,
+    COALESCE(LB.billing_address_postal_code, CEV.billing_address_postal_code) AS billing_address_postal_code,
+    COALESCE(LB.billing_address_city, CEV.billing_address_city) AS billing_address_city,
+    COALESCE(LB.billing_address_state, CEV.billing_address_state) AS billing_address_state,
+    COALESCE(LB.billing_address_country, CEV.billing_address_country) AS billing_address_country,
+    COALESCE(LB.billing_address_street, CEV.billing_address_street) AS billing_address_street,
+    COALESCE(LB.billing_address_number, CEV.billing_address_number) AS billing_address_number,
+    COALESCE(LB.billing_address_neighborhood, CEV.billing_address_neighborhood) AS billing_address_neighborhood,
+    COALESCE(LB.billing_address_complement, CEV.billing_address_complement) AS billing_address_complement,
     CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
-    "LB" AS BANDEIRA
-FROM `TRUSTED.vtex_payment_lb`
-
-UNION ALL
-
-SELECT
-    order_id,
-    transaction_pos,
-    payment_pos,
-    payment_id,
-    payment_system_name,
-    payment_value,
-    payment_installments,
-    payment_reference_value,
-    payment_transaction_id,
-    payment_merchant_name,
-    payment_system,
-    payment_group,
-    billing_address_postal_code,
-    billing_address_city,
-    billing_address_state,
-    billing_address_country,
-    billing_address_street,
-    billing_address_number,
-    billing_address_neighborhood,
-    billing_address_complement,
-    CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
-    "CEV" AS BANDEIRA
-FROM `TRUSTED.vtex_payment_cev`
+    CASE 
+        WHEN LB.order_id IS NOT NULL AND CEV.order_id IS NOT NULL THEN "CVLB" 
+        WHEN LB.order_id IS NULL THEN "CEV"
+        WHEN CEV.order_id IS NULL THEN "LB"
+    END AS BANDEIRA
+FROM `TRUSTED.vtex_payment_lb` LB
+FULL JOIN `TRUSTED.vtex_payment_cev` CEV
+ON LB.order_id = CEV.order_id
   )
