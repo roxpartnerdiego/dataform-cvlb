@@ -34,7 +34,7 @@ WHEN MATCHED THEN UPDATE SET
     T.num_serie = S.num_serie,
     T.num_ip = S.num_ip,
     T.inserted_date = S.inserted_date,
-    T.store_code = S.store_code INT64
+    T.store_code = S.store_code
 WHEN NOT MATCHED 
 THEN
 INSERT 
@@ -42,14 +42,14 @@ INSERT
     num_serie,
     num_ip,
     inserted_date,
-    store_code INT64 ) 
+    store_code ) 
 VALUES
 (
 	 S.printer_code,
     S.num_serie,
     S.num_ip,
     S.inserted_date,
-    S.store_code INT64 ) 
+    S.store_code ) 
 WHEN NOT MATCHED BY SOURCE
 THEN
 DELETE 
