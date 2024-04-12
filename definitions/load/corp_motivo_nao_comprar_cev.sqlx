@@ -1,7 +1,7 @@
 config {
     type: "incremental",
     schema: "RAW",
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "corp"]
 }
 SELECT 
     SYS_CHANGE_VERSION,	

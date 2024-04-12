@@ -1,7 +1,7 @@
 config {
     type: "incremental",
     schema: "RAW",
-    tags: ["postgresql"]
+    tags: ["postgresql", "crm"]
 }
 SELECT 
     SYS_CHANGE_VERSION,

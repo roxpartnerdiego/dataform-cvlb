@@ -1,7 +1,7 @@
 config {
     type: "incremental",
     schema: "RAW",
-    tags: ["oracle"]
+    tags: ["oracle", "msaf"]
 }
 SELECT 
     SYS_CHANGE_VERSION,	

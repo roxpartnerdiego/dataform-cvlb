@@ -1,7 +1,7 @@
 config {
     type: "incremental",
     schema: "RAW",
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "calendario"]
 }
 SELECT 
     SYS_CHANGE_VERSION,	
