@@ -1,6 +1,6 @@
 config {
     dependencies: ["plancom_hierarquia_sku_completa_cev"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "plancom"]
 }
 
 MERGE

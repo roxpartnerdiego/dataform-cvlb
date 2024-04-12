@@ -1,6 +1,6 @@
 config {
     dependencies: ["calendario_semana_planejamento"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "calendario"]
 }
 
 MERGE

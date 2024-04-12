@@ -1,6 +1,6 @@
 config {
     dependencies: ["servico_chamado_cev"],
-    tags: ["mysql"]
+  tags: ["mysql", "servico"]
 }
 
 MERGE

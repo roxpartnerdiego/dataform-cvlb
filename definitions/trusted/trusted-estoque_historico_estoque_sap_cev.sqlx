@@ -1,6 +1,6 @@
 config {
     dependencies: ["estoque_historico_estoque_sap_cev"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "estoque"]
 }
 
 MERGE

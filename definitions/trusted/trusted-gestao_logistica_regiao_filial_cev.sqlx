@@ -1,6 +1,6 @@
 config {
     dependencies: ["gestao_logistica_regiao_filial_cev"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "gestao_logistica"]
 }
 
 MERGE

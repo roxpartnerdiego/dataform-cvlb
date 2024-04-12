@@ -1,6 +1,6 @@
 config {
     dependencies: ["lojas_descontos_motivo_pdv_cev"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "lojas"]
 }
 
 MERGE

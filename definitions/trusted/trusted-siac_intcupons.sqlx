@@ -1,6 +1,6 @@
 config {
     dependencies: ["siac_intcupons"],
-    tags: ["oracle"]
+    tags: ["oracle", "siac"]
 }
 
 CREATE TEMP FUNCTION AJUSTAR_NULO(coluna STRING) AS (

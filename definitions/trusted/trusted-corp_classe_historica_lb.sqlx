@@ -1,6 +1,6 @@
 config {
     dependencies: ["corp_classe_historica_lb"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "corp"]
 }
 
 MERGE

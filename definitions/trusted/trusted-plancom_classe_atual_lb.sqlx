@@ -1,6 +1,6 @@
 config {
     dependencies: ["plancom_classe_atual_lb"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "plancom"]
 }
 
 MERGE

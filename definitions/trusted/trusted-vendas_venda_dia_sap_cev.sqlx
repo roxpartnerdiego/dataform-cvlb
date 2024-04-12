@@ -1,6 +1,6 @@
 config {
     dependencies: ["vendas_venda_dia_sap_cev"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "vendas"]
 }
 
 MERGE

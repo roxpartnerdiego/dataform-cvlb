@@ -1,6 +1,6 @@
 config {
     dependencies: ["crm_client_lb"],
-    tags: ["postgre"]
+    tags: ["postgresql", "crm"]
 }
 
 MERGE

@@ -1,6 +1,6 @@
 config {
     dependencies: ["plancom_fornecedor_cvlb"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "plancom"]
 }
 
 MERGE

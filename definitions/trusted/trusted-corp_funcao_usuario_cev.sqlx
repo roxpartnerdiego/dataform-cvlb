@@ -1,6 +1,6 @@
 config {
     dependencies: ["corp_funcao_usuario_cev"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "corp"]
 }
 
 MERGE

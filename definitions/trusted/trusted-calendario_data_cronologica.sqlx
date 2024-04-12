@@ -1,6 +1,6 @@
 config {
     dependencies: ["calendario_data_cronologica"],
-    tags: ["sqlserver"]
+    tags: ["sqlserver", "calendario"]
 }
 
 MERGE

@@ -1,5 +1,5 @@
 config { dependencies: ["corp_grupo_comparativo_meta_filial_cev"], 
-tags: ["sqlserver"]
+tags: ["sqlserver", "corp"]
 }
 MERGE
 `TRUSTED.corp_grupo_comparativo_meta_filial_cev` T
