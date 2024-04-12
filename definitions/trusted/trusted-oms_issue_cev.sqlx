@@ -1,0 +1,43 @@
+config {
+    dependencies: ["oms_issue_cev"],
+    tags: ["postgresql"]
+}
+
+MERGE
+`TRUSTED.oms_issue_cev` T
+USING
+(
+WITH
+TABELA AS (
+SELECT
+DISTINCT CAST(id AS INT64) AS id,
+	name
+FROM
+`RAW.oms_issue_cev` A
+WHERE
+PARTITIONTIME=(
+SELECT
+  MAX(PARTITIONTIME)
+FROM
+  `RAW.oms_issue_cev`))
+SELECT
+*
+FROM
+TABELA) S
+ON
+T.id = S.id
+WHEN MATCHED THEN UPDATE SET 
+T.id = S.id,
+T.name = S.name
+WHEN NOT MATCHED
+THEN
+INSERT
+(   id,
+	name  )
+VALUES
+(  	S.id,
+	S.name )
+WHEN NOT MATCHED BY SOURCE
+THEN
+DELETE
+;
