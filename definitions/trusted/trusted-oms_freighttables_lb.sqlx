@@ -1,6 +1,6 @@
 config { 
     dependencies: ["oms_freighttables_lb"], 
-    tags: ["postgre"]
+    tags: ["postgresql"]
 }
 
 MERGE

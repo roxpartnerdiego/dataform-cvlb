@@ -1,6 +1,6 @@
 config {
 	dependencies: ["oms_contested_items_lb"],
-	tags: ["postgre"]
+	tags: ["postgresql"]
 }
 
 MERGE

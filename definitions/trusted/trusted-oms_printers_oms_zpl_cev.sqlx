@@ -1,6 +1,6 @@
 config {
 	dependencies: ["oms_printers_oms_zpl_cev"],
-	tags: ["postgre"]
+	tags: ["postgresql"]
 }
 
 MERGE
