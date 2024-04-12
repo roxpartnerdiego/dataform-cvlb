@@ -1,5 +1,5 @@
 config {
-    tags: ["cubo-vendas"]
+    tags: ["cubo-vendas", "oms"]
 }
 
 TRUNCATE TABLE REFINED.ORDER_INVOICE;
