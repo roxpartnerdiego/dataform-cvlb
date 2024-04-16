@@ -18,7 +18,7 @@ SELECT
 	inventory,
 	contest_description,
 	stock_adjustment,
-	adjustment_date,
+	-- adjustment_date,
 	inventory_found,
 	_PARTITIONTIME AS PARTITIONTIME
 FROM `LAND.oms_contested_items_lb`
