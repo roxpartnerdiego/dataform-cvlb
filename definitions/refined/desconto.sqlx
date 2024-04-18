@@ -35,28 +35,28 @@ SELECT
   "CEV" AS BANDEIRA
 FROM `TRUSTED.lojas_descontos_motivo_pdv_cev`
 
-UNION ALL 
+UNION ALL
 
 SELECT 
-  werks AS COD_FILIAL,
-  tpopr AS TIPO_OPERACAO,
-  mvend AS MEIO_VENDA,
-  dtopr AS DAT_OPERACAO,
-  cdsis AS COD_S_CAIXA,
-  nupdv AS COD_PDV,
-  ntran AS NUM_TICKET_VENDA,
-  cod_merc_serv02 AS COD_SKU,
-  tp_item02 AS TIPO_SKU,
-  num_item02 AS NUM_ORDEM_ITEM_NOTA,
-  cod_ean02 AS COD_EAN,
-  qtde_vendida02 AS QTD_VENDA,
-  vlr_unitario02 AS VALOR_UNITARIO,
-  vlr_tot_vd_itm02 AS VALOR_TOTAL,
-  vlr_desconto02 AS VALOR_DESCONTO,
-  tp_desconto02 AS TIPO_DESCONTO,
-  cod_gru_merc02 AS COD_GRUPO_SKU,
-  cfop02 AS CFOP_POS,
-  imei AS IMEI,
+  Z.werks AS COD_FILIAL,
+  Z.tpopr AS TIPO_OPERACAO,
+  Z.mvend AS MEIO_VENDA,
+  Z.dtopr AS DAT_OPERACAO,
+  Z.cdsis AS COD_S_CAIXA,
+  Z.nupdv AS COD_PDV,
+  Z.ntran AS NUM_TICKET_VENDA,
+  Z.cod_merc_serv02 AS COD_SKU,
+  Z.tp_item02 AS TIPO_SKU,
+  Z.num_item02 AS NUM_ORDEM_ITEM_NOTA,
+  Z.cod_ean02 AS COD_EAN,
+  Z.qtde_vendida02 AS QTD_VENDA,
+  Z.vlr_unitario02 AS VALOR_UNITARIO,
+  Z.vlr_tot_vd_itm02 AS VALOR_TOTAL,
+  Z.vlr_desconto02 AS VALOR_DESCONTO,
+  Z.tp_desconto02 AS TIPO_DESCONTO,
+  Z.cod_gru_merc02 AS COD_GRUPO_SKU,
+  Z.cfop02 AS CFOP_POS,
+  Z.imei AS IMEI,
   NULL AS NOM_NEGOCIO,
   NULL AS NOM_PRODUTO,
   NULL AS NOM_MOTIVO,
@@ -64,4 +64,4 @@ SELECT
   NULL AS COD_AUTORIZADOR,
   CURRENT_TIMESTAMP() AS DATA_ATUALIZACAO,
   "LB" AS BANDEIRA
-FROM `TRUSTED.sap_zposcst102`);
+FROM `TRUSTED.sap_zposcst102` Z);
