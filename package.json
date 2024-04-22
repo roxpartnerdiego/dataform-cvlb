@@ -1,5 +1,5 @@
 {
-  "name": "db-mysql-hml1-raw-trusted",
+  "name": "development",
   "dependencies": {
     "@dataform/core": "2.4.2"
   }
