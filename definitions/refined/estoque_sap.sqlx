@@ -1,0 +1,13 @@
+config {
+    dependencies: ["estoque_sap_total"],
+    tags: ["cubo-estoque"]
+}
+
+TRUNCATE TABLE REFINED.ESTOQUE_SAP;
+
+INSERT INTO 
+    `REFINED.ESTOQUE_SAP` (
+SELECT * 
+FROM REFINED.ESTOQUE_SAP_TOTAL
+WHERE DAT_ESTOQUE = DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL 1 DAY)
+);
