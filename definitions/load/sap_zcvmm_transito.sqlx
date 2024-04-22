@@ -1,0 +1,14 @@
+config {
+   type: "operations",
+   tags: ["sap"],
+   hasOutput: true
+}
+
+INSERT INTO 
+    `RAW.sap_zcvmm_transito` (
+SELECT 
+    WERKS,
+    MATNR,
+    MENGE,
+    CURRENT_TIMESTAMP() AS PARTITIONTIME
+FROM `LAND.SAP_ZCVMM_TRANSITO`)

@@ -1,27 +1,26 @@
 config {
-    dependencies: ["sap_zcvmm_custo"],
+    dependencies: ["sap_zcvmm_transito"],
     tags: ["sap"]
 }
 
 MERGE
-  `TRUSTED.sap_zcvmm_custo` T
+  `TRUSTED.sap_zcvmm_transito` T
 USING
   (
   WITH
     TABELA AS (
     SELECT
       DISTINCT MATNR,
-        LGORT,
-        LABST,
-        VERPR
+        WERKS,
+        MENGE
     FROM
-        `RAW.sap_zcvmm_custo` A
+        `RAW.sap_zcvmm_transito` A
     WHERE
       PARTITIONTIME=(
       SELECT
         MAX(PARTITIONTIME)
       FROM
-        `RAW.sap_zcvmm_custo`))
+        `RAW.sap_zcvmm_transito`))
   SELECT
     *
   FROM
@@ -30,18 +29,15 @@ ON
   T.MATNR = S.MATNR
   WHEN MATCHED THEN UPDATE SET 
   T.MATNR = S.MATNR,
-  T.LGORT = S.LGORT,
-  T.LABST = S.LABST,
-  T.VERPR = S.VERPR
+  T.WERKS = S.WERKS,
+  T.MENGE = S.MENGE
   WHEN NOT MATCHED
   THEN
 INSERT
   ( MATNR,
-    LGORT,
-    LABST,
-    VERPR )
+    WERKS,
+    MENGE )
 VALUES
   ( S.MATNR,
-    S.LGORT,
-    S.LABST,
-    S.VERPR );
+    S.WERKS,
+    S.MENGE  );
