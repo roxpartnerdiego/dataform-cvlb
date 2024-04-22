@@ -1,0 +1,47 @@
+config {
+    dependencies: ["sap_zcvmm_custo"],
+    tags: ["sap"]
+}
+
+MERGE
+  `TRUSTED.sap_zcvmm_custo` T
+USING
+  (
+  WITH
+    TABELA AS (
+    SELECT
+      DISTINCT MATNR,
+        LGORT,
+        LABST,
+        VERPR,
+    FROM
+        `RAW.sap_zcvmm_custo` A
+    WHERE
+      PARTITIONTIME=(
+      SELECT
+        MAX(PARTITIONTIME)
+      FROM
+        `RAW.sap_zcvmm_custo`))
+  SELECT
+    *
+  FROM
+    TABELA) S
+ON
+  T.MATNR = S.MATNR
+  WHEN MATCHED THEN UPDATE SET 
+  T.MATNR = S.MATNR,
+  T.LGORT = S.LGORT,
+  T.LABST = S.LABST,
+  T.VERPR = S.VERPR
+  WHEN NOT MATCHED
+  THEN
+INSERT
+  ( MATNR,
+    LGORT,
+    LABST,
+    VERPR )
+VALUES
+  ( S.MATNR,
+    S.LGORT,
+    S.LABST,
+    S.VERPR );

@@ -1,0 +1,15 @@
+config {
+   type: "operations",
+   tags: ["sap"],
+   hasOutput: true
+}
+
+INSERT INTO 
+    `RAW.sap_zcvmm_custo` (
+SELECT 
+    MATNR,
+    LGORT,
+    LABST,
+    VERPR,
+    CURRENT_TIMESTAMP() AS PARTITIONTIME
+FROM `LAND.SAP_ZCVMM_CUSTO`)
